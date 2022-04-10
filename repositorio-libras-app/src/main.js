@@ -1,15 +1,15 @@
-import Vue from "vue";
-import App from "./App.vue";
+import vue from "vue";
+import app from "./app.vue";
 import router from "./router";
 import store from "./store";
-import Vue2Editor from "vue2-editor";
+import vue2Editor from "vue2-editor";
 
-Vue.use(Vue2Editor);
+vue.use(vue2Editor);
 
-Vue.config.productionTip = false;
+vue.config.productionTip = false;
 
-new Vue({
+new vue({
   router,
   store,
-  render: (h) => h(App),
+  render: (h) => h(app),
 }).$mount("#app");
