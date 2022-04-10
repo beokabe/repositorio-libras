@@ -5,15 +5,16 @@
     },
     "extends": [
         "plugin:vue/essential",
-        "standard"
+        "airbnb-base"
     ],
     "parserOptions": {
-        "ecmaVersion": "latest",
+        "ecmaVersion": 6,
         "sourceType": "module"
     },
     "plugins": [
         "vue"
     ],
     "rules": {
+        "vue/multi-word-component-names": 0
     }
 }
