@@ -4,17 +4,20 @@
         "es2021": true
     },
     "extends": [
+        "eslint:recommended",
         "plugin:vue/essential",
         "airbnb-base"
     ],
     "parserOptions": {
-        "ecmaVersion": 6,
+        "ecmaVersion": 2018,
         "sourceType": "module"
     },
     "plugins": [
         "vue"
     ],
     "rules": {
-        "vue/multi-word-component-names": 0
+        "vue/multi-word-component-names": 0,
+        "no-param-reassign": ["error", { "props": false }],
+        "no-unused-vars": "warn"
     }
 }

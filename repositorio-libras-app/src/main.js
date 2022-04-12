@@ -1,15 +1,17 @@
-import vue from "vue";
-import app from "./app.vue";
-import router from "./router";
-import store from "./store";
-import vue2Editor from "vue2-editor";
+/* eslint-disable import/no-named-as-default-member */
+import Vue from 'vue';
+import vue2Editor from 'vue2-editor';
+// eslint-disable-next-line import/no-named-as-default
+import store from './store';
+import app from './app.vue';
+import router from './router';
 
-vue.use(vue2Editor);
+Vue.use(vue2Editor);
 
-vue.config.productionTip = false;
+Vue.config.productionTip = false;
 
-new vue({
+new Vue({
   router,
   store,
   render: (h) => h(app),
-}).$mount("#app");
+}).$mount('#app');
