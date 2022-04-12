@@ -32,10 +32,14 @@ export default {
         return this.$store.state.editPost;
       },
       set(payload) {
-        // Atualiza o valor armazenado
-        this.store.commit('toggleEditPost', payload);
+        // Atualiza o valor armazenado state toggleEditPost
+        this.$store.commit('toggleEditPost', payload);
       },
     },
+  },
+  // Quando o usuário sair da view blogs, o valor da state toggleEditPost mudará para 'false'
+  beforeyDestroy() {
+    this.$store.commit('toggleEditPost', false);
   },
 };
 </script>
