@@ -1,9 +1,9 @@
 <template>
   <div class="app-wrapper">
     <div class="app">
-      <navigation v-if="!navigationDisabled" />
+      <Navigation v-if="!navigationDisabled" />
       <router-view />
-      <footer-vue />
+      <FooterVue />
     </div>
   </div>
 </template>
@@ -11,14 +11,14 @@
 <script>
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import navigation from './components/navigation.vue';
-import footerVue from './components/footer.vue';
+import Navigation from './components/Navigation.vue';
+import FooterVue from './components/Footer.vue';
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    navigation,
-    footerVue,
+    Navigation,
+    FooterVue,
   },
   data() {
     return {

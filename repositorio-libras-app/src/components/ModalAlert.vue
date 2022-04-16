@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  name: 'ModalAnimation',
   props: ['modalMessage'],
   methods: {
     closeModal() {

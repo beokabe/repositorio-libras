@@ -5,7 +5,7 @@ import vue2Editor from 'vue2-editor';
 import firebase from 'firebase/app';
 import store from './store';
 import 'firebase/auth';
-import App from './app.vue';
+import App from './App.vue';
 import router from './router';
 
 Vue.use(vue2Editor);

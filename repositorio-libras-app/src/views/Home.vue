@@ -1,8 +1,8 @@
 <template>
   <div class="home">
-    <blog-post v-if="!user" :post="welcomeScreen" />
+    <BlogPost v-if="!user" :post="welcomeScreen" />
 
-    <blog-post
+    <BlogPost
       :post="post"
       v-for="(post, index) in sampleBlogPost"
       :key="index"
@@ -13,7 +13,7 @@
         <h3>View More Recent Blogs</h3>
 
         <div class="blog-cards">
-          <blog-card
+          <BlogCard
             :post="post"
             v-for="(post, index) in sampleBlogCards"
             :key="index"
@@ -25,7 +25,8 @@
     <div v-if="!user" class="updates">
       <div class="container">
         <h2>Never miss a post. Register for your free account today!</h2>
-        <router-link class="router-button" to="#">
+
+        <router-link class="router-button" :to="{ name: 'Register' }">
           Register for RepositorioLibras <arrowIcon class="arrow arrow-light" />
         </router-link>
       </div>
@@ -34,15 +35,15 @@
 </template>
 
 <script>
-import blogPost from '../components/blog-post.vue';
-import blogCard from '../components/blog-card.vue';
+import BlogPost from '../components/BlogPost.vue';
+import BlogCard from '../components/BlogCard.vue';
 import arrowIcon from '../assets/Icons/arrow-right-light.svg';
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
-    blogPost,
-    blogCard,
+    BlogPost,
+    BlogCard,
     arrowIcon,
   },
   data() {

@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <modal-alert
+    <ModalAlert
       v-if="modalActive"
       :modalMessage="modalMessage"
       v-on:close-modal="closeModal"
@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import modalAlert from '../components/modal-alert.vue';
+import ModalAlert from '../components/ModalAlert.vue';
 import adminIcon from '../assets/Icons/user-crown-light.svg';
 
 export default {
-  name: 'profile',
+  name: 'Profile',
   components: {
-    modalAlert,
+    ModalAlert,
     adminIcon,
   },
   data() {

@@ -4,7 +4,7 @@
       <p class="login-register">
         Não tem uma conta?
 
-        <router-link class="router-link" :to="{ name: 'register' }"
+        <router-link class="router-link" :to="{ name: 'Register' }"
           >Registrar</router-link
         >
       </p>
@@ -24,7 +24,7 @@
 
         <div v-show="error" class="error">{{ this.errorMsg }}</div>
       </div>
-      <router-link class="forgot-password" :to="{ name: 'forgotPassword' }"
+      <router-link class="forgot-password" :to="{ name: 'ForgotPassword' }"
         >Esqueci a senha</router-link
       >
       <button @click.prevent="signIn">Entrar</button>
@@ -42,7 +42,7 @@ import emailIcon from '../assets/Icons/envelope-regular.svg';
 import passwordIcon from '../assets/Icons/lock-alt-solid.svg';
 
 export default {
-  name: 'login',
+  name: 'Login',
   components: {
     emailIcon,
     passwordIcon,

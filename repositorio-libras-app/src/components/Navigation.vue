@@ -2,16 +2,18 @@
   <header>
     <nav class="container">
       <div class="branding">
-        <router-link class="header" :to="{ name: 'home' }"
+        <router-link class="header" :to="{ name: 'Home' }"
           >RepositorioLibras</router-link
         >
       </div>
       <div class="nav-links">
         <ul v-show="!mobile">
-          <router-link class="link" :to="{ name: 'home' }">Início</router-link>
-          <router-link class="link" :to="{ name: 'blogs' }">Blogs</router-link>
-          <router-link class="link">Create Post</router-link>
-          <router-link v-if="!user" class="link" :to="{ name: 'login' }"
+          <router-link class="link" :to="{ name: 'Home' }">Início</router-link>
+          <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
+          <router-link class="link" :to="{ name: 'Home' }"
+            >Create Post</router-link
+          >
+          <router-link v-if="!user" class="link" :to="{ name: 'Login' }"
             >Login/Register</router-link
           >
         </ul>
@@ -41,21 +43,21 @@
             </div>
             <div class="options">
               <div class="option">
-                <router-link class="option" :to="{ name: 'profile' }">
+                <router-link class="option" :to="{ name: 'Profile' }">
                   <user-icon class="icon" />
                   <p>Profile</p>
                 </router-link>
               </div>
 
               <div class="option">
-                <router-link class="option" :to="{ name: 'admin' }">
+                <router-link class="option" :to="{ name: 'Admin' }">
                   <admin-icon class="icon" />
                   <p>Admin</p>
                 </router-link>
               </div>
 
               <div @click="signOut" class="option">
-                <router-link class="option" :to="{ name: 'profile' }">
+                <router-link class="option" :to="{ name: 'Profile' }">
                   <sign-out-icon class="icon" />
                   <p>Sign Out</p>
                 </router-link>
@@ -70,10 +72,12 @@
 
     <transition name="mobile-nav">
       <ul class="mobile-nav" v-show="mobileNav">
-        <router-link class="link" :to="{ name: 'home' }">Início</router-link>
-        <router-link class="link" :to="{ name: 'blogs' }">Blogs</router-link>
-        <router-link class="link" to="#">Create Post</router-link>
-        <router-link class="link" v-if="!user" :to="{ name: 'login' }"
+        <router-link class="link" :to="{ name: 'Home' }">Início</router-link>
+        <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
+        <router-link class="link" :to="{ name: 'Home' }"
+          >Create Post</router-link
+        >
+        <router-link class="link" v-if="!user" :to="{ name: 'Login' }"
           >Login/Register</router-link
         >
       </ul>
@@ -90,7 +94,7 @@ import adminIcon from '../assets/Icons/user-crown-light.svg';
 import signOutIcon from '../assets/Icons/sign-out-alt-regular.svg';
 
 export default {
-  name: 'navigation',
+  name: 'Navigation',
   components: {
     menuIcon,
     userIcon,
