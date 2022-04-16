@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <blog-post :post="welcomeScreen" />
+    <blog-post v-if="!user" :post="welcomeScreen" />
 
     <blog-post
       :post="post"
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="updates">
+    <div v-if="!user" class="updates">
       <div class="container">
         <h2>Never miss a post. Register for your free account today!</h2>
         <router-link class="router-button" to="#">
@@ -72,12 +72,14 @@ export default {
     sampleBlogCards() {
       return this.$store.state.sampleBlogCards;
     },
+    user() {
+      return this.$store.state.user;
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
 .blog-card-wrap {
   h3 {
     font-weight: 300;
@@ -103,7 +105,7 @@ export default {
       font-size: 14px;
       text-decoration: none;
 
-      @media(min-width: 800px) {
+      @media (min-width: 800px) {
         margin-left: auto;
       }
     }
@@ -116,7 +118,7 @@ export default {
       text-align: center;
       text-transform: uppercase;
 
-      @media(min-width: 800px) {
+      @media (min-width: 800px) {
         font-align: initial;
         font-size: 40px;
       }

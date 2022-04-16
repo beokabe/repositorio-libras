@@ -1,7 +1,7 @@
 <template>
   <div class="app-wrapper">
     <div class="app">
-      <navigation />
+      <navigation v-if="!navigationDisabled" />
       <router-view />
       <footer-vue />
     </div>
@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import navigation from './components/navigation.vue';
 import footerVue from './components/footer.vue';
 
@@ -19,12 +21,50 @@ export default {
     footerVue,
   },
   data() {
-    return {};
+    return {
+      navigationDisabled: null,
+    };
   },
-  created() {},
+  created() {
+    // Por default os métodos precisam ser inicializados por aqui
+    firebase.auth().onAuthStateChanged((user) => {
+      this.$store.commit('updateUser', user);
+
+      if (user) {
+        this.$store.dispatch('getCurrentUser');
+      }
+    });
+
+    this.checkRoute();
+  },
   mounted() {},
-  methods: {},
-  watch: {},
+  methods: {
+    checkRoute() {
+      const route = this.$route;
+
+      if (
+        route.name === 'login' ||
+        route.name === 'register' ||
+        route.name === 'forgotPassword'
+      ) {
+        this.navigationDisabled = true;
+        return;
+      }
+
+      this.navigationDisabled = false;
+    },
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
+    },
+  },
+  watch: {
+    // Para funcionar dinamicamente é necessário "vigiar" o objeto $route
+    $route() {
+      this.checkRoute();
+    },
+  },
 };
 </script>
 
@@ -111,6 +151,7 @@ button,
     background-color: rgba(48, 48, 48, 0.7);
   }
 }
+
 .button-ghost {
   color: #000;
   padding: 0;
@@ -127,15 +168,23 @@ button,
     margin-left: 8px;
   }
 }
+
 .button-light {
   background-color: transparent;
   border: 2px solid #fff;
   color: #fff;
 }
+
 .button-inactive {
   pointer-events: none !important;
   cursor: none !important;
   background-color: rgba(128, 128, 128, 0.5) !important;
+}
+
+.error {
+  text-align: center;
+  font-size: 12px;
+  color: red;
 }
 
 .blog-card-wrap {
