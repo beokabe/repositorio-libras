@@ -1,24 +1,27 @@
-# repositoriolibras
+# Repositório de Libras
 
-## Project setup
-```
-npm install
-```
+O  Repositório de Libras é uma aplicação para armazenar e difundir conhecimento sobre a Lingua Brasileira de Sinais para surdos, especialistas e estudantes.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Arquitetura
+Em termos de implementação, o Repositório de Libras possui apenas a estrutura da aplicação `repositorio-libras-app`, onde nela, também está localizado as configurações do Firebase, que é uma ferramenta utilizada para executar diversas funções e serviços.
 
-### Compiles and minifies for production
+## Documentação
+> [Nota de Release.](./CHANGELOG.md.md) 
+>
+> [Nota Técnica.](./docs/NOTA_TECNICA_REPOSITORIO_LIBRAS.md)
+>
+> [Como Subir o Ambiente para Desenvolvimento.](./docs/NOTA_GUIA_INSTALACAO.md)
+>
+>
+> [Nota de Manutenção.](./docs/NOTA_MANUTENCAO.md)
+>
+
+## Notas de Produção
+
+### Compila e minifica para produção
 ```
 npm run build
 ```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Personalizar configuração
+Veja em [Personalizar configuração](https://cli.vuejs.org/config/).
