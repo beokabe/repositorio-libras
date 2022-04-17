@@ -32,10 +32,10 @@ export default {
     };
   },
   methods: {
+    // TODO verifique o método abaixo
     async addAdmin() {
-      // httpsCallable chama function personalizada do firebase
-      const addAdmin = await firebase.functions().httpsCallable('addAdminRole');
-      const result = await addAdmin({ email: this.adminEmail });
+      const addAdminRole = await firebase.functions().httpsCallable('addAdminRole');
+      const result = await addAdminRole({ email: this.adminEmail });
       this.functionMsg = result.data.message;
     },
   },
