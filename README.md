@@ -10,10 +10,10 @@ Em termos de implementação, o Repositório de Libras possui apenas a estrutura
 >
 > [Nota Técnica.](./repositorio-libras-app/docs/NOTA_TECNICA_REPOSITORIO_LIBRAS.md)
 >
-> [Como Subir o Ambiente para Desenvolvimento.](./repositorio-libras-app/docs/NOTA_GUIA_INSTALACAO.md)
+> [Como Subir o Ambiente para Desenvolvimento.](./repositorio-libras-app/docs/NOTA_GUIA_INSTALACAO_REPOSITORIO_LIBRAS.md)
 >
 >
-> [Nota de Manutenção.](./repositorio-libras-app/docs/NOTA_MANUTENCAO.md)
+> [Nota de Manutenção.](./repositorio-libras-app/docs/NOTA_MANUTENCAO-REPOSITORIO-LIBRAS.md)
 >
 
 ## Notas de Produção
