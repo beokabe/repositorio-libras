@@ -1,6 +1,8 @@
 [‹ Voltar ao README](./README.md)
 
-Nota de Release
+# Nota de Release
+
+## Versões
 
 <details>
 <summary><strong>1.0.0</strong></summary>
