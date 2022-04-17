@@ -1,4 +1,4 @@
-[‹ Voltar ao README](../README.md)
+[‹ Voltar ao README](../../README.md)
 
 Informações de implantação, compatibilidade e configurações do Repositório de Libras.
 
@@ -59,4 +59,4 @@ A seguir são listadas as propriedades utilizadas para configurar o Repositório
 
 Observação: lembre-se sempre de fazer o deploy do firebase no projeto, depois que incluir todas as propriedades e serviços.
 
-[‹ Voltar ao README](../README.md)
+[‹ Voltar ao README](../../README.md)

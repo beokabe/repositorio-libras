@@ -1,3 +1,5 @@
+[‹ Voltar ao README](./README.md)
+
 Nota de Release
 
 <details>
@@ -15,3 +17,5 @@ Nota de Release
 |       **Alterar Dados de Usuário**      | Altera os dados cadastrados do usuário, com exceção do email. A funcionalidade está disponível da tela de alteração dos dados cadastrais, no qual somente o usuário cadastrado tem acesso.                                                             |
 
 </details>
+
+[‹ Voltar ao README](./README.md)

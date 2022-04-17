@@ -1,4 +1,4 @@
-[‹ Voltar ao README](../README.md)
+[‹ Voltar ao README](../../README.md)
 
 # Guia de Instalação para Desenvolvimento
 
@@ -35,5 +35,5 @@ firebase deploy --only functions
 Observação: antes de fazer o deploy, confira se as propriedades e serviços do Firebase estão incluídas no seu projeto Firebase, caso não estiver, inclua e confira se tudo está inserido corretamente utilizando a [nota técnica](./NOTA_TECNICA_REPOSITORIO_LIBRAS.md).
 #
 
-[‹ Voltar ao README](../README.md)
+[‹ Voltar ao README](../../README.md)
 

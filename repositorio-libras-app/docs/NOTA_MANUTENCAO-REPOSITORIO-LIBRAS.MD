@@ -1,4 +1,4 @@
-[‹ Voltar ao README](../README.md) 
+[‹ Voltar ao README](../../README.md)
 
 # Nota de Manutenção
 
@@ -39,4 +39,4 @@ Atualizações de Aplicações Externas;
 5. Altere a versão do projeto;
 6. Atualize a branch `master` no repositório do projeto.
 
-[‹ Voltar ao README](../README.md)
+[‹ Voltar ao README](../../README.md)
