@@ -30,8 +30,14 @@ export default new Vuex.Store({
         blogDate: 'May 1, 2021',
       },
     ],
+    blogHTML: 'Write your blog title here...',
+    blogTitle: '',
+    blogPhotoName: '',
+    blogPhotoFileURL: null,
+    blogPhotoPreview: null,
     editPost: null,
     user: null,
+    profileAdmin: null,
     profileEmail: null,
     profileFirstName: null,
     profileLastName: null,
@@ -40,12 +46,36 @@ export default new Vuex.Store({
     profileInitials: null,
   },
   mutations: {
+    newBlogPost(state, payload) {
+      state.blogHTML = payload;
+    },
+
+    updateBlogTitle(state, payload) {
+      state.blogTitle = payload;
+    },
+
+    fileNameChange(state, payload) {
+      state.blogPhotoName = payload;
+    },
+
+    createFileURL(state, payload) {
+      state.blogPhotoFileURL = payload;
+    },
+
+    openPhotoPreview(state) {
+      state.blogPhotoPreview = !state.blogPhotoPreview;
+    },
+
     toggleEditPost(state, payload) {
       state.editPost = payload;
     },
 
     updateUser(state, payload) {
       state.user = payload;
+    },
+
+    setProfileAdmin(state, payload) {
+      state.profileAdmin = payload;
     },
 
     setProfileInfo(state, doc) {
@@ -76,15 +106,22 @@ export default new Vuex.Store({
   },
   actions: {
     // commit ocorre toda vez que executa uma "mutation"
-    async getCurrentUser({ commit }) {
+    async getCurrentUser({ commit }, user) {
       const dataBase = await db
         .collection('users')
         .doc(firebase.auth().currentUser.uid);
 
       const currentUser = await dataBase.get();
 
+      // Atualiza os dados do usuário atual
       commit('setProfileInfo', currentUser);
       commit('setProfileInitials');
+
+      const token = await user.getIdTokenResult();
+      const admin = await token.claims.admin;
+
+      // Atualiza as permissões do usuário atual
+      commit('setProfileAdmin', admin);
     },
 
     async updateUserSettings({ commit, state }) {

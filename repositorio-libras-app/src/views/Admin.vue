@@ -32,7 +32,6 @@ export default {
     };
   },
   methods: {
-    // TODO verifique o método abaixo
     async addAdmin() {
       const addAdminRole = await firebase.functions().httpsCallable('addAdminRole');
       const result = await addAdminRole({ email: this.adminEmail });

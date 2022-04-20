@@ -27,11 +27,11 @@ export default {
   },
   created() {
     // Por default os métodos precisam ser inicializados por aqui
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(async (user) => {
       this.$store.commit('updateUser', user);
 
       if (user) {
-        this.$store.dispatch('getCurrentUser');
+        this.$store.dispatch('getCurrentUser', user);
       }
     });
 
@@ -43,9 +43,9 @@ export default {
       const route = this.$route;
 
       if (
-        route.name === 'login' ||
-        route.name === 'register' ||
-        route.name === 'forgotPassword'
+        route.name === 'Login' ||
+        route.name === 'Register' ||
+        route.name === 'ForgotPassword'
       ) {
         this.navigationDisabled = true;
         return;
