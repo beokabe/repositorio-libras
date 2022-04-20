@@ -33,6 +33,29 @@ firebase init
 firebase deploy --only functions
 ```
 Observação: antes de fazer o deploy, confira se as propriedades e serviços do Firebase estão incluídas no seu projeto Firebase, caso não estiver, inclua e confira se tudo está inserido corretamente utilizando a [nota técnica](./NOTA_TECNICA_REPOSITORIO_LIBRAS.md).
+
+#### 9. Vá no seu projeto Firebase, Storage e depois em Rules.
+```JSON
+1
+rules_version = '2';
+2
+service firebase.storage {
+3
+  match /b/{bucket}/o {
+4
+    match /{allPaths=**} {
+5
+      allow read, write: if false;
+6
+    }
+7
+  }
+8
+}
+```
+
+Libere as permissões para leitura e escrita em todos os caminhos da Storage do projeto firebase, mudando o valor `false` da condição para `true`.
+
 #
 
 [‹ Voltar ao README](../../README.md)
