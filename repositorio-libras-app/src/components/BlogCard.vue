@@ -1,23 +1,28 @@
 <template>
   <div class="blog-card">
     <div v-show="editPost" class="icons">
-      <div class="icon">
+      <div @click="editBlog" v class="icon">
         <edit-icon class="edit" />
       </div>
-      <div class="icon">
+      <div @click="deletePost" class="icon">
         <delete-icon class="delete" />
       </div>
     </div>
-    <img
-      :src="require(`../assets/blogCards/${post.blogCoverPhoto}.jpg`)"
-      alt=""
-    />
+    <img :src="post.blogCoverPhoto" alt="" />
     <div class="info">
       <h4>{{ post.blogTitle }}</h4>
 
-      <h6>Posted on: {{ post.blogDate }}</h6>
+      <h6>
+        Posted on:
+        {{
+          new Date(post.blogDate).toLocaleString('pt-br', { dateStyle: 'long' })
+        }}
+      </h6>
 
-      <router-link class="link" :to="{ name: 'Blogs' }" >
+      <router-link
+        class="link"
+        :to="{ name: 'ViewBlog', params: { blogid: this.post.blogID } }"
+      >
         View The Post <arrow-icon class="arrow" />
       </router-link>
     </div>
@@ -36,6 +41,15 @@ export default {
     arrowIcon,
     editIcon,
     deleteIcon,
+  },
+  methods: {
+    deletePost() {
+      this.$store.dispatch('deletePost', this.post.blogID);
+    },
+
+    editBlog() {
+      this.$router.push({ name: 'EditBlog', params: { blogid: this.post.blogID } });
+    },
   },
   computed: {
     editPost() {

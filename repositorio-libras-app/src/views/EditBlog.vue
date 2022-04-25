@@ -29,7 +29,7 @@
           >
             Pré-visualizar
           </button>
-          <span>Arquivo: {{ this.$store.state.blogPhotoName }}</span>
+          <span>Arquivo: {{ this.$store.state.blogCoverPhotoName }}</span>
         </div>
       </div>
       <div class="editor">
@@ -41,9 +41,9 @@
         />
       </div>
       <div class="blog-actions">
-        <button @click="uploadBlog">Publicar</button>
+        <button @click="updateBlog">Salvar Alterações</button>
         <router-link class="router-button" :to="{ name: 'BlogPreview' }"
-          >Pré-visualizar</router-link
+          >Pré-visualizar Alterações</router-link
         >
       </div>
     </div>
@@ -73,6 +73,8 @@ export default {
       error: '',
       errorMsg: null,
       loading: null,
+      routeID: null,
+      currentBlog: null,
       editorSettings: {
         modules: {
           imageResize: {},
@@ -83,6 +85,14 @@ export default {
   components: {
     BlogCoverPreview,
     LoadingAnimation,
+  },
+  async mounted() {
+    this.routeID = this.$route.params.blogid;
+    this.currentBlog = await this.$store.state.blogPosts.filter(
+      (post) => post.blogID === this.routeID
+    );
+
+    this.$store.commit('setBlogState', this.currentBlog[0]);
   },
   methods: {
     // eslint-disable-next-line max-len
@@ -123,7 +133,9 @@ export default {
       );
     },
 
-    uploadBlog() {
+    async updateBlog() {
+      const dataBase = db.collection('blogPosts').doc(this.routeID);
+
       if (this.blogTitle.length > 0 && this.blogHTML.length > 0) {
         if (this.file) {
           this.loading = true;
@@ -145,21 +157,18 @@ export default {
             },
             async () => {
               const downloadURL = await docRef.getDownloadURL();
-              const timestamp = await Date.now();
-              const dataBase = await db.collection('blogPosts').doc();
 
-              await dataBase.set({
-                blogID: dataBase.id,
+              await dataBase.update({
                 blogHTML: this.blogHTML,
                 blogCoverPhoto: downloadURL,
                 blogCoverPhotoName: this.blogCoverPhotoName,
                 blogTitle: this.blogTitle,
-                profileId: this.profileId,
-                date: timestamp,
               });
-              await this.$store.dispatch('getPost');
+
+              await this.$store.dispatch('updatePost', this.routeID);
 
               this.loading = false;
+
               this.$router.push({
                 name: 'ViewBlog',
                 params: { blogid: dataBase.id },
@@ -169,12 +178,22 @@ export default {
           return;
         }
 
-        this.error = true;
-        this.errorMsg =
-          'Por favor verifique se foi selecionado um background para o artigo.';
-        setTimeout(() => {
-          this.error = false;
-        }, 5000);
+        this.loading = true;
+
+        await dataBase.update({
+          blogHTML: this.blogHTML,
+          blogTitle: this.blogTitle,
+        });
+
+        await this.$store.dispatch('updatePost', this.routeID);
+
+        this.loading = false;
+
+        this.$router.push({
+          name: 'ViewBlog',
+          params: { blogid: dataBase.id },
+        });
+        return;
       }
 
       this.error = true;

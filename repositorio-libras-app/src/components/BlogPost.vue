@@ -12,7 +12,7 @@
         <router-link
           class="link"
           v-else
-          :to="{ name: 'ViewBlog' }"
+          :to="{ name: 'ViewBlog', params: {blogid: this.post.blogID} }"
         >
           View The Post<arrow class="arrow" />
         </router-link>
@@ -26,7 +26,7 @@
       />
       <img
         v-else
-        :src="require(`../assets/blogPhotos/${post.blogCoverPhoto}.jpg`)"
+        :src="post.blogCoverPhoto"
         alt=""
       />
     </div>

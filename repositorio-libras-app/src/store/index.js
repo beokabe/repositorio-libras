@@ -8,28 +8,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    sampleBlogCards: [
-      {
-        blogTitle: '#Card 1 This is a Filter Title!',
-        blogCoverPhoto: 'stock-1',
-        blogDate: 'May 1, 2021',
-      },
-      {
-        blogTitle: '#Card 2 This is a Filter Title!',
-        blogCoverPhoto: 'stock-2',
-        blogDate: 'May 1, 2021',
-      },
-      {
-        blogTitle: '#Card 3 This is a Filter Title!',
-        blogCoverPhoto: 'stock-3',
-        blogDate: 'May 1, 2021',
-      },
-      {
-        blogTitle: '#Card 4 This is a Filter Title!',
-        blogCoverPhoto: 'stock-4',
-        blogDate: 'May 1, 2021',
-      },
-    ],
+    blogPosts: [],
+    postLoaded: null,
     blogHTML: 'Write your blog title here...',
     blogTitle: '',
     blogPhotoName: '',
@@ -44,6 +24,14 @@ export default new Vuex.Store({
     profileUsername: null,
     profileId: null,
     profileInitials: null,
+  },
+  getters: {
+    blogPostsFeed(state) {
+      return state.blogPosts.slice(0, 2);
+    },
+    blogPostsCards(state) {
+      return state.blogPosts.slice(2, 6);
+    },
   },
   mutations: {
     newBlogPost(state, payload) {
@@ -92,6 +80,13 @@ export default new Vuex.Store({
         state.profileLastName.match(/(\b\S)?/g).join('');
     },
 
+    setBlogState(state, payload) {
+      state.blogTitle = payload.blogTitle;
+      state.blogHTML = payload.blogHTML;
+      state.blogPhotoFileURL = payload.blogCoverPhoto;
+      state.blogCoverPhotoName = payload.blogCoverPhotoName;
+    },
+
     changeFirstName(state, payload) {
       state.profileFirstName = payload;
     },
@@ -102,6 +97,12 @@ export default new Vuex.Store({
 
     changeUsername(state, payload) {
       state.profileUsername = payload;
+    },
+
+    filterBlogPost(state, payload) {
+      state.blogPosts = state.blogPosts.filter(
+        (post) => post.blogID !== payload
+      );
     },
   },
   actions: {
@@ -133,6 +134,45 @@ export default new Vuex.Store({
       });
 
       commit('setProfileInitials');
+    },
+
+    async getPost({ state }) {
+      // Get em todos os artigos publicados por data desc
+      const dataBase = await db.collection('blogPosts').orderBy('date', 'desc');
+      const dbResults = await dataBase.get();
+
+      // TODO 7 - sugestão: trocar essa verificação por um listener
+      // Filtro que verifica se os posts não estão duplicados dentro da variavel do state blogPosts
+      dbResults.forEach((doc) => {
+        if (!state.blogPosts.some((post) => post.blogID === doc.id)) {
+          const data = {
+            blogID: doc.data().blogID,
+            blogHTML: doc.data().blogHTML,
+            blogCoverPhoto: doc.data().blogCoverPhoto,
+            blogTitle: doc.data().blogTitle,
+            blogDate: doc.data().date,
+            blogCoverPhotoName: doc.data().blogCoverPhotoName,
+          };
+
+          state.blogPosts.push(data);
+        }
+      });
+
+      console.log(state.blogPosts);
+      state.postLoaded = true;
+    },
+
+    async updatePost({ commit, dispatch }, payload) {
+      commit('filterBlogPost', payload);
+      await dispatch('getPost');
+    },
+
+    async deletePost({ commit }, payload) {
+      const getPost = await db.collection('blogPosts').doc(payload);
+      await getPost.delete();
+
+      // Remove o post deletado do front
+      commit('filterBlogPost', payload);
     },
   },
   modules: {},

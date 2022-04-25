@@ -131,6 +131,7 @@ export default {
     },
 
     toggleProfileMenu(e) {
+      // TODO 8 - [AJUSTE] Fechar o menu profile quando uma ação for executada
       // Ação só é executada quando o target for apenas o elemento pai do menu
       if (e.target === this.$refs.profileMenu) {
         this.profileMenu = !this.profileMenu;
