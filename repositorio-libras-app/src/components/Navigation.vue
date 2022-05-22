@@ -88,10 +88,10 @@
 <script>
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import menuIcon from '../assets/Icons/bars-regular.svg';
-import userIcon from '../assets/Icons/user-alt-light.svg';
-import adminIcon from '../assets/Icons/user-crown-light.svg';
-import signOutIcon from '../assets/Icons/sign-out-alt-regular.svg';
+import menuIcon from '../assets/icons/bars-regular.svg';
+import userIcon from '../assets/icons/user-alt-light.svg';
+import adminIcon from '../assets/icons/user-crown-light.svg';
+import signOutIcon from '../assets/icons/sign-out-alt-regular.svg';
 
 export default {
   name: 'Navigation',

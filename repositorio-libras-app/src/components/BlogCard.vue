@@ -30,9 +30,9 @@
 </template>
 
 <script>
-import arrowIcon from '../assets/Icons/arrow-right-light.svg';
-import editIcon from '../assets/Icons/edit-regular.svg';
-import deleteIcon from '../assets/Icons/trash-regular.svg';
+import arrowIcon from '../assets/icons/arrow-right-light.svg';
+import editIcon from '../assets/icons/edit-regular.svg';
+import deleteIcon from '../assets/icons/trash-svgrepo-com.svg';
 
 export default {
   name: 'BlogCard',

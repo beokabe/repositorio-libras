@@ -57,9 +57,9 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import db from '../firebase/firebaseInit';
-import emailIcon from '../assets/Icons/envelope-regular.svg';
-import passwordIcon from '../assets/Icons/lock-alt-solid.svg';
-import userIcon from '../assets/Icons/user-alt-light.svg';
+import emailIcon from '../assets/icons/envelope-regular.svg';
+import passwordIcon from '../assets/icons/lock-alt-solid.svg';
+import userIcon from '../assets/icons/user-alt-light.svg';
 
 export default {
   name: 'Register',

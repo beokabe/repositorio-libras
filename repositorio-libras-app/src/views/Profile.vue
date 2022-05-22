@@ -43,7 +43,7 @@
 
 <script>
 import ModalAlert from '../components/ModalAlert.vue';
-import adminIcon from '../assets/Icons/user-crown-light.svg';
+import adminIcon from '../assets/icons/user-crown-light.svg';
 
 export default {
   name: 'Profile',

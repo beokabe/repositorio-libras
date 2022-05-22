@@ -33,7 +33,7 @@
 <script>
 import BlogPost from '../components/BlogPost.vue';
 import BlogCard from '../components/BlogCard.vue';
-import arrowIcon from '../assets/Icons/arrow-right-light.svg';
+import arrowIcon from '../assets/icons/arrow-right-light.svg';
 
 export default {
   name: 'Home',

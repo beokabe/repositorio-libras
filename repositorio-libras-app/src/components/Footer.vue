@@ -44,10 +44,10 @@
 </template>
 
 <script>
-import youtube from '../assets/Icons/youtube-brands.svg';
-import twitter from '../assets/Icons/twitter-brands.svg';
-import instagram from '../assets/Icons/instagram-brands.svg';
-import linkedin from '../assets/Icons/linkedin-brands.svg';
+import youtube from '../assets/icons/youtube-brands.svg';
+import twitter from '../assets/icons/twitter-brands.svg';
+import instagram from '../assets/icons/instagram-brands.svg';
+import linkedin from '../assets/icons/linkedin-brands.svg';
 
 export default {
   name: 'FooterVue',

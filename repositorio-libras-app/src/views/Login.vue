@@ -38,8 +38,8 @@
 <script>
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import emailIcon from '../assets/Icons/envelope-regular.svg';
-import passwordIcon from '../assets/Icons/lock-alt-solid.svg';
+import emailIcon from '../assets/icons/envelope-regular.svg';
+import passwordIcon from '../assets/icons/lock-alt-solid.svg';
 
 export default {
   name: 'Login',

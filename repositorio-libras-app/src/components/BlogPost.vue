@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import arrow from '../assets/Icons/arrow-right-light.svg';
+import arrow from '../assets/icons/arrow-right-light.svg';
 
 export default {
   name: 'BlogPost',
