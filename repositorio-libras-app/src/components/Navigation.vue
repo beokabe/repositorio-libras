@@ -9,12 +9,12 @@
       <div class="nav-links">
         <ul v-show="!mobile">
           <router-link class="link" :to="{ name: 'Home' }">Início</router-link>
-          <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
-          <router-link class="link" :to="{ name: 'CreatePost' }"
+          <router-link class="link" :to="{ name: 'Verbetes' }">Verbetes</router-link>
+          <router-link class="link" :to="{ name: 'CriarVerbete' }"
             >Create Post</router-link
           >
           <router-link v-if="!user" class="link" :to="{ name: 'Login' }"
-            >Login/Register</router-link
+            >Login/Registrar</router-link
           >
         </ul>
 
@@ -43,14 +43,14 @@
             </div>
             <div class="options">
               <div class="option">
-                <router-link class="option" :to="{ name: 'Profile' }">
+                <router-link class="option" :to="{ name: 'Perfil' }">
                   <user-icon class="icon" />
-                  <p>Profile</p>
+                  <p>Perfil</p>
                 </router-link>
               </div>
 
               <div v-if="isAdmin" class="option">
-                <router-link class="option" :to="{ name: 'Admin' }">
+                <router-link class="option" :to="{ name: 'PerfilAdministrador' }">
                   <admin-icon class="icon" />
                   <p>Admin</p>
                 </router-link>
@@ -73,12 +73,12 @@
     <transition name="mobile-nav">
       <ul class="mobile-nav" v-show="mobileNav">
         <router-link class="link" :to="{ name: 'Home' }">Início</router-link>
-        <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
-        <router-link class="link" :to="{ name: 'CreatePost' }"
+        <router-link class="link" :to="{ name: 'Verbetes' }">Verbetes</router-link>
+        <router-link class="link" :to="{ name: 'CriarVerbete' }"
           >Create Post</router-link
         >
         <router-link class="link" v-if="!user" :to="{ name: 'Login' }"
-          >Login/Register</router-link
+          >Login/Registrar</router-link
         >
       </ul>
     </transition>

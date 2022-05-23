@@ -1,4 +1,4 @@
-const sampleBlogCards = [
+const sampleVerbeteCard = [
   {
     blogTitle: '#Card 1 This is a Filter Title!',
     blogCoverPhoto: 'stock-1',
@@ -21,4 +21,4 @@ const sampleBlogCards = [
   },
 ];
 
-module.exports(sampleBlogCards);
+module.exports(sampleVerbeteCard);

@@ -45,7 +45,7 @@ export default {
 
       if (
         route.name === 'Login' ||
-        route.name === 'Register' ||
+        route.name === 'Registrar' ||
         route.name === 'ForgotPassword'
       ) {
         this.navigationDisabled = true;

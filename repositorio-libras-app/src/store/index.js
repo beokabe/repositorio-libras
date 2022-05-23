@@ -8,7 +8,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    blogPosts: [],
+    verbetes: [],
     postLoaded: null,
     blogHTML: 'Write your blog title here...',
     blogTitle: '',
@@ -26,11 +26,11 @@ export default new Vuex.Store({
     profileInitials: null,
   },
   getters: {
-    blogPostsFeed(state) {
-      return state.blogPosts.slice(0, 2);
+    verbetesFeed(state) {
+      return state.verbetes.slice(0, 2);
     },
-    blogPostsCards(state) {
-      return state.blogPosts.slice(2, 6);
+    verbetesCards(state) {
+      return state.verbetes.slice(2, 6);
     },
   },
   mutations: {
@@ -100,8 +100,8 @@ export default new Vuex.Store({
     },
 
     filterBlogPost(state, payload) {
-      state.blogPosts = state.blogPosts.filter(
-        (post) => post.blogID !== payload
+      state.verbetes = state.verbetes.filter(
+        (post) => post.verbeteId !== payload
       );
     },
   },
@@ -138,27 +138,28 @@ export default new Vuex.Store({
 
     async getPost({ state }) {
       // Get em todos os artigos publicados por data desc
-      const dataBase = await db.collection('blogPosts').orderBy('date', 'desc');
+      const dataBase = await db.collection('verbetes').orderBy('date', 'desc');
       const dbResults = await dataBase.get();
 
       // TODO 7 - sugestão: trocar essa verificação por um listener
-      // Filtro que verifica se os posts não estão duplicados dentro da variavel do state blogPosts
+      // Filtro que verifica se os posts não estão duplicados dentro da variavel do state verbetes
       dbResults.forEach((doc) => {
-        if (!state.blogPosts.some((post) => post.blogID === doc.id)) {
+        if (!state.verbetes.some((post) => post.verbeteId === doc.id)) {
           const data = {
-            blogID: doc.data().blogID,
-            blogHTML: doc.data().blogHTML,
-            blogCoverPhoto: doc.data().blogCoverPhoto,
-            blogTitle: doc.data().blogTitle,
-            blogDate: doc.data().date,
-            blogCoverPhotoName: doc.data().blogCoverPhotoName,
+            verbeteId: doc.data().verbeteId,
+            verbeteDefinicao: doc.data().blogHTML,
+            verbeteImagem: doc.data().blogCoverPhoto,
+            verbeteNome: doc.data().blogTitle,
+            verbeteDate: doc.data().date,
+            verbeteBackground: doc.data().blogCoverPhotoName,
+            verbeteLinkVideo: doc.data().verbeteLinkVideo,
           };
 
-          state.blogPosts.push(data);
+          state.verbetes.push(data);
         }
       });
 
-      console.log(state.blogPosts);
+      console.log(state.verbetes);
       state.postLoaded = true;
     },
 
@@ -168,7 +169,7 @@ export default new Vuex.Store({
     },
 
     async deletePost({ commit }, payload) {
-      const getPost = await db.collection('blogPosts').doc(payload);
+      const getPost = await db.collection('verbetes').doc(payload);
       await getPost.delete();
 
       // Remove o post deletado do front

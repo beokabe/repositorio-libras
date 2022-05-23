@@ -24,7 +24,7 @@ import firebase from 'firebase/app';
 import 'firebase/functions';
 
 export default {
-  name: 'Admin',
+  name: 'PerfilAdministrador',
   data() {
     return {
       adminEmail: '',

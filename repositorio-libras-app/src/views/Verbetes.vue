@@ -5,9 +5,9 @@
         <span>Modo Edição</span>
         <input type="checkbox" v-model="editPost" />
       </div>
-      <BlogCard
+      <VerbeteCard
         :post="post"
-        v-for="(post, index) in blogPosts"
+        v-for="(post, index) in verbetes"
         :key="index"
       />
     </div>
@@ -15,16 +15,16 @@
 </template>
 
 <script>
-import BlogCard from '../components/BlogCard.vue';
+import VerbeteCard from '../components/VerbeteCard.vue';
 
 export default {
-  name: 'Blogs',
+  name: 'Verbetes',
   components: {
-    BlogCard,
+    VerbeteCard,
   },
   computed: {
-    blogPosts() {
-      return this.$store.state.blogPosts;
+    verbetes() {
+      return this.$store.state.verbetes;
     },
     editPost: {
       // Retorna o estado atual do valor de editPost

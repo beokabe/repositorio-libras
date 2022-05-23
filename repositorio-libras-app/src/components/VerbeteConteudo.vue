@@ -4,15 +4,15 @@
       <div>
         <h2 v-if="post.welcomeScreen">{{ post.title }}</h2>
         <h2 v-else>{{ post.blogTitle }}</h2>
-        <p v-if="post.welcomeScreen">{{ post.blogPost }}</p>
+        <p v-if="post.welcomeScreen">{{ post.verbeteConteudo }}</p>
         <p class="content-preview" v-else v-html="post.blogHTML"></p>
-        <router-link class="link link-light" v-if="post.welcomeScreen" :to="{ name: 'Register' }">
-          Login/Register<arrow class="arrow arrow-light" />
+        <router-link class="link link-light" v-if="post.welcomeScreen" :to="{ name: 'Registrar' }">
+          Login/Registrar<arrow class="arrow arrow-light" />
         </router-link>
         <router-link
           class="link"
           v-else
-          :to="{ name: 'ViewBlog', params: {blogid: this.post.blogID} }"
+          :to="{ name: 'VerVerbete', params: {verbeteId: this.post.verbeteId} }"
         >
           View The Post<arrow class="arrow" />
         </router-link>
@@ -21,7 +21,7 @@
     <div class="blog-photo">
       <img
         v-if="post.welcomeScreen"
-        :src="require(`../assets/blogPhotos/${post.photo}.jpg`)"
+        :src="require(`../assets/verbetesCoverPhotos/${post.photo}.jpg`)"
         alt=""
       />
       <img
@@ -37,7 +37,7 @@
 import arrow from '../assets/icons/arrow-right-light.svg';
 
 export default {
-  name: 'BlogPost',
+  name: 'VerbeteConteudo',
   props: ['post'],
   components: {
     arrow,

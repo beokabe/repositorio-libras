@@ -10,7 +10,7 @@
 
 <script>
 export default {
-  name: 'BlogPreview',
+  name: 'VerbetePreview',
   computed: {
     blogTitle() {
       return this.$store.state.blogTitle;

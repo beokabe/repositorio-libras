@@ -21,7 +21,7 @@
 
       <router-link
         class="link"
-        :to="{ name: 'ViewBlog', params: { blogid: this.post.blogID } }"
+        :to="{ name: 'VerVerbete', params: { verbeteId: this.post.verbeteId } }"
       >
         View The Post <arrow-icon class="arrow" />
       </router-link>
@@ -35,7 +35,7 @@ import editIcon from '../assets/icons/edit-regular.svg';
 import deleteIcon from '../assets/icons/trash-svgrepo-com.svg';
 
 export default {
-  name: 'BlogCard',
+  name: 'VerbeteCard',
   props: ['post'],
   components: {
     arrowIcon,
@@ -44,11 +44,11 @@ export default {
   },
   methods: {
     deletePost() {
-      this.$store.dispatch('deletePost', this.post.blogID);
+      this.$store.dispatch('deletePost', this.post.verbeteId);
     },
 
     editBlog() {
-      this.$router.push({ name: 'EditBlog', params: { blogid: this.post.blogID } });
+      this.$router.push({ name: 'EditarVerbete', params: { verbeteId: this.post.verbeteId } });
     },
   },
   computed: {

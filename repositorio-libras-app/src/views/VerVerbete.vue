@@ -21,15 +21,15 @@
 
 <script>
 export default {
-  name: 'ViewBlog',
+  name: 'VerVerbete',
   data() {
     return {
       currentBlog: null,
     };
   },
   async mounted() {
-    this.currentBlog = await this.$store.state.blogPosts.filter(
-      (post) => post.blogID === this.$route.params.blogid
+    this.currentBlog = await this.$store.state.verbetes.filter(
+      (post) => post.verbeteId === this.$route.params.verbeteid
     );
   },
 };

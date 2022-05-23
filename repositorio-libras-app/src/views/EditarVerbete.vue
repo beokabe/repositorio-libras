@@ -1,6 +1,6 @@
 <template>
   <div class="create-post">
-    <BlogCoverPreview v-show="this.$store.state.blogPhotoPreview" />
+    <VerbeteCoverPreview v-show="this.$store.state.blogPhotoPreview" />
     <LoadingAnimation v-show="loading" />
     <div class="container">
       <div :class="{ invisible: !error }" class="err-message">
@@ -42,7 +42,7 @@
       </div>
       <div class="blog-actions">
         <button @click="updateBlog">Salvar Alterações</button>
-        <router-link class="router-button" :to="{ name: 'BlogPreview' }"
+        <router-link class="router-button" :to="{ name: 'VerbetePreview' }"
           >Pré-visualizar Alterações</router-link
         >
       </div>
@@ -56,7 +56,7 @@ import firebase from 'firebase/app';
 import 'firebase/storage';
 import db from '../firebase/firebaseInit';
 
-import BlogCoverPreview from '../components/BlogCoverPreview.vue';
+import VerbeteCoverPreview from '../components/VerbeteCoverPreview.vue';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 
 window.Quill = Quill;
@@ -66,7 +66,7 @@ const ImageResize = require('quill-image-resize-module').default;
 Quill.register('modules/imageResize', ImageResize);
 
 export default {
-  name: 'CreatePost',
+  name: 'CriarVerbete',
   data() {
     return {
       file: null,
@@ -83,13 +83,13 @@ export default {
     };
   },
   components: {
-    BlogCoverPreview,
+    VerbeteCoverPreview,
     LoadingAnimation,
   },
   async mounted() {
-    this.routeID = this.$route.params.blogid;
-    this.currentBlog = await this.$store.state.blogPosts.filter(
-      (post) => post.blogID === this.routeID
+    this.routeID = this.$route.params.verbeteid;
+    this.currentBlog = await this.$store.state.verbetes.filter(
+      (post) => post.verbeteId === this.routeID
     );
 
     this.$store.commit('setBlogState', this.currentBlog[0]);
@@ -134,7 +134,7 @@ export default {
     },
 
     async updateBlog() {
-      const dataBase = db.collection('blogPosts').doc(this.routeID);
+      const dataBase = db.collection('verbetes').doc(this.routeID);
 
       if (this.blogTitle.length > 0 && this.blogHTML.length > 0) {
         if (this.file) {
@@ -170,8 +170,8 @@ export default {
               this.loading = false;
 
               this.$router.push({
-                name: 'ViewBlog',
-                params: { blogid: dataBase.id },
+                name: 'VerVerbete',
+                params: { verbeteid: dataBase.id },
               });
             }
           );
@@ -190,8 +190,8 @@ export default {
         this.loading = false;
 
         this.$router.push({
-          name: 'ViewBlog',
-          params: { blogid: dataBase.id },
+          name: 'VerVerbete',
+          params: { verbeteid: dataBase.id },
         });
         return;
       }

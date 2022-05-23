@@ -62,7 +62,7 @@ import passwordIcon from '../assets/icons/lock-alt-solid.svg';
 import userIcon from '../assets/icons/user-alt-light.svg';
 
 export default {
-  name: 'Register',
+  name: 'Registrar',
   components: {
     emailIcon,
     passwordIcon,

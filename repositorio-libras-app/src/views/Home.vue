@@ -1,17 +1,17 @@
 <template>
   <div class="home">
-    <BlogPost v-if="!user" :post="welcomeScreen" />
+    <VerbeteConteudo v-if="!user" :post="welcomeScreen" />
 
-    <BlogPost :post="post" v-for="(post, index) in blogPostsFeed" :key="index" />
+    <VerbeteConteudo :post="post" v-for="(post, index) in verbetesFeed" :key="index" />
 
     <div class="blog-card-wrap">
       <div class="container">
-        <h3>View More Recent Blogs</h3>
+        <h3>Ver Os Verbetes Mais Recentes</h3>
 
         <div class="blog-cards">
-          <BlogCard
+          <VerbeteCard
             :post="post"
-            v-for="(post, index) in blogPostsCards"
+            v-for="(post, index) in verbetesCards"
             :key="index"
           />
         </div>
@@ -22,8 +22,8 @@
       <div class="container">
         <h2>Never miss a post. Register for your free account today!</h2>
 
-        <router-link class="router-button" :to="{ name: 'Register' }">
-          Register for RepositorioLibras <arrowIcon class="arrow arrow-light" />
+        <router-link class="router-button" :to="{ name: 'Registrar' }">
+          Registrar para RepositorioLibras <arrowIcon class="arrow arrow-light" />
         </router-link>
       </div>
     </div>
@@ -31,22 +31,22 @@
 </template>
 
 <script>
-import BlogPost from '../components/BlogPost.vue';
-import BlogCard from '../components/BlogCard.vue';
+import VerbeteConteudo from '../components/VerbeteConteudo.vue';
+import VerbeteCard from '../components/VerbeteCard.vue';
 import arrowIcon from '../assets/icons/arrow-right-light.svg';
 
 export default {
   name: 'Home',
   components: {
-    BlogPost,
-    BlogCard,
+    VerbeteConteudo,
+    VerbeteCard,
     arrowIcon,
   },
   data() {
     return {
       welcomeScreen: {
         title: 'Welcome!',
-        blogPost:
+        verbeteConteudo:
           'Weekly blog articles all things programming including HTML, CSS, JS and More. Register today to never miss a post',
         welcomeScreen: true,
         photo: 'coding',
@@ -54,11 +54,11 @@ export default {
     };
   },
   computed: {
-    blogPostsFeed() {
-      return this.$store.getters.blogPostsFeed;
+    verbetesFeed() {
+      return this.$store.getters.verbetesFeed;
     },
-    blogPostsCards() {
-      return this.$store.getters.blogPostsCards;
+    verbetesCards() {
+      return this.$store.getters.verbetesCards;
     },
     user() {
       return this.$store.state.user;

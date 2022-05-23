@@ -1,6 +1,6 @@
 <template>
   <div class="create-post">
-    <BlogCoverPreview v-show="this.$store.state.blogPhotoPreview" />
+    <VerbeteCoverPreview v-show="this.$store.state.blogPhotoPreview" />
     <LoadingAnimation v-show="loading" />
     <div class="container">
       <div :class="{ invisible: !error }" class="err-message">
@@ -42,7 +42,7 @@
       </div>
       <div class="blog-actions">
         <button @click="uploadBlog">Publicar</button>
-        <router-link class="router-button" :to="{ name: 'BlogPreview' }"
+        <router-link class="router-button" :to="{ name: 'VerbetePreview' }"
           >Pré-visualizar</router-link
         >
       </div>
@@ -56,7 +56,7 @@ import firebase from 'firebase/app';
 import 'firebase/storage';
 import db from '../firebase/firebaseInit';
 
-import BlogCoverPreview from '../components/BlogCoverPreview.vue';
+import VerbeteCoverPreview from '../components/VerbeteCoverPreview.vue';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
 
 window.Quill = Quill;
@@ -66,7 +66,7 @@ const ImageResize = require('quill-image-resize-module').default;
 Quill.register('modules/imageResize', ImageResize);
 
 export default {
-  name: 'CreatePost',
+  name: 'CriarVerbete',
   data() {
     return {
       file: null,
@@ -81,7 +81,7 @@ export default {
     };
   },
   components: {
-    BlogCoverPreview,
+    VerbeteCoverPreview,
     LoadingAnimation,
   },
   methods: {
@@ -146,10 +146,10 @@ export default {
             async () => {
               const downloadURL = await docRef.getDownloadURL();
               const timestamp = await Date.now();
-              const dataBase = await db.collection('blogPosts').doc();
+              const dataBase = await db.collection('verbetes').doc();
 
               await dataBase.set({
-                blogID: dataBase.id,
+                verbeteId: dataBase.id,
                 blogHTML: this.blogHTML,
                 blogCoverPhoto: downloadURL,
                 blogCoverPhotoName: this.blogCoverPhotoName,
@@ -161,8 +161,8 @@ export default {
 
               this.loading = false;
               this.$router.push({
-                name: 'ViewBlog',
-                params: { blogid: dataBase.id },
+                name: 'VerVerbete',
+                params: { verbeteid: dataBase.id },
               });
             }
           );

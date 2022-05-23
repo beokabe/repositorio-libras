@@ -4,7 +4,7 @@
       <p class="login-register">
         Não tem uma conta?
 
-        <router-link class="router-link" :to="{ name: 'Register' }"
+        <router-link class="router-link" :to="{ name: 'Registrar' }"
           >Registrar</router-link
         >
       </p>
