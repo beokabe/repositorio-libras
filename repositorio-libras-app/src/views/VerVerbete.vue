@@ -1,19 +1,19 @@
 <template>
-  <div class="post-view" v-if="currentBlog">
+  <div class="post-view" v-if="currentVerbete">
     <div class="container quillWrapper">
-      <h2>{{ this.currentBlog[0].blogTitle }}</h2>
+      <h2>{{ this.currentVerbete[0].verbeteNome }}</h2>
       <h4>
         Criado em:
         {{
-          new Date(this.currentBlog[0].blogDate).toLocaleString('pt-br', {
+          new Date(this.currentVerbete[0].verbeteDate).toLocaleString('pt-br', {
             dateStyle: 'long',
           })
         }}
       </h4>
-      <img :src="this.currentBlog[0].blogCoverPhoto" alt="" />
+      <img :src="this.currentVerbete[0].blogCoverPhoto" alt="" />
       <div
         class="post-content ql-editor"
-        v-html="this.currentBlog[0].blogHTML"
+        v-html="this.currentVerbete[0].verbeteDefinicao"
       ></div>
     </div>
   </div>
@@ -24,12 +24,12 @@ export default {
   name: 'VerVerbete',
   data() {
     return {
-      currentBlog: null,
+      currentVerbete: null,
     };
   },
   async mounted() {
-    this.currentBlog = await this.$store.state.verbetes.filter(
-      (post) => post.verbeteId === this.$route.params.verbeteid
+    this.currentVerbete = await this.$store.state.verbetes.filter(
+      (verbete) => verbete.verbeteId === this.$route.params.verbeteid
     );
   },
 };

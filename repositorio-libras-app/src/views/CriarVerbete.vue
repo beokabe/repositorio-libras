@@ -1,23 +1,23 @@
 <template>
-  <div class="create-post">
-    <VerbeteCoverPreview v-show="this.$store.state.blogPhotoPreview" />
+  <div class="criar-verbete">
+    <VerbeteCoverPreview v-show="this.$store.state.verbeteImagemPreview" />
     <LoadingAnimation v-show="loading" />
     <div class="container">
       <div :class="{ invisible: !error }" class="err-message">
         <p><span>Erro: </span>{{ this.errorMsg }}</p>
       </div>
-      <div class="blog-info">
+      <div class="verbete-info">
         <input
           type="text"
-          placeholder="Insira o título do artigo"
-          v-model="blogTitle"
+          placeholder="Insira o título do verbete"
+          v-model="verbeteNome"
         />
         <div class="upload-file">
-          <label for="blog-photo">Upload Background</label>
+          <label for="verbete-photo">Baixar Background</label>
           <input
             type="file"
-            ref="blogPhoto"
-            id="blog-photo"
+            ref="verbetePhoto"
+            id="verbete-photo"
             @change="fileChange"
             accept=".png, .jpg, ,jpeg"
           />
@@ -25,22 +25,22 @@
           <button
             @click="openPreview"
             class="preview"
-            :class="{ 'button-inactive': !this.$store.state.blogPhotoFileURL }"
+            :class="{ 'button-inactive': !this.$store.state.verbeteImagemFileURL }"
           >
             Pré-visualizar
           </button>
-          <span>Arquivo: {{ this.$store.state.blogPhotoName }}</span>
+          <span>Arquivo: {{ this.$store.state.verbeteImagemName }}</span>
         </div>
       </div>
       <div class="editor">
         <vue-editor
           :editorOptions="editorSettings"
-          v-model="blogHTML"
+          v-model="verbeteDefinicao"
           useCustomImageHandler
           @image-added="imageHandler"
         />
       </div>
-      <div class="blog-actions">
+      <div class="verbete-actions">
         <button @click="uploadBlog">Publicar</button>
         <router-link class="router-button" :to="{ name: 'VerbetePreview' }"
           >Pré-visualizar</router-link
@@ -124,13 +124,13 @@ export default {
     },
 
     uploadBlog() {
-      if (this.blogTitle.length > 0 && this.blogHTML.length > 0) {
+      if (this.verbeteNome.length > 0 && this.verbeteDefinicao.length > 0) {
         if (this.file) {
           this.loading = true;
 
           const storageRef = firebase.storage().ref();
           const docRef = storageRef.child(
-            `documents/BlogCoverPhotos/${this.$store.state.blogPhotoName}`
+            `documents/VerbeteImagem/${this.$store.state.verbeteImagemName}`
           );
           docRef.put(this.file).on(
             'state_changed',
@@ -150,10 +150,10 @@ export default {
 
               await dataBase.set({
                 verbeteId: dataBase.id,
-                blogHTML: this.blogHTML,
-                blogCoverPhoto: downloadURL,
-                blogCoverPhotoName: this.blogCoverPhotoName,
-                blogTitle: this.blogTitle,
+                verbeteDefinicao: this.verbeteDefinicao,
+                verbeteImagem: downloadURL,
+                verbeteImagemNome: this.verbeteImagemNome,
+                verbeteNome: this.verbeteNome,
                 profileId: this.profileId,
                 date: timestamp,
               });
@@ -190,25 +190,25 @@ export default {
       return this.$store.state.profileId;
     },
 
-    blogCoverPhotoName() {
-      return this.$store.state.blogPhotoName;
+    verbeteImagemNome() {
+      return this.$store.state.verbeteImagemNome;
     },
 
-    blogTitle: {
+    verbeteNome: {
       get() {
-        return this.$store.state.blogTitle;
+        return this.$store.state.verbeteNome;
       },
       set(payload) {
         this.$store.commit('updateBlogTitle', payload);
       },
     },
 
-    blogHTML: {
+    verbeteDefinicao: {
       get() {
-        return this.$store.state.blogHTML;
+        return this.$store.state.verbeteDefinicao;
       },
       set(payload) {
-        this.$store.commit('newBlogPost', payload);
+        this.$store.commit('newVerbete', payload);
       },
     },
   },
@@ -216,7 +216,7 @@ export default {
 </script>
 
 <style lang="scss">
-.create-post {
+.criar-verbete {
   position: relative;
   height: 100%;
   button {
@@ -267,7 +267,7 @@ export default {
       font-weight: 600;
     }
   }
-  .blog-info {
+  .verbete-info {
     display: flex;
     margin-bottom: 32px;
     input:nth-child(1) {
@@ -322,7 +322,7 @@ export default {
       padding: 20px 16px 30px;
     }
   }
-  .blog-actions {
+  .verbete-actions {
     margin-top: 32px;
     button {
       margin-right: 16px;

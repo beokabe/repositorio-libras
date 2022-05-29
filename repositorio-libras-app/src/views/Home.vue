@@ -4,11 +4,11 @@
 
     <VerbeteConteudo :post="post" v-for="(post, index) in verbetesFeed" :key="index" />
 
-    <div class="blog-card-wrap">
+    <div class="verbete-card-wrap">
       <div class="container">
         <h3>Ver Os Verbetes Mais Recentes</h3>
 
-        <div class="blog-cards">
+        <div class="verbete-cards">
           <VerbeteCard
             :post="post"
             v-for="(post, index) in verbetesCards"
@@ -68,7 +68,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.blog-card-wrap {
+.verbete-card-wrap {
   h3 {
     font-weight: 300;
     font-size: 28px;

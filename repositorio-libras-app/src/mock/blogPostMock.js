@@ -8,14 +8,14 @@ const welcomeScreen = {
 
 const sampleBlogPost = [
   {
-    blogTitle: 'This is a Filter Title!',
-    blogHtml: 'This is a filter blog post title!',
-    blogCoverPhoto: 'designed-for-everyone',
+    verbeteNome: 'This is a Filter Title!',
+    verbeteDefinicao: 'This is a filter blog post title!',
+    verbeteImagem: 'designed-for-everyone',
   },
   {
-    blogTitle: 'This is a filter Title!',
-    blogHtml: 'This is a filter blog post title!',
-    blogCoverPhoto: 'beautiful-stories',
+    verbeteNome: 'This is a filter Title!',
+    verbeteDefinicao: 'This is a filter blog post title!',
+    verbeteImagem: 'beautiful-stories',
   },
 ];
 

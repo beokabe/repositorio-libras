@@ -1,11 +1,11 @@
 <template>
-  <div class="blog-wrapper" :class="{ 'no-user': !user }">
-    <div class="blog-content">
+  <div class="verbete-wrapper" :class="{ 'no-user': !user }">
+    <div class="verbete-content">
       <div>
         <h2 v-if="post.welcomeScreen">{{ post.title }}</h2>
-        <h2 v-else>{{ post.blogTitle }}</h2>
+        <h2 v-else>{{ post.verbeteNome }}</h2>
         <p v-if="post.welcomeScreen">{{ post.verbeteConteudo }}</p>
-        <p class="content-preview" v-else v-html="post.blogHTML"></p>
+        <p class="content-preview" v-else v-html="post.verbeteDefinicao"></p>
         <router-link class="link link-light" v-if="post.welcomeScreen" :to="{ name: 'Registrar' }">
           Login/Registrar<arrow class="arrow arrow-light" />
         </router-link>
@@ -18,7 +18,7 @@
         </router-link>
       </div>
     </div>
-    <div class="blog-photo">
+    <div class="verbete-photo">
       <img
         v-if="post.welcomeScreen"
         :src="require(`../assets/verbetesCoverPhotos/${post.photo}.jpg`)"
@@ -26,7 +26,7 @@
       />
       <img
         v-else
-        :src="post.blogCoverPhoto"
+        :src="post.verbeteImagem"
         alt=""
       />
     </div>
@@ -51,7 +51,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.blog-wrapper {
+.verbete-wrapper {
   display: flex;
   flex-direction: column;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -63,7 +63,7 @@ export default {
     flex-direction: row;
   }
 
-  .blog-content {
+  .verbete-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -132,7 +132,7 @@ export default {
     }
   }
 
-  .blog-photo {
+  .verbete-photo {
     order: 1;
     flex: 3;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
@@ -155,17 +155,17 @@ export default {
   }
 
   &:nth-child(even) {
-    .blog-content {
+    .verbete-content {
       order: 2;
     }
-    .blog-photo {
+    .verbete-photo {
       order: 1;
     }
   }
 }
 
 .no-user:first-child {
-  .blog-content {
+  .verbete-content {
     background-color: #303030;
     color: #fff;
   }

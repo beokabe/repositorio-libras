@@ -1,9 +1,9 @@
 <template>
-  <div class="blog-card-wrap">
-    <div class="blog-cards container">
+  <div class="verbete-card-wrap">
+    <div class="verbete-cards container">
       <div class="toggle-edit">
         <span>Modo Edição</span>
-        <input type="checkbox" v-model="editPost" />
+        <input type="checkbox" v-model="editVerbete" />
       </div>
       <VerbeteCard
         :post="post"
@@ -26,26 +26,26 @@ export default {
     verbetes() {
       return this.$store.state.verbetes;
     },
-    editPost: {
-      // Retorna o estado atual do valor de editPost
+    editVerbete: {
+      // Retorna o estado atual do valor de editVerbete
       get() {
-        return this.$store.state.editPost;
+        return this.$store.state.editVerbete;
       },
       set(payload) {
-        // Atualiza o valor armazenado state toggleEditPost
-        this.$store.commit('toggleEditPost', payload);
+        // Atualiza o valor armazenado state toggleEditVerbete
+        this.$store.commit('toggleEditVerbete', payload);
       },
     },
   },
-  // Quando o usuário sair da view blogs, o valor da state toggleEditPost mudará para 'false'
+  // Quando o usuário sair da view blogs, o valor da state toggleEditVerbete mudará para 'false'
   beforeyDestroy() {
-    this.$store.commit('toggleEditPost', false);
+    this.$store.commit('toggleEditVerbete', false);
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.blog-cards {
+.verbete-cards {
   position: relative;
 
   .toggle-edit {

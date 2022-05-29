@@ -1,9 +1,9 @@
 <template>
   <div class="post-view">
     <div class="container quillWrapper">
-      <h2>{{ this.blogTitle }}</h2>
-      <img :src="blogCoverPhoto" alt="" />
-      <div class="post-content ql-editor" v-html="blogHTML"></div>
+      <h2>{{ this.verbeteNome }}</h2>
+      <img :src="verbeteImagem" alt="" />
+      <div class="post-content ql-editor" v-html="verbeteDefinicao"></div>
     </div>
   </div>
 </template>
@@ -12,14 +12,14 @@
 export default {
   name: 'VerbetePreview',
   computed: {
-    blogTitle() {
-      return this.$store.state.blogTitle;
+    verbeteNome() {
+      return this.$store.state.verbeteNome;
     },
-    blogHTML() {
-      return this.$store.state.blogHTML;
+    verbeteDefinicao() {
+      return this.$store.state.verbeteDefinicao;
     },
-    blogCoverPhoto() {
-      return this.$store.state.blogPhotoFileURL;
+    verbeteImagem() {
+      return this.$store.state.verbeteImagemFileURL;
     },
   },
 };

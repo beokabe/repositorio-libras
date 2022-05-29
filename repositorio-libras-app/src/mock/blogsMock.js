@@ -1,23 +1,23 @@
 const sampleVerbeteCard = [
   {
-    blogTitle: '#Card 1 This is a Filter Title!',
-    blogCoverPhoto: 'stock-1',
-    blogDate: 'May 1, 2021',
+    verbeteNome: '#Card 1 This is a Filter Title!',
+    verbeteImagem: 'stock-1',
+    verbeteDate: 'May 1, 2021',
   },
   {
-    blogTitle: '#Card 2 This is a Filter Title!',
-    blogCoverPhoto: 'stock-2',
-    blogDate: 'May 1, 2021',
+    verbeteNome: '#Card 2 This is a Filter Title!',
+    verbeteImagem: 'stock-2',
+    verbeteDate: 'May 1, 2021',
   },
   {
-    blogTitle: '#Card 3 This is a Filter Title!',
-    blogCoverPhoto: 'stock-3',
-    blogDate: 'May 1, 2021',
+    verbeteNome: '#Card 3 This is a Filter Title!',
+    verbeteImagem: 'stock-3',
+    verbeteDate: 'May 1, 2021',
   },
   {
-    blogTitle: '#Card 4 This is a Filter Title!',
-    blogCoverPhoto: 'stock-4',
-    blogDate: 'May 1, 2021',
+    verbeteNome: '#Card 4 This is a Filter Title!',
+    verbeteImagem: 'stock-4',
+    verbeteDate: 'May 1, 2021',
   },
 ];
 

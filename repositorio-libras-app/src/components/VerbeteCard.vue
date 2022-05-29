@@ -1,6 +1,6 @@
 <template>
   <div class="blog-card">
-    <div v-show="editPost" class="icons">
+    <div v-show="editVerbete" class="icons">
       <div @click="editBlog" v class="icon">
         <edit-icon class="edit" />
       </div>
@@ -8,9 +8,9 @@
         <delete-icon class="delete" />
       </div>
     </div>
-    <img :src="post.blogCoverPhoto" alt="" />
+    <img :src="post.verbeteImagem" alt="" />
     <div class="info">
-      <h4>{{ post.blogTitle }}</h4>
+      <h4>{{ post.verbeteNome }}</h4>
 
       <h6>
         Posted on:
@@ -52,8 +52,8 @@ export default {
     },
   },
   computed: {
-    editPost() {
-      return this.$store.state.editPost;
+    editVerbete() {
+      return this.$store.state.editVerbete;
     },
   },
 };

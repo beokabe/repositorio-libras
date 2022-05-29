@@ -10,12 +10,12 @@ export default new Vuex.Store({
   state: {
     verbetes: [],
     postLoaded: null,
-    blogHTML: 'Write your blog title here...',
-    blogTitle: '',
-    blogPhotoName: '',
-    blogPhotoFileURL: null,
-    blogPhotoPreview: null,
-    editPost: null,
+    verbeteDefinicao: 'Write your blog title here...',
+    verbeteNome: '',
+    verbeteImagemName: '',
+    verbeteImagemFileURL: null,
+    verbeteImagemPreview: null,
+    editVerbete: null,
     user: null,
     profileAdmin: null,
     profileEmail: null,
@@ -34,28 +34,28 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    newBlogPost(state, payload) {
-      state.blogHTML = payload;
+    newVerbete(state, payload) {
+      state.verbeteDefinicao = payload;
     },
 
     updateBlogTitle(state, payload) {
-      state.blogTitle = payload;
+      state.verbeteNome = payload;
     },
 
     fileNameChange(state, payload) {
-      state.blogPhotoName = payload;
+      state.verbeteImagemName = payload;
     },
 
     createFileURL(state, payload) {
-      state.blogPhotoFileURL = payload;
+      state.verbeteImagemFileURL = payload;
     },
 
     openPhotoPreview(state) {
-      state.blogPhotoPreview = !state.blogPhotoPreview;
+      state.verbeteImagemPreview = !state.verbeteImagemPreview;
     },
 
-    toggleEditPost(state, payload) {
-      state.editPost = payload;
+    toggleEditVerbete(state, payload) {
+      state.editVerbete = payload;
     },
 
     updateUser(state, payload) {
@@ -81,10 +81,10 @@ export default new Vuex.Store({
     },
 
     setBlogState(state, payload) {
-      state.blogTitle = payload.blogTitle;
-      state.blogHTML = payload.blogHTML;
-      state.blogPhotoFileURL = payload.blogCoverPhoto;
-      state.blogCoverPhotoName = payload.blogCoverPhotoName;
+      state.verbeteNome = payload.verbeteNome;
+      state.verbeteDefinicao = payload.verbeteDefinicao;
+      state.verbeteImagem = payload.verbeteImagem;
+      state.verbeteImagemNome = payload.verbeteImagemNome;
     },
 
     changeFirstName(state, payload) {
@@ -147,11 +147,11 @@ export default new Vuex.Store({
         if (!state.verbetes.some((post) => post.verbeteId === doc.id)) {
           const data = {
             verbeteId: doc.data().verbeteId,
-            verbeteDefinicao: doc.data().blogHTML,
-            verbeteImagem: doc.data().blogCoverPhoto,
-            verbeteNome: doc.data().blogTitle,
+            verbeteDefinicao: doc.data().verbeteDefinicao,
+            verbeteImagem: doc.data().verbeteImagem,
+            verbeteNome: doc.data().verbeteNome,
             verbeteDate: doc.data().date,
-            verbeteBackground: doc.data().blogCoverPhotoName,
+            verbeteBackground: doc.data().verbeteImagemNome,
             verbeteLinkVideo: doc.data().verbeteLinkVideo,
           };
 

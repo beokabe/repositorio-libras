@@ -1,23 +1,23 @@
 <template>
-  <div class="create-post">
-    <VerbeteCoverPreview v-show="this.$store.state.blogPhotoPreview" />
+  <div class="criar-verbete">
+    <VerbeteCoverPreview v-show="this.$store.state.verbeteImagemPreview" />
     <LoadingAnimation v-show="loading" />
     <div class="container">
       <div :class="{ invisible: !error }" class="err-message">
         <p><span>Erro: </span>{{ this.errorMsg }}</p>
       </div>
-      <div class="blog-info">
+      <div class="verbete-info">
         <input
           type="text"
           placeholder="Insira o título do artigo"
-          v-model="blogTitle"
+          v-model="verbeteNome"
         />
         <div class="upload-file">
-          <label for="blog-photo">Upload Background</label>
+          <label for="verbete-photo">Upload Background</label>
           <input
             type="file"
-            ref="blogPhoto"
-            id="blog-photo"
+            ref="verbetePhoto"
+            id="verbete-photo"
             @change="fileChange"
             accept=".png, .jpg, ,jpeg"
           />
@@ -25,23 +25,23 @@
           <button
             @click="openPreview"
             class="preview"
-            :class="{ 'button-inactive': !this.$store.state.blogPhotoFileURL }"
+            :class="{ 'button-inactive': !this.$store.state.verbeteImagemFileURL }"
           >
             Pré-visualizar
           </button>
-          <span>Arquivo: {{ this.$store.state.blogCoverPhotoName }}</span>
+          <span>Arquivo: {{ this.$store.state.verbeteImagemNome }}</span>
         </div>
       </div>
       <div class="editor">
         <vue-editor
           :editorOptions="editorSettings"
-          v-model="blogHTML"
+          v-model="verbeteDefinicao"
           useCustomImageHandler
           @image-added="imageHandler"
         />
       </div>
-      <div class="blog-actions">
-        <button @click="updateBlog">Salvar Alterações</button>
+      <div class="verbete-actions">
+        <button @click="updateVerbete">Salvar Alterações</button>
         <router-link class="router-button" :to="{ name: 'VerbetePreview' }"
           >Pré-visualizar Alterações</router-link
         >
@@ -74,7 +74,7 @@ export default {
       errorMsg: null,
       loading: null,
       routeID: null,
-      currentBlog: null,
+      currentVerbete: null,
       editorSettings: {
         modules: {
           imageResize: {},
@@ -88,15 +88,15 @@ export default {
   },
   async mounted() {
     this.routeID = this.$route.params.verbeteid;
-    this.currentBlog = await this.$store.state.verbetes.filter(
-      (post) => post.verbeteId === this.routeID
+    this.currentVerbete = await this.$store.state.verbetes.filter(
+      (verbete) => verbete.verbeteId === this.routeID
     );
 
-    this.$store.commit('setBlogState', this.currentBlog[0]);
+    this.$store.commit('setBlogState', this.currentVerbete[0]);
   },
   methods: {
     // eslint-disable-next-line max-len
-    //  TODO 5 - [AJUSTE] verificar bug nesse método que faz o arquivo perder informação após o preview do post
+    //  TODO 5 - [AJUSTE] verificar bug nesse método que faz o arquivo perder informação após o preview do verbete
     fileChange() {
       const firstFile = this.$refs.blogPhoto.files[0];
       this.file = firstFile;
@@ -133,16 +133,16 @@ export default {
       );
     },
 
-    async updateBlog() {
+    async updateVerbete() {
       const dataBase = db.collection('verbetes').doc(this.routeID);
 
-      if (this.blogTitle.length > 0 && this.blogHTML.length > 0) {
+      if (this.verbeteNome.length > 0 && this.verbeteDefinicao.length > 0) {
         if (this.file) {
           this.loading = true;
 
           const storageRef = firebase.storage().ref();
           const docRef = storageRef.child(
-            `documents/BlogCoverPhotos/${this.$store.state.blogPhotoName}`
+            `documents/VerbeteImagem/${this.$store.state.verbeteImagemName}`
           );
           docRef.put(this.file).on(
             'state_changed',
@@ -159,10 +159,10 @@ export default {
               const downloadURL = await docRef.getDownloadURL();
 
               await dataBase.update({
-                blogHTML: this.blogHTML,
-                blogCoverPhoto: downloadURL,
-                blogCoverPhotoName: this.blogCoverPhotoName,
-                blogTitle: this.blogTitle,
+                verbeteDefinicao: this.verbeteDefinicao,
+                verbeteImagem: downloadURL,
+                verbeteImagemNome: this.verbeteImagemNome,
+                verbeteNome: this.verbeteNome,
               });
 
               await this.$store.dispatch('updatePost', this.routeID);
@@ -181,8 +181,8 @@ export default {
         this.loading = true;
 
         await dataBase.update({
-          blogHTML: this.blogHTML,
-          blogTitle: this.blogTitle,
+          verbeteDefinicao: this.verbeteDefinicao,
+          verbeteNome: this.verbeteNome,
         });
 
         await this.$store.dispatch('updatePost', this.routeID);
@@ -209,25 +209,25 @@ export default {
       return this.$store.state.profileId;
     },
 
-    blogCoverPhotoName() {
-      return this.$store.state.blogPhotoName;
+    verbeteImagemNome() {
+      return this.$store.state.verbeteImagemName;
     },
 
-    blogTitle: {
+    verbeteNome: {
       get() {
-        return this.$store.state.blogTitle;
+        return this.$store.state.verbeteNome;
       },
       set(payload) {
         this.$store.commit('updateBlogTitle', payload);
       },
     },
 
-    blogHTML: {
+    verbeteDefinicao: {
       get() {
-        return this.$store.state.blogHTML;
+        return this.$store.state.verbeteDefinicao;
       },
       set(payload) {
-        this.$store.commit('newBlogPost', payload);
+        this.$store.commit('newVerbete', payload);
       },
     },
   },
@@ -235,7 +235,7 @@ export default {
 </script>
 
 <style lang="scss">
-.create-post {
+.criar-verbete {
   position: relative;
   height: 100%;
   button {
@@ -286,7 +286,7 @@ export default {
       font-weight: 600;
     }
   }
-  .blog-info {
+  .verbete-info {
     display: flex;
     margin-bottom: 32px;
     input:nth-child(1) {
@@ -341,7 +341,7 @@ export default {
       padding: 20px 16px 30px;
     }
   }
-  .blog-actions {
+  .verbete-actions {
     margin-top: 32px;
     button {
       margin-right: 16px;
