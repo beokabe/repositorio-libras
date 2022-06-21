@@ -30,8 +30,8 @@ export default new Vuex.Store({
   },
   getters: {
     verbetesFeed(state) {
-      const fim = state.verbetes.length - 1;
-      return state.verbetes.slice(0, fim);
+      // eslint-disable-next-line array-callback-return,max-len
+      return state.verbetes.sort((a, b) => b.verbeteCurtidas - a.verbeteCurtidas);
     },
   },
   mutations: {
@@ -137,13 +137,13 @@ export default new Vuex.Store({
       commit('setProfileInitials');
     },
 
-    async getPost({ state }) {
-      // Get em todos os artigos publicados por data desc
+    async getVerbetes({ state }) {
+      // Get em todos os verbetes publicados por data desc
       const dataBase = await db.collection('verbetes').orderBy('date', 'desc');
       const dbResults = await dataBase.get();
 
       // TODO 7 - sugestão: trocar essa verificação por um listener
-      // Filtro que verifica se os posts não estão duplicados dentro da variavel do state verbetes
+      // Filtro que verifica se os verbetes não estão duplicados dentro da variavel do state
       dbResults.forEach((doc) => {
         if (!state.verbetes.some((verbete) => verbete.verbeteId === doc.id)) {
           const data = {
@@ -154,24 +154,23 @@ export default new Vuex.Store({
             verbeteDate: doc.data().date,
             verbeteBackground: doc.data().verbeteImagemNome,
             verbeteLinkVideo: doc.data().verbeteLinkVideo,
+            verbeteCurtidas: doc.data().verbeteCurtidas,
           };
 
           state.verbetes.push(data);
         }
       });
 
-      console.log(state.verbetes);
       state.postLoaded = true;
     },
-
     async updateVerbete({ commit, dispatch }, payload) {
       commit('filterBlogPost', payload);
-      await dispatch('getPost');
+      await dispatch('getVerbetes');
     },
 
     async deleteVerbete({ commit }, payload) {
-      const getPost = await db.collection('verbetes').doc(payload);
-      await getPost.delete();
+      const getVerbetes = await db.collection('verbetes').doc(payload);
+      await getVerbetes.delete();
 
       // Remove o post deletado do front
       commit('filterBlogPost', payload);

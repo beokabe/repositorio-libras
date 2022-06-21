@@ -26,6 +26,10 @@
         >
           Ir para o conteúdo<arrow class="arrow" />
         </router-link>
+
+        <p class="contador-curtidas">
+          <strong>{{this.verbete.verbeteCurtidas}} curtiram</strong>
+          </p>
       </div>
     </div>
   </div>
@@ -119,6 +123,11 @@ export default {
         &:hover {
           border-bottom-color: #ffff;
         }
+      }
+
+      .contador-curtidas {
+        text-align: end;
+        margin-top: 50px;
       }
     }
   }
