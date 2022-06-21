@@ -10,9 +10,9 @@ export default new Vuex.Store({
   state: {
     verbetes: [],
     postLoaded: null,
-    verbeteDefinicao: 'Write your blog title here...',
+    verbeteDefinicao: '',
     verbeteNome: '',
-    verbeteImagemName: '',
+    verbeteImagemNome: '',
     verbeteImagemFileURL: null,
     verbeteImagemPreview: null,
     editVerbete: null,
@@ -24,13 +24,14 @@ export default new Vuex.Store({
     profileUsername: null,
     profileId: null,
     profileInitials: null,
+    verbeteVideoNome: '',
+    verbeteVideoFileURL: null,
+    verbeteVideoPreview: null,
   },
   getters: {
     verbetesFeed(state) {
-      return state.verbetes.slice(0, 2);
-    },
-    verbetesCards(state) {
-      return state.verbetes.slice(2, 6);
+      const fim = state.verbetes.length - 1;
+      return state.verbetes.slice(0, fim);
     },
   },
   mutations: {
@@ -43,7 +44,7 @@ export default new Vuex.Store({
     },
 
     fileNameChange(state, payload) {
-      state.verbeteImagemName = payload;
+      state.verbeteImagemNome = payload;
     },
 
     createFileURL(state, payload) {
@@ -101,7 +102,7 @@ export default new Vuex.Store({
 
     filterBlogPost(state, payload) {
       state.verbetes = state.verbetes.filter(
-        (post) => post.verbeteId !== payload
+        (verbete) => verbete.verbeteId !== payload
       );
     },
   },
@@ -144,7 +145,7 @@ export default new Vuex.Store({
       // TODO 7 - sugestão: trocar essa verificação por um listener
       // Filtro que verifica se os posts não estão duplicados dentro da variavel do state verbetes
       dbResults.forEach((doc) => {
-        if (!state.verbetes.some((post) => post.verbeteId === doc.id)) {
+        if (!state.verbetes.some((verbete) => verbete.verbeteId === doc.id)) {
           const data = {
             verbeteId: doc.data().verbeteId,
             verbeteDefinicao: doc.data().verbeteDefinicao,
@@ -163,12 +164,12 @@ export default new Vuex.Store({
       state.postLoaded = true;
     },
 
-    async updatePost({ commit, dispatch }, payload) {
+    async updateVerbete({ commit, dispatch }, payload) {
       commit('filterBlogPost', payload);
       await dispatch('getPost');
     },
 
-    async deletePost({ commit }, payload) {
+    async deleteVerbete({ commit }, payload) {
       const getPost = await db.collection('verbetes').doc(payload);
       await getPost.delete();
 

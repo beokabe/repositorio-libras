@@ -1,5 +1,5 @@
 <template>
-  <div class="post-view" v-if="currentVerbete">
+  <div class="verbete-view" v-if="currentVerbete">
     <div class="container quillWrapper">
       <h2>{{ this.currentVerbete[0].verbeteNome }}</h2>
       <h4>
@@ -12,7 +12,7 @@
       </h4>
       <img :src="this.currentVerbete[0].blogCoverPhoto" alt="" />
       <div
-        class="post-content ql-editor"
+        class="verbete-content ql-editor"
         v-html="this.currentVerbete[0].verbeteDefinicao"
       ></div>
     </div>
@@ -25,18 +25,21 @@ export default {
   data() {
     return {
       currentVerbete: null,
+      verbetes: null
     };
   },
   async mounted() {
+    this.verbetes = this.$store.state.verbetes;
+
     this.currentVerbete = await this.$store.state.verbetes.filter(
-      (verbete) => verbete.verbeteId === this.$route.params.verbeteid
+      (verbete) => verbete.verbeteId === this.$route.params.verbeteId
     );
   },
 };
 </script>
 
 <style lang="scss">
-.post-view {
+.verbete-view {
   h4 {
     font-weight: 400;
     font-size: 14px;

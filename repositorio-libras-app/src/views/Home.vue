@@ -1,29 +1,42 @@
 <template>
   <div class="home">
-    <VerbeteConteudo v-if="!user" :post="welcomeScreen" />
+    <div class="rl-faixa-boas-vindas">
+      <h1>Repositório de Libras</h1>
+      <p>Conteúdos Exclusivos em um único lugar</p>
+    </div>
 
-    <VerbeteConteudo :post="post" v-for="(post, index) in verbetesFeed" :key="index" />
+    <div class="rl-welcome-screen">
+      <div class="rl-welcome-screen__conteudo">
+        <h1>{{ postApresentacao.titulo }}</h1>
+        <img
+            :src="
+            require(`../assets/verbetesCoverPhotos/${postApresentacao.photo}.png`)
+          "
+            alt=""
+        />
+        <p>{{ postApresentacao.conteudo }}</p>
+      </div>
+    </div>
 
-    <div class="verbete-card-wrap">
+    <div id="verbetesMaisCurtidos" class="rl-verbete-card-wrap">
+      <h2>Verbetes Mais Curtidos</h2>
+
       <div class="container">
-        <h3>Ver Os Verbetes Mais Recentes</h3>
-
-        <div class="verbete-cards">
-          <VerbeteCard
-            :post="post"
-            v-for="(post, index) in verbetesCards"
+        <VerbeteConteudo
+            :verbete="verbete"
+            v-for="(verbete, index) in verbetesFeed"
             :key="index"
-          />
-        </div>
+        />
       </div>
     </div>
 
     <div v-if="!user" class="updates">
       <div class="container">
-        <h2>Never miss a post. Register for your free account today!</h2>
+        <h2>Participe da nossa comunidade. Registre-se de graça!</h2>
 
         <router-link class="router-button" :to="{ name: 'Registrar' }">
-          Registrar para RepositorioLibras <arrowIcon class="arrow arrow-light" />
+          Registrar para RepositorioLibras
+          <arrowIcon class="arrow arrow-light"/>
         </router-link>
       </div>
     </div>
@@ -32,33 +45,28 @@
 
 <script>
 import VerbeteConteudo from '../components/VerbeteConteudo.vue';
-import VerbeteCard from '../components/VerbeteCard.vue';
 import arrowIcon from '../assets/icons/arrow-right-light.svg';
 
 export default {
   name: 'Home',
   components: {
     VerbeteConteudo,
-    VerbeteCard,
     arrowIcon,
   },
   data() {
     return {
-      welcomeScreen: {
-        title: 'Welcome!',
-        verbeteConteudo:
-          'Weekly blog articles all things programming including HTML, CSS, JS and More. Register today to never miss a post',
-        welcomeScreen: true,
-        photo: 'coding',
+      postApresentacao: {
+        titulo:
+            'Seja bem-vindo! Novo por aqui? Confira um breve tutorial sobre como utilizar a nossa plataforma!',
+        conteudo:
+            'Quer se tornar um membro do Repositório de Libras? Registre-se clicando aqui.',
+        photo: 'stock-4',
       },
     };
   },
   computed: {
     verbetesFeed() {
       return this.$store.getters.verbetesFeed;
-    },
-    verbetesCards() {
-      return this.$store.getters.verbetesCards;
     },
     user() {
       return this.$store.state.user;
@@ -68,6 +76,63 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.rl-faixa-boas-vindas {
+  box-sizing: border-box;
+  font-size: 20px;
+  font-family: 'Quicksand', sans-serif;
+  text-align: center;
+  padding: 30px;
+  line-height: 50px;
+  color: #fff;
+  background-color: #004d40;
+}
+
+.rl-welcome-screen {
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+  margin: 30px 60px;
+  text-align: center;
+  line-height: 60px;
+
+  &__conteudo {
+    background-color: #fff;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+    p {
+      font-size: 18px;
+    }
+  }
+
+  @media (min-width: 700px) {
+    h1 {
+      font-size: 20px;
+    }
+  }
+
+  @media (min-width: 500px) {
+    h1 {
+      font-size: 18px;
+    }
+  }
+
+}
+
+.rl-verbete-card-wrap {
+  h2 {
+    text-align: center;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .container > div {
+    margin: 20px 50px;
+  }
+}
+
 .verbete-card-wrap {
   h3 {
     font-weight: 300;
@@ -98,7 +163,7 @@ export default {
       }
     }
 
-    h2 {
+    h1 {
       font-weight: 300;
       font-size: 32px;
       max-width: 425px;

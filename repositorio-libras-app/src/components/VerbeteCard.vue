@@ -4,24 +4,24 @@
       <div @click="editBlog" v class="icon">
         <edit-icon class="edit" />
       </div>
-      <div @click="deletePost" class="icon">
+      <div @click="deleteVerbete" class="icon">
         <delete-icon class="delete" />
       </div>
     </div>
-    <img :src="post.verbeteImagem" alt="" />
+    <img :src="verbete.verbeteImagem" alt="" />
     <div class="info">
-      <h4>{{ post.verbeteNome }}</h4>
+      <h4>{{verbete.verbeteNome }}</h4>
 
       <h6>
         Posted on:
         {{
-          new Date(post.blogDate).toLocaleString('pt-br', { dateStyle: 'long' })
+          new Date(verbete.verbeteDate).toLocaleString('pt-br', { dateStyle: 'long' })
         }}
       </h6>
 
       <router-link
         class="link"
-        :to="{ name: 'VerVerbete', params: { verbeteId: this.post.verbeteId } }"
+        :to="{ name: 'VerVerbete', params: { verbeteId: this.verbete.verbeteId } }"
       >
         View The Post <arrow-icon class="arrow" />
       </router-link>
@@ -36,19 +36,19 @@ import deleteIcon from '../assets/icons/trash-svgrepo-com.svg';
 
 export default {
   name: 'VerbeteCard',
-  props: ['post'],
+  props: ['verbete'],
   components: {
     arrowIcon,
     editIcon,
     deleteIcon,
   },
   methods: {
-    deletePost() {
-      this.$store.dispatch('deletePost', this.post.verbeteId);
+    deleteVerbete() {
+      this.$store.dispatch('deleteVerbete', this.verbete.verbeteId);
     },
 
     editBlog() {
-      this.$router.push({ name: 'EditarVerbete', params: { verbeteId: this.post.verbeteId } });
+      this.$router.push({ name: 'EditarVerbete', params: { verbeteId: this.verbete.verbeteId } });
     },
   },
   computed: {

@@ -1,9 +1,9 @@
 <template>
-  <div class="post-view">
+  <div class="verbete-view">
     <div class="container quillWrapper">
       <h2>{{ this.verbeteNome }}</h2>
       <img :src="verbeteImagem" alt="" />
-      <div class="post-content ql-editor" v-html="verbeteDefinicao"></div>
+      <div class="verbete-content ql-editor" v-html="verbeteDefinicao"></div>
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style lang="scss">
-.post-view {
+.verbete-view {
   min-height: 100%;
 
   .container {

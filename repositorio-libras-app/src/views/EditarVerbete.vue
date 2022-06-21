@@ -87,7 +87,7 @@ export default {
     LoadingAnimation,
   },
   async mounted() {
-    this.routeID = this.$route.params.verbeteid;
+    this.routeID = this.$route.params.verbeteId;
     this.currentVerbete = await this.$store.state.verbetes.filter(
       (verbete) => verbete.verbeteId === this.routeID
     );
@@ -142,7 +142,7 @@ export default {
 
           const storageRef = firebase.storage().ref();
           const docRef = storageRef.child(
-            `documents/VerbeteImagem/${this.$store.state.verbeteImagemName}`
+            `documents/VerbeteImagem/${this.$store.state.verbeteImagemNome}`
           );
           docRef.put(this.file).on(
             'state_changed',
@@ -165,13 +165,13 @@ export default {
                 verbeteNome: this.verbeteNome,
               });
 
-              await this.$store.dispatch('updatePost', this.routeID);
+              await this.$store.dispatch('updateVerbete', this.routeID);
 
               this.loading = false;
 
               this.$router.push({
                 name: 'VerVerbete',
-                params: { verbeteid: dataBase.id },
+                params: { verbeteId: dataBase.id },
               });
             }
           );
@@ -185,13 +185,13 @@ export default {
           verbeteNome: this.verbeteNome,
         });
 
-        await this.$store.dispatch('updatePost', this.routeID);
+        await this.$store.dispatch('updateVerbete', this.routeID);
 
         this.loading = false;
 
         this.$router.push({
           name: 'VerVerbete',
-          params: { verbeteid: dataBase.id },
+          params: { verbeteId: dataBase.id },
         });
         return;
       }
@@ -210,7 +210,7 @@ export default {
     },
 
     verbeteImagemNome() {
-      return this.$store.state.verbeteImagemName;
+      return this.$store.state.verbeteImagemNome;
     },
 
     verbeteNome: {

@@ -83,6 +83,7 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #fafafa;
 }
 
 .container {
@@ -188,13 +189,11 @@ button,
   color: red;
 }
 
-.verbete-card-wrap {
+.rl-verbete-card-wrap {
   position: relative;
-  padding: 80px 16px;
-  background-color: #f1f1f1;
 
   @media (min-width: 500px) {
-    padding: 100px 16px;
+    padding: 60px 16px;
   }
 
   .verbete-cards {

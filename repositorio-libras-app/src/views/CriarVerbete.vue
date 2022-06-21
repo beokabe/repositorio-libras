@@ -9,11 +9,11 @@
       <div class="verbete-info">
         <input
           type="text"
-          placeholder="Insira o título do verbete"
+          placeholder="Nome do Verbete"
           v-model="verbeteNome"
         />
         <div class="upload-file">
-          <label for="verbete-photo">Baixar Background</label>
+          <label for="verbete-photo">Selecione a Imagem</label>
           <input
             type="file"
             ref="verbetePhoto"
@@ -25,24 +25,59 @@
           <button
             @click="openPreview"
             class="preview"
-            :class="{ 'button-inactive': !this.$store.state.verbeteImagemFileURL }"
+            :class="{
+              'button-inactive': !this.$store.state.verbeteImagemFileURL,
+            }"
           >
             Pré-visualizar
           </button>
-          <span>Arquivo: {{ this.$store.state.verbeteImagemName }}</span>
+          <span>Arquivo: {{ this.$store.state.verbeteImagemNome }}</span>
         </div>
       </div>
-      <div class="editor">
+      <!-- <div class="editor">
         <vue-editor
           :editorOptions="editorSettings"
           v-model="verbeteDefinicao"
           useCustomImageHandler
           @image-added="imageHandler"
         />
+      </div> -->
+      <div class="rl-criar-verbete-definicao">
+        <textarea
+          placeholder="Escrever definição..."
+          id="rl-text-area-criar-verbete-definicao"
+          v-model="verbeteDefinicao"
+        />
       </div>
+
+      <label for="verbete-photo">Selecionar Vídeo</label>
+      <!-- <input
+        type="file"
+        ref="verbetePhoto"
+        id="verbete-photo"
+        @change="fileChange"
+        accept=".png, .jpg, ,jpeg"
+      /> -->
       <div class="verbete-actions">
-        <button @click="uploadBlog">Publicar</button>
-        <router-link class="router-button" :to="{ name: 'VerbetePreview' }"
+        <button
+          @click="save"
+          :class="{
+            'button-inactive':
+              !this.verbeteDefinicao ||
+              !this.$store.state.verbeteImagemFileURL,
+          }"
+        >
+          Publicar
+        </button>
+        <router-link
+          class="router-button"
+          :to="{ name: 'VerbetePreview' }"
+          :class="{
+            'button-inactive':
+              !this.$store.state.verbeteVideo ||
+              !this.verbeteDefinicao ||
+              !this.$store.state.verbeteImagemFileURL,
+          }"
           >Pré-visualizar</router-link
         >
       </div>
@@ -54,6 +89,7 @@
 import Quill from 'quill';
 import firebase from 'firebase/app';
 import 'firebase/storage';
+import $ from 'jquery';
 import db from '../firebase/firebaseInit';
 
 import VerbeteCoverPreview from '../components/VerbeteCoverPreview.vue';
@@ -88,7 +124,7 @@ export default {
     // eslint-disable-next-line max-len
     //  TODO 5 - [AJUSTE] verificar bug nesse método que faz o arquivo perder informação após o preview do post
     fileChange() {
-      const firstFile = this.$refs.blogPhoto.files[0];
+      const firstFile = this.$refs.verbetePhoto.files[0];
       this.file = firstFile;
 
       const fileName = this.file.name;
@@ -123,14 +159,14 @@ export default {
       );
     },
 
-    uploadBlog() {
+    save() {
       if (this.verbeteNome.length > 0 && this.verbeteDefinicao.length > 0) {
         if (this.file) {
           this.loading = true;
 
           const storageRef = firebase.storage().ref();
           const docRef = storageRef.child(
-            `documents/VerbeteImagem/${this.$store.state.verbeteImagemName}`
+            `documents/VerbeteImagem/${this.$store.state.verbeteImagemNome}`
           );
           docRef.put(this.file).on(
             'state_changed',
@@ -154,6 +190,8 @@ export default {
                 verbeteImagem: downloadURL,
                 verbeteImagemNome: this.verbeteImagemNome,
                 verbeteNome: this.verbeteNome,
+                verbeteContador: 0,
+                verbeteCurtidas: 0,
                 profileId: this.profileId,
                 date: timestamp,
               });
@@ -162,7 +200,7 @@ export default {
               this.loading = false;
               this.$router.push({
                 name: 'VerVerbete',
-                params: { verbeteid: dataBase.id },
+                params: { verbeteId: dataBase.id },
               });
             }
           );
@@ -183,6 +221,15 @@ export default {
       setTimeout(() => {
         this.error = false;
       }, 5000);
+    },
+
+    disableKeysTextArea() {
+      $('#rl-text-area-criar-verbete-definicao').keydown((e) => {
+        // Enter pressed
+        if (e.keyCode === 13) {
+          e.preventDefault();
+        }
+      });
     },
   },
   computed: {
@@ -211,6 +258,9 @@ export default {
         this.$store.commit('newVerbete', payload);
       },
     },
+  },
+  mounted() {
+    this.disableKeysTextArea();
   },
 };
 </script>
@@ -326,6 +376,19 @@ export default {
     margin-top: 32px;
     button {
       margin-right: 16px;
+    }
+  }
+
+  .rl-criar-verbete-definicao {
+    width: 50vw;
+    height: 30vh;
+    margin-bottom: 50px;
+
+    textarea {
+      width: 100%;
+      height: 100%;
+      padding: 10px;
+      resize: none;
     }
   }
 }

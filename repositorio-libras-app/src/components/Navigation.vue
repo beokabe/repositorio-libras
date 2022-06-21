@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav class="container">
+    <nav class="container" @click="disableProfileMenu">
       <div class="branding">
         <router-link class="header" :to="{ name: 'Home' }"
           >RepositorioLibras</router-link
@@ -8,14 +8,26 @@
       </div>
       <div class="nav-links">
         <ul v-show="!mobile">
-          <router-link class="link" :to="{ name: 'Home' }">Início</router-link>
-          <router-link class="link" :to="{ name: 'Verbetes' }">Verbetes</router-link>
-          <router-link class="link" :to="{ name: 'CriarVerbete' }"
-            >Create Post</router-link
-          >
-          <router-link v-if="!user" class="link" :to="{ name: 'Login' }"
-            >Login/Registrar</router-link
-          >
+          <li title="Início">
+            <router-link class="link" :to="{ name: 'Home' }"
+              ><home-icon class="svg-icon"
+            /></router-link>
+          </li>
+          <li title="Ver Todos os Verbetes">
+            <router-link class="link" :to="{ name: 'Verbetes' }"
+              ><archives-icon class="svg-icon"
+            /></router-link>
+          </li>
+          <li title="Adicionar um Verbete" v-if="user">
+            <router-link class="link" :to="{ name: 'CriarVerbete' }"
+              ><add-icon class="svg-icon" />
+            </router-link>
+          </li>
+          <li title="Entrar">
+            <router-link v-if="!user" class="link" :to="{ name: 'Login' }"
+              ><login-icon class="svg-icon"
+            /></router-link>
+          </li>
         </ul>
 
         <div
@@ -27,7 +39,6 @@
           <span>{{ this.$store.state.profileInitials }}</span>
           <div v-show="profileMenu" class="profile-menu">
             <div class="info">
-              <p class="initials">{{ this.$store.state.profileInitials }}</p>
               <div class="right">
                 <p>
                   {{ this.$store.state.profileFirstName }}
@@ -50,7 +61,10 @@
               </div>
 
               <div v-if="isAdmin" class="option">
-                <router-link class="option" :to="{ name: 'PerfilAdministrador' }">
+                <router-link
+                  class="option"
+                  :to="{ name: 'PerfilAdministrador' }"
+                >
                   <admin-icon class="icon" />
                   <p>Admin</p>
                 </router-link>
@@ -73,9 +87,11 @@
     <transition name="mobile-nav">
       <ul class="mobile-nav" v-show="mobileNav">
         <router-link class="link" :to="{ name: 'Home' }">Início</router-link>
-        <router-link class="link" :to="{ name: 'Verbetes' }">Verbetes</router-link>
+        <router-link class="link" :to="{ name: 'Verbetes' }"
+          >Verbetes</router-link
+        >
         <router-link class="link" :to="{ name: 'CriarVerbete' }"
-          >Create Post</router-link
+          >Adicionar um Verbete</router-link
         >
         <router-link class="link" v-if="!user" :to="{ name: 'Login' }"
           >Login/Registrar</router-link
@@ -92,6 +108,10 @@ import menuIcon from '../assets/icons/bars-regular.svg';
 import userIcon from '../assets/icons/user-alt-light.svg';
 import adminIcon from '../assets/icons/user-crown-light.svg';
 import signOutIcon from '../assets/icons/sign-out-alt-regular.svg';
+import addIcon from '../assets/icons/add-svgrepo-com.svg';
+import archivesIcon from '../assets/icons/archives-copy-svgrepo-com.svg';
+import homeIcon from '../assets/icons/home-svgrepo-com.svg';
+import loginIcon from '../assets/icons/login-svgrepo-com.svg';
 
 export default {
   name: 'Navigation',
@@ -100,6 +120,10 @@ export default {
     userIcon,
     adminIcon,
     signOutIcon,
+    addIcon,
+    archivesIcon,
+    homeIcon,
+    loginIcon,
   },
   data() {
     return {
@@ -131,7 +155,6 @@ export default {
     },
 
     toggleProfileMenu(e) {
-      // TODO 8 - [AJUSTE] Fechar o menu profile quando uma ação for executada
       // Ação só é executada quando o target for apenas o elemento pai do menu
       if (e.target === this.$refs.profileMenu) {
         this.profileMenu = !this.profileMenu;
@@ -141,6 +164,12 @@ export default {
     signOut() {
       firebase.auth().signOut();
       window.location.reload();
+    },
+
+    disableProfileMenu(e) {
+      if (e.target !== this.$refs.profileMenu) {
+        this.profileMenu = false;
+      }
     },
   },
   computed: {
@@ -198,6 +227,14 @@ header {
       ul {
         margin-right: 32px;
 
+        li {
+          margin-right: 5px;
+        }
+
+        li:last-child {
+          margin-right: 0;
+        }
+
         .link {
           margin-right: 32px;
         }
@@ -213,11 +250,13 @@ header {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
-        color: #fff;
-        background-color: #303030;
+        color: #000;
+        font-weight: 600;
+        background-color: #1de9b6;
+        margin-right: 50px;
 
         span {
           pointer-events: none;
@@ -227,8 +266,8 @@ header {
           position: absolute;
           top: 60px;
           right: 0;
-          width: 250px;
-          background-color: #303030;
+          width: 300px;
+          background-color: #fafafa;
           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
             0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
@@ -237,18 +276,6 @@ header {
             align-items: center;
             padding: 15px;
             border-bottom: 1px solid #fff;
-
-            .initials {
-              position: initial;
-              width: 40px;
-              height: 40px;
-              background-color: #fff;
-              color: #303030;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              border-radius: 50%;
-            }
 
             .right {
               flex: 1;
@@ -266,14 +293,14 @@ header {
           }
 
           .options {
-            padding: 15px;
+            padding: 20px 15px;
 
             .option {
               text-decoration: none;
-              color: #fff;
+              color: #303030;
               display: flex;
               align-items: center;
-              margin-bottom: 12px;
+              margin-bottom: 20px;
 
               .icon {
                 width: 18px;
@@ -340,6 +367,21 @@ header {
 
   .mobile-nav-leave-to {
     transform: translateX(-250px);
+  }
+
+  ul {
+    margin-top: auto;
+
+    li {
+      display: inline;
+      align-items: center;
+
+      .svg-icon {
+        width: 40px;
+        height: auto;
+        color: #fff;
+      }
+    }
   }
 }
 </style>

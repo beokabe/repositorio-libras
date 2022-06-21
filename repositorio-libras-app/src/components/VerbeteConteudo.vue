@@ -1,34 +1,32 @@
 <template>
-  <div class="verbete-wrapper" :class="{ 'no-user': !user }">
+  <div class="rl-verbete-wrapper" :class="{ 'no-user': !user }">
+    <div class="rl-verbete-wrapper__titulo">
+    </div>
     <div class="verbete-content">
-      <div>
-        <h2 v-if="post.welcomeScreen">{{ post.title }}</h2>
-        <h2 v-else>{{ post.verbeteNome }}</h2>
-        <p v-if="post.welcomeScreen">{{ post.verbeteConteudo }}</p>
-        <p class="content-preview" v-else v-html="post.verbeteDefinicao"></p>
-        <router-link class="link link-light" v-if="post.welcomeScreen" :to="{ name: 'Registrar' }">
+      <div class="verbete-photo">
+        <img :src="verbete.verbeteImagem" alt="" />
+      </div>
+      <div class="verbete-content">
+        <h2>{{ verbete.verbeteNome }}</h2>
+        <p class="content-preview" v-html="verbete.verbeteDefinicao"></p>
+        <router-link
+          class="link link-light"
+          v-if="!user"
+          :to="{ name: 'Registrar' }"
+        >
           Login/Registrar<arrow class="arrow arrow-light" />
         </router-link>
         <router-link
           class="link"
           v-else
-          :to="{ name: 'VerVerbete', params: {verbeteId: this.post.verbeteId} }"
+          :to="{
+            name: 'VerVerbete',
+            params: { verbeteId: this.verbete.verbeteId },
+          }"
         >
-          View The Post<arrow class="arrow" />
+          Ir para o conteúdo<arrow class="arrow" />
         </router-link>
       </div>
-    </div>
-    <div class="verbete-photo">
-      <img
-        v-if="post.welcomeScreen"
-        :src="require(`../assets/verbetesCoverPhotos/${post.photo}.jpg`)"
-        alt=""
-      />
-      <img
-        v-else
-        :src="post.verbeteImagem"
-        alt=""
-      />
     </div>
   </div>
 </template>
@@ -38,7 +36,7 @@ import arrow from '../assets/icons/arrow-right-light.svg';
 
 export default {
   name: 'VerbeteConteudo',
-  props: ['post'],
+  props: ['verbete'],
   components: {
     arrow,
   },
@@ -51,25 +49,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.verbete-wrapper {
-  display: flex;
-  flex-direction: column;
+.rl-verbete-wrapper {
+  background-color: #fff;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
   @media (min-width: 700px) {
-    min-height: 650px;
+    min-height: 500px;
     max-height: 650px;
-    flex-direction: row;
   }
 
   .verbete-content {
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex: 4;
-    order: 2;
 
     @media (min-width: 700px) {
       order: 1;
@@ -81,10 +73,9 @@ export default {
 
     div {
       max-width: 375px;
-      padding: 72px 24px;
 
       @media (min-width: 700px) {
-        padding: 0 24px;
+        padding: 10px 24px;
       }
 
       h2 {
@@ -104,7 +95,7 @@ export default {
       }
 
       .content-preview {
-        font-size: 13px;
+        font-size: 16px;
         max-height: 24px;
         width: 250px;
         white-space: nowrap;
@@ -135,8 +126,6 @@ export default {
   .verbete-photo {
     order: 1;
     flex: 3;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
     @media (min-width: 700px) {
       order: 2;

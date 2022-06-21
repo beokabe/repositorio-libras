@@ -102,7 +102,7 @@ const routes = [
     },
   },
   {
-    path: '/ver-verbete/:verbeteid',
+    path: '/ver-verbete/:verbeteId',
     name: 'VerVerbete',
     component: VerVerbete,
     meta: {
@@ -111,7 +111,7 @@ const routes = [
     },
   },
   {
-    path: '/editar-verbete/:verbeteid',
+    path: '/editar-verbete/:verbeteId',
     name: 'EditarVerbete',
     component: EditarVerbete,
     meta: {

@@ -1,13 +1,13 @@
 <template>
-  <div class="verbete-card-wrap">
+  <div class="rl-verbete-card-wrap">
     <div class="verbete-cards container">
       <div class="toggle-edit">
         <span>Modo Edição</span>
         <input type="checkbox" v-model="editVerbete" />
       </div>
       <VerbeteCard
-        :post="post"
-        v-for="(post, index) in verbetes"
+        :verbete="verbete"
+        v-for="(verbete, index) in verbetes"
         :key="index"
       />
     </div>

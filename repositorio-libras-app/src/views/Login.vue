@@ -13,12 +13,12 @@
 
       <div class="inputs">
         <div class="input">
-          <input type="text" placeholder="Email" v-model="email" />
+          <input type="email" placeholder="Email" v-model="email" />
           <email-icon class="icon" />
         </div>
 
         <div class="input">
-          <input type="text" placeholder="Password" v-model="password" />
+          <input type="password" placeholder="Senha" v-model="password" />
           <password-icon class="icon" />
         </div>
 
