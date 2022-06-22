@@ -9,7 +9,6 @@ import ForgotPassword from '../views/ForgotPassword.vue';
 import Perfil from '../views/Perfil.vue';
 import PerfilAdministrador from '../views/PerfilAdministrador.vue';
 import CriarVerbete from '../views/CriarVerbete.vue';
-import VerbetePreview from '../views/VerbetePreview.vue';
 import VerVerbete from '../views/VerVerbete.vue';
 import EditarVerbete from '../views/EditarVerbete.vue';
 import 'firebase/auth';
@@ -87,16 +86,6 @@ const routes = [
     component: CriarVerbete,
     meta: {
       title: 'Criar um Post',
-      requiresAuth: true,
-      requiresAdmin: false,
-    },
-  },
-  {
-    path: '/verbete-preview',
-    name: 'VerbetePreview',
-    component: VerbetePreview,
-    meta: {
-      title: 'Pré-visualização do Artigo',
       requiresAuth: true,
       requiresAdmin: false,
     },

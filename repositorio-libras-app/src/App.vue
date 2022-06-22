@@ -155,6 +155,10 @@ button,
   }
 }
 
+.cl-bg-green {
+  background-color: #087f23;
+}
+
 .button-ghost {
   color: #000;
   padding: 0;

@@ -1,5 +1,5 @@
 <template>
-  <div class="rl-verbete-wrapper" :class="{ 'no-user': !user }">
+  <div class="rl-verbete-wrapper">
     <div class="rl-verbete-wrapper__titulo">
     </div>
     <div class="verbete-content">
@@ -11,9 +11,9 @@
 
         <h3 class="content-categoria-preview">Categoria: {{verbete.verbeteCategoria}}</h3>
 
-        <p class="content-preview" v-html="verbete.verbeteDefinicao"></p>
+        <p class="content-preview">{{verbete.verbeteDefinicao}}</p>
         <router-link
-          class="link link-light"
+          class="link"
           v-if="!user"
           :to="{ name: 'Registrar' }"
         >
@@ -108,7 +108,6 @@ export default {
       .content-preview {
         font-size: 16px;
         max-height: 24px;
-        width: 250px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -166,13 +165,6 @@ export default {
     .verbete-photo {
       order: 1;
     }
-  }
-}
-
-.no-user:first-child {
-  .verbete-content {
-    background-color: #303030;
-    color: #fff;
   }
 }
 </style>

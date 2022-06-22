@@ -21,20 +21,6 @@
             </li>
           </ul>
         </div>
-        <div class="col-2">
-          <ul>
-            <router-link class="link" :to="{ name: 'Home' }">Início</router-link>
-            <router-link class="link" :to="{ name: 'Verbetes' }"
-              >Adicionar Verbete</router-link
-            >
-            <router-link class="link" :to="{ name: 'CriarVerbete' }"
-              >Criar um Novo Verbete</router-link
-            >
-            <router-link v-if="!user" class="link" :to="{ name: 'Login' }"
-              >Login In / Registrar</router-link
-            >
-          </ul>
-        </div>
       </div>
       <div class="right">
         <p>Copyright 2022 All Rights Reserved</p>

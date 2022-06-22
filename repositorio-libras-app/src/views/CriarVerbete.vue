@@ -142,28 +142,6 @@ export default {
       this.$store.commit('openPhotoPreview');
     },
 
-    imageHandler(file, Editor, cursorLocation, resetUploader) {
-      const storageRef = firebase.storage().ref();
-      const docRef = storageRef.child(`documents/blogPostPhotos/${file.name}`);
-
-      docRef.put(file).on(
-        'state_changed',
-        (snapshot) => {
-          // TODO 1 - [AJUSTE] Responder mostrando uma mensagem de sucesso
-          console.log(snapshot);
-        },
-        (err) => {
-          // TODO 2 - [AJUSTE] Responder mostrando uma mensagem de erro acessível
-          console.log(err);
-        },
-        async () => {
-          const downloadURL = await docRef.getDownloadURL();
-          Editor.insertEmbed(cursorLocation, 'image', downloadURL);
-          resetUploader();
-        }
-      );
-    },
-
     save() {
       // eslint-disable-next-line max-len
       if (this.verbeteNome.length > 0 && this.verbeteDefinicao.length > 0 && this.verbeteCategoria) {
@@ -206,6 +184,8 @@ export default {
                 verbeteContador: 0,
                 verbeteCurtidas: 0,
                 verbeteLinkVideo: this.verbeteLinkVideo,
+                // eslint-disable-next-line max-len
+                profileFullName: this.$store.state.profileFirstName + this.$store.state.profileLastName,
                 profileId: this.profileId,
                 date: timestamp,
               });

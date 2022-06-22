@@ -93,9 +93,6 @@
         <router-link class="link" :to="{ name: 'CriarVerbete' }"
           >Adicionar um Verbete</router-link
         >
-        <router-link class="link" v-if="!user" :to="{ name: 'Login' }"
-          >Login/Registrar</router-link
-        >
       </ul>
     </transition>
   </header>

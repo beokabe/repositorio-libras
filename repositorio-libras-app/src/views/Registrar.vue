@@ -4,8 +4,8 @@
       <p class="login-register">
         Já possui uma conta?
 
-        <router-link class="router-link" :to="{ name: 'login' }"
-          >Logar</router-link
+        <router-link class="router-link" :to="{ name: 'Login' }"
+          >Entrar em uma conta existente</router-link
         >
       </p>
 

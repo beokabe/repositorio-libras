@@ -14,7 +14,11 @@
           "
             alt=""
         />
-        <p>{{ postApresentacao.conteudo }}</p>
+        <p>{{ postApresentacao.conteudo }}
+          <router-link class="link" v-if="!user" :to="{ name: 'Login' }"
+          >aqui.</router-link
+          >
+        </p>
       </div>
     </div>
 
@@ -34,7 +38,7 @@
       <div class="container">
         <h2>Participe da nossa comunidade. Registre-se de graça!</h2>
 
-        <router-link class="router-button" :to="{ name: 'Registrar' }">
+        <router-link class="router-button cl-bg-green" :to="{ name: 'Registrar' }">
           Registrar para RepositorioLibras
           <arrowIcon class="arrow arrow-light"/>
         </router-link>
@@ -59,7 +63,7 @@ export default {
         titulo:
             'Seja bem-vindo! Novo por aqui? Confira um breve tutorial sobre como utilizar a nossa plataforma!',
         conteudo:
-            'Quer se tornar um membro do Repositório de Libras? Registre-se clicando aqui.',
+            'Quer se tornar um membro do Repositório de Libras? Registre-se clicando',
         photo: 'stock-4',
       },
     };
@@ -153,16 +157,6 @@ export default {
       flex-direction: row;
     }
 
-    .router-button {
-      display: flex;
-      font-size: 14px;
-      text-decoration: none;
-
-      @media (min-width: 800px) {
-        margin-left: auto;
-      }
-    }
-
     h1 {
       font-weight: 300;
       font-size: 32px;
@@ -174,6 +168,16 @@ export default {
       @media (min-width: 800px) {
         font-align: initial;
         font-size: 40px;
+      }
+    }
+
+    .router-button {
+      display: flex;
+      font-size: 14px;
+      text-decoration: none;
+
+      @media (min-width: 800px) {
+        margin-left: auto;
       }
     }
   }
