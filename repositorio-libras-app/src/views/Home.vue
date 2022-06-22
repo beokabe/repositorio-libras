@@ -15,7 +15,7 @@
             alt=""
         />
         <p>{{ postApresentacao.conteudo }}
-          <router-link class="link" v-if="!user" :to="{ name: 'Login' }"
+          <router-link class="link" v-if="!user" :to="{ name: 'Registrar' }"
           >aqui.</router-link
           >
         </p>

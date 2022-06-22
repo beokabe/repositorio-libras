@@ -16,7 +16,7 @@
             <div class="rl-verbetes-filtros__categoria">
               <label>Categoria: </label>
               <select v-model="verbeteCategoriaFiltro">
-                <option value="">Selecione uma categoria</option>
+                <option :value="verbeteCategoriaFiltroVazio">Todas as categorias</option>
                 <option v-for="(categoria, index) in verbetesCategorias"
                         :key="index" :value="categoria">
                   {{categoria.categoriaNome}}</option>
@@ -28,7 +28,7 @@
                     :disabled="verbeteCategoriaFiltro &&
                     verbeteCategoriaFiltro.categoriaSubcategorias.length === 0">
                 <option value="">Selecione uma subcategoria</option>
-                <option
+              <option
                     v-for="(subcategoria, index) in verbeteCategoriaFiltro.categoriaSubcategorias"
                     :key="index" :value="subcategoria">
                   {{subcategoria}}
@@ -64,6 +64,10 @@ export default {
     return {
       currentCategoria: 'Geral',
       pesquisa: '',
+      verbeteCategoriaFiltroVazio: {
+        categoriaNome: String(''),
+        categoriaSubcategorias: []
+      },
       verbeteCategoriaFiltro: {
         categoriaNome: String(''),
         categoriaSubcategorias: []
