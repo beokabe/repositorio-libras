@@ -255,6 +255,11 @@ export default {
       return this.$store.getters.verbetesCategorias;
     },
   },
+  watch: {
+    verbeteCategoria() {
+      this.verbeteSubcategoria = '';
+    }
+  },
   mounted() {
     this.disableKeysTextArea();
   },

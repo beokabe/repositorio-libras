@@ -102,6 +102,7 @@ export default {
           lastName: this.lastName,
           username: this.username,
           email: this.email,
+          displayName: `${this.firstName} ${this.lastName}`,
         });
 
         this.$router.push({ name: 'home' });

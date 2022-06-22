@@ -9,7 +9,9 @@
       <div class="verbete-content">
         <h2>{{ verbete.verbeteNome }}</h2>
 
-        <h3 class="content-categoria-preview">Categoria: {{verbete.verbeteCategoria}}</h3>
+        <h3 class="content-categoria-preview">{{verbete.verbeteCategoria}}</h3>
+        <p class="content-subcategoria-preview"
+            v-show="verbete.verbeteSubcategoria">{{verbete.verbeteSubcategoria}}</p>
 
         <p class="content-preview" :title="verbete.verbeteDefinicao">
           {{verbete.verbeteDefinicao}}</p>
@@ -104,6 +106,10 @@ export default {
 
       .content-categoria-preview {
         margin: 15px 0;
+      }
+
+      .content-subcategoria-preview {
+        margin-bottom: 15px;
       }
 
       .content-preview {

@@ -38,6 +38,7 @@ export default {
     this.checkRoute();
     this.$store.dispatch('getVerbetes');
     this.$store.dispatch('getCategoriasVerbetes');
+    this.$store.dispatch('getUsuario');
   },
   mounted() {},
   methods: {

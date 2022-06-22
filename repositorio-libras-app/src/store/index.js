@@ -33,6 +33,7 @@ export default new Vuex.Store({
     verbeteCategoria: '',
     verbeteSubcategoria: '',
     verbetesCategorias: [],
+    usuario: null
   },
   getters: {
     verbetesFeed(state) {
@@ -188,6 +189,7 @@ export default new Vuex.Store({
             verbeteCurtidas: doc.data().verbeteCurtidas,
             verbeteCategoria: doc.data().verbeteCategoria,
             verbeteSubcategoria: doc.data().verbeteSubcategoria,
+            profileId: doc.data().profileId,
             profileFullName: doc.data().profileFullName,
           };
 
@@ -224,6 +226,24 @@ export default new Vuex.Store({
           };
 
           state.verbetesCategorias.push(data);
+        }
+      });
+    },
+
+    async getUsuario({ state }) {
+      const usuarios = await db.collection('users').get();
+      if (!state.user) {
+        return;
+      }
+
+      usuarios.forEach((usuario) => {
+        // eslint-disable-next-line max-len
+        if (state.user.email === usuario.data().email) {
+          state.usuario = {
+            profileId: usuario.id,
+            firstName: usuario.data().firstName,
+            lastName: usuario.data().lastName,
+          };
         }
       });
     },

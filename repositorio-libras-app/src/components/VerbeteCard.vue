@@ -11,6 +11,8 @@
     <img :src="verbete.verbeteImagem" alt="" />
     <div class="info">
       <h4>{{verbete.verbeteNome }}</h4>
+      <h5>{{verbete.verbeteCategoria }}</h5>
+      <h6>{{verbete.verbeteSubcategoria }}</h6>
 
       <h6>
         Postado em:

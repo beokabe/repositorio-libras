@@ -3,14 +3,21 @@
     <div class="rl-verbetes-header">
       <div class="rl-verbetes-titulo">
         <h1>Verbetes</h1>
-        <h2>{{this.currentCategoria}}</h2>
+        <h2>{{this.verbeteCategoriaFiltro.categoriaNome === '' ?
+            'Geral' : this.verbeteCategoriaFiltro.categoriaNome}}</h2>
+        <h3>{{this.verbeteSubcategoriaFiltro === '' ?
+             '' : this.verbeteSubcategoriaFiltro}}</h3>
+      </div>
+      <div class="rl-verbetes-meus-verbetes">
+        <button @click="verTodosVerbetes">Ver Todos</button>
+        <button @click="verMeusVerbetes">Meus Verbetes</button>
       </div>
 
       <div class="rl-verbetes-filtros">
         <h2>Filtros</h2>
         <div class="rl-verbetes-filtros-wrapper">
             <div class="rl-verbetes-filtros__titulo-autor">
-              <label>Autor ou Título: </label>
+              <label>{{isTodosVerbetes ? 'Autor ou Título' : 'Título'}}: </label>
               <input type="text" v-model="pesquisa" placeholder="Ex.: Herborização"/>
             </div>
             <div class="rl-verbetes-filtros__categoria">
@@ -38,16 +45,35 @@
         </div>
       </div>
     </div>
-    <div class="verbete-cards container">
+    <div id="rl-verbetes-todos" class="verbete-cards container" v-if="isTodosVerbetes">
       <div class="toggle-edit">
         <span>Modo Edição</span>
         <input type="checkbox" v-model="editVerbete" />
       </div>
+
+        <VerbeteCard
+          :verbete="verbete"
+          v-for="(verbete, index) in verbetes"
+          :key="index"
+        />
+    </div>
+
+    <div id="rl-verbetes-meus" class="verbete-cards container" v-if="!isTodosVerbetes">
+      <div class="toggle-edit">
+        <span>Modo Edição</span>
+        <input type="checkbox" v-model="editVerbete" />
+      </div>
+
       <VerbeteCard
-        :verbete="verbete"
-        v-for="(verbete, index) in verbetes"
-        :key="index"
+          :verbete="verbete"
+          v-for="(verbete, index) in meusVerbetes"
+          :key="index"
       />
+    </div>
+    <div class="rl-verbetes-inexistentes"
+         v-if="isTodosVerbetes && verbetes.length === 0
+         || !isTodosVerbetes && meusVerbetes.length === 0">
+      <p>Não existem verbetes. Adicione mais verbetes para que sejam encontrados.</p>
     </div>
   </div>
 </template>
@@ -72,8 +98,25 @@ export default {
         categoriaNome: String(''),
         categoriaSubcategorias: []
       },
+      verbeteProfileIdFiltro: String(''),
       verbeteSubcategoriaFiltro: String(''),
+      isTodosVerbetes: true,
     };
+  },
+  methods: {
+    verTodosVerbetes() {
+      this.limparFiltros();
+      this.isTodosVerbetes = true;
+    },
+    verMeusVerbetes() {
+      this.limparFiltros();
+      this.isTodosVerbetes = false;
+    },
+    limparFiltros() {
+      this.pesquisa = '';
+      this.verbeteCategoriaFiltro = this.verbeteCategoriaFiltroVazio;
+      this.verbeteSubcategoriaFiltro = '';
+    },
   },
   computed: {
     verbetes() {
@@ -87,12 +130,31 @@ export default {
         const categoriaFiltro = this.verbeteCategoriaFiltro.categoriaNome.toLowerCase();
         const subcategoriaFiltro = this.verbeteSubcategoriaFiltro.toLowerCase();
 
-        return (verbeteNome.includes(pesquisaNome) || verbeteAutor.includes(pesquisaNome))
-            && categoria.includes(categoriaFiltro) && subcategoria.includes(subcategoriaFiltro);
+        return categoria.includes(categoriaFiltro) && subcategoria.includes(subcategoriaFiltro)
+            && (verbeteNome.includes(pesquisaNome) || verbeteAutor.includes(pesquisaNome));
       });
     },
     user() {
       return this.$store.state.user;
+    },
+    usuario() {
+      return this.$store.state.usuario;
+    },
+    meusVerbetes() {
+      return this.verbetes.filter((verbete) => {
+        const verbeteNome = verbete.verbeteNome.toLowerCase();
+        const pesquisaNome = this.pesquisa.toLowerCase();
+        const categoria = verbete.verbeteCategoria.toLowerCase();
+        const subcategoria = verbete.verbeteSubcategoria.toLowerCase();
+        // eslint-disable-next-line max-len
+        const categoriaFiltro = this.verbeteCategoriaFiltro.categoriaNome.toLowerCase();
+        const subcategoriaFiltro = this.verbeteSubcategoriaFiltro.toLowerCase();
+
+        return verbete.profileId === this.usuario.profileId &&
+            verbeteNome.includes(pesquisaNome) &&
+            (categoria.includes(categoriaFiltro) ||
+                subcategoria.includes(subcategoriaFiltro));
+      });
     },
     editVerbete: {
       // Retorna o estado atual do valor de editVerbete
@@ -121,11 +183,16 @@ export default {
   beforeyDestroy() {
     this.$store.commit('toggleEditVerbete', false);
   },
+  watch: {
+    verbeteCategoriaFiltro() {
+      this.verbeteSubcategoriaFiltro = '';
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.rl-verbetes-titulo, .rl-verbetes-filtros {
+.rl-verbetes-titulo, .rl-verbetes-filtros, .rl-verbetes-meus-verbetes {
   padding: 0 30px;
   margin-bottom: 30px;
 }
@@ -205,5 +272,26 @@ export default {
       left: 52px;
     }
   }
+}
+
+.rl-verbetes-meus-verbetes {
+  button {
+    background-color: #004d40;
+    font-weight: 600;
+  }
+
+  button:first-child {
+    margin-right: 15px;
+  }
+}
+
+.rl-verbetes-inexistentes {
+  width: 100%;
+  height: 250px;
+  background-color: #d2d2d2;
+  text-align: center;
+  padding: 100px 0;
+  border-radius: 5px;
+  font-size: 20px;
 }
 </style>

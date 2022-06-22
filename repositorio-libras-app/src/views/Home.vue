@@ -7,18 +7,28 @@
 
     <div class="rl-welcome-screen">
       <div class="rl-welcome-screen__conteudo">
-        <h1>{{ postApresentacao.titulo }}</h1>
+        <h1 v-if="!user">
+          Seja bem-vindo! Novo por aqui?
+          Confira um breve tutorial sobre como utilizar a nossa plataforma!
+        </h1>
+
+        <h1 v-if="user">Seja bem-vindo novamente,
+          {{usuario.firstName}}.</h1>
+
         <img
             :src="
             require(`../assets/verbetesCoverPhotos/${postApresentacao.photo}.png`)
           "
             alt=""
         />
-        <p>{{ postApresentacao.conteudo }}
-          <router-link class="link" v-if="!user" :to="{ name: 'Registrar' }"
+
+        <p v-if="!user" >Quer se tornar um membro do Repositório de Libras? Registre-se clicando
+          <router-link class="link" :to="{ name: 'Registrar' }"
           >aqui.</router-link
           >
-        </p>
+
+        <p v-if="user">Você já é um membro.
+        Agora pode realizar leituras no repositório, aproveite!</p>
       </div>
     </div>
 
@@ -60,10 +70,8 @@ export default {
   data() {
     return {
       postApresentacao: {
-        titulo:
-            'Seja bem-vindo! Novo por aqui? Confira um breve tutorial sobre como utilizar a nossa plataforma!',
-        conteudo:
-            'Quer se tornar um membro do Repositório de Libras? Registre-se clicando',
+        titulo: '',
+
         photo: 'stock-4',
       },
     };
@@ -75,7 +83,15 @@ export default {
     user() {
       return this.$store.state.user;
     },
+    usuario() {
+      return this.$store.state.usuario;
+    },
   },
+  watch: {
+    userComputed() {
+      this.userComputed = this.user;
+    }
+  }
 };
 </script>
 

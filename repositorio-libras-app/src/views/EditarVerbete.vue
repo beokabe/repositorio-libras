@@ -288,6 +288,11 @@ export default {
       return this.$store.getters.verbetesCategorias;
     },
   },
+  watch: {
+    verbeteCategoria() {
+      this.verbeteSubcategoria = '';
+    }
+  },
 };
 </script>
 
