@@ -37,6 +37,7 @@ export default {
 
     this.checkRoute();
     this.$store.dispatch('getVerbetes');
+    this.$store.dispatch('getCategoriasVerbetes');
   },
   mounted() {},
   methods: {

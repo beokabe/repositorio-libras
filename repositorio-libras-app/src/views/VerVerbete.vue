@@ -1,7 +1,7 @@
 <template>
   <div class="verbete-view" v-if="currentVerbete">
-    <div class="container quillWrapper">
-      <h2>{{ this.currentVerbete[0].verbeteNome }}</h2>
+    <div class="container">
+      <h1>{{ this.currentVerbete[0].verbeteNome }}</h1>
       <h4>
         Criado em:
         {{
@@ -10,11 +10,15 @@
           })
         }}
       </h4>
-      <img :src="this.currentVerbete[0].blogCoverPhoto" alt="" />
-      <div
-        class="verbete-content ql-editor"
-        v-html="this.currentVerbete[0].verbeteDefinicao"
-      ></div>
+
+      <iframe width="560" height="315" :src="this.currentVerbete[0].verbeteLinkVideo"
+              title="YouTube video player" frameborder="0" allow="accelerometer; autoplay;
+              clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen></iframe>
+
+      <div class="rl-verbete-definicao">
+        {{this.currentVerbete[0].verbeteDefinicao}}
+      </div>
     </div>
   </div>
 </template>
@@ -31,7 +35,7 @@ export default {
   async mounted() {
     this.verbetes = this.$store.state.verbetes;
 
-    this.currentVerbete = await this.$store.state.verbetes.filter(
+    this.currentVerbete = this.$store.state.verbetes.filter(
       (verbete) => verbete.verbeteId === this.$route.params.verbeteId
     );
   },
@@ -40,10 +44,19 @@ export default {
 
 <style lang="scss">
 .verbete-view {
+  h1 {
+    margin-bottom: 5px;
+    font-size: 40px;
+  }
   h4 {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 24px;
+  }
+
+  .rl-verbete-definicao {
+    margin-top: 30px;
+    font-size: 30px;
   }
 }
 </style>

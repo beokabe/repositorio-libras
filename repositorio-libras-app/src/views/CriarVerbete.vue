@@ -12,8 +12,9 @@
           placeholder="Nome do Verbete"
           v-model="verbeteNome"
         />
+
         <div class="upload-file">
-          <label for="verbete-photo">Selecione a Imagem</label>
+          <label class="label-verbete-photo" for="verbete-photo">Selecione a Imagem</label>
           <input
             type="file"
             ref="verbetePhoto"
@@ -31,17 +32,35 @@
           >
             Pré-visualizar
           </button>
-          <span>Arquivo: {{ this.$store.state.verbeteImagemNome }}</span>
+          <span>Arquivo: {{ this.verbeteImagemNome }}</span>
         </div>
       </div>
-      <!-- <div class="editor">
-        <vue-editor
-          :editorOptions="editorSettings"
-          v-model="verbeteDefinicao"
-          useCustomImageHandler
-          @image-added="imageHandler"
-        />
-      </div> -->
+
+      <div class="rl-criar-verbete-categorias">
+        <div class="rl-criar-verbete-categorias__categoria">
+          <label>Categoria: </label>
+          <select v-model="verbeteCategoria">
+            <option disabled value="">Selecione uma categoria</option>
+            <option v-for="(categoria, index) in verbetesCategorias"
+                    :key="index" :value="categoria">
+              {{categoria.categoriaNome}}</option>
+          </select>
+        </div>
+
+        <div class="rl-criar-verbete-categorias__subcategoria">
+          <label>Subcategoria (opcional): </label>
+          <select v-model="verbeteSubcategoria"
+                  :disabled="verbeteCategoria &&
+                  verbeteCategoria.categoriaSubcategorias.length === 0">
+            <option disabled value="">Selecione uma subcategoria</option>
+            <option v-for="(subcategoria, index) in verbeteCategoria.categoriaSubcategorias"
+                    :key="index" :value="subcategoria">
+              {{subcategoria}}
+            </option>
+          </select>
+        </div>
+      </div>
+
       <div class="rl-criar-verbete-definicao">
         <textarea
           placeholder="Escrever definição..."
@@ -50,43 +69,34 @@
         />
       </div>
 
-      <label for="verbete-photo">Selecionar Vídeo</label>
-      <!-- <input
-        type="file"
-        ref="verbetePhoto"
-        id="verbete-photo"
-        @change="fileChange"
-        accept=".png, .jpg, ,jpeg"
-      /> -->
+      <div class="rl-inserir-verbete-video">
+        <label for="verbete-video">Inserir o Link do Vídeo: </label>
+        <input class="verbete-video" type="url" name="url" id="url"
+               placeholder="https://www.youtube.com/embed/mtXAeIDA6vI"
+               title="Insira o link do vídeo que será anexado com o verbete."
+               pattern="https://youtube.com/embed/*" size="250"
+               v-model="verbeteLinkVideo">
+      </div>
+
       <div class="verbete-actions">
         <button
           @click="save"
           :class="{
             'button-inactive':
+              !this.verbeteCategoria ||
+              !this.verbeteLinkVideo ||
               !this.verbeteDefinicao ||
               !this.$store.state.verbeteImagemFileURL,
           }"
         >
           Publicar
         </button>
-        <router-link
-          class="router-button"
-          :to="{ name: 'VerbetePreview' }"
-          :class="{
-            'button-inactive':
-              !this.$store.state.verbeteVideo ||
-              !this.verbeteDefinicao ||
-              !this.$store.state.verbeteImagemFileURL,
-          }"
-          >Pré-visualizar</router-link
-        >
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Quill from 'quill';
 import firebase from 'firebase/app';
 import 'firebase/storage';
 import $ from 'jquery';
@@ -94,12 +104,6 @@ import db from '../firebase/firebaseInit';
 
 import VerbeteCoverPreview from '../components/VerbeteCoverPreview.vue';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
-
-window.Quill = Quill;
-
-const ImageResize = require('quill-image-resize-module').default;
-
-Quill.register('modules/imageResize', ImageResize);
 
 export default {
   name: 'CriarVerbete',
@@ -109,11 +113,12 @@ export default {
       error: '',
       errorMsg: null,
       loading: null,
-      editorSettings: {
-        modules: {
-          imageResize: {},
-        },
-      },
+      verbeteNome: '',
+      verbeteDefinicao: '',
+      verbeteCategoria: '',
+      verbeteSubcategoria: '',
+      verbeteLinkVideo: '',
+      verbeteImagemNome: '',
     };
   },
   components: {
@@ -160,13 +165,19 @@ export default {
     },
 
     save() {
-      if (this.verbeteNome.length > 0 && this.verbeteDefinicao.length > 0) {
+      // eslint-disable-next-line max-len
+      if (this.verbeteNome.length > 0 && this.verbeteDefinicao.length > 0 && this.verbeteCategoria) {
         if (this.file) {
-          this.loading = true;
+          if (!this.isVerbeteVideoValido()) {
+            // eslint-disable-next-line no-alert
+            alert('O link do vídeo não está no formato adequado. Certifique-se de que está inserindo o link corretamente');
+            return;
+          }
 
+          this.loading = true;
           const storageRef = firebase.storage().ref();
           const docRef = storageRef.child(
-            `documents/VerbeteImagem/${this.$store.state.verbeteImagemNome}`
+            `documents/VerbeteImagem/${this.verbeteImagemNome}`
           );
           docRef.put(this.file).on(
             'state_changed',
@@ -186,12 +197,15 @@ export default {
 
               await dataBase.set({
                 verbeteId: dataBase.id,
+                verbeteCategoria: this.verbeteCategoria.categoriaNome,
+                verbeteSubcategoria: this.verbeteSubcategoria,
                 verbeteDefinicao: this.verbeteDefinicao,
                 verbeteImagem: downloadURL,
                 verbeteImagemNome: this.verbeteImagemNome,
                 verbeteNome: this.verbeteNome,
                 verbeteContador: 0,
                 verbeteCurtidas: 0,
+                verbeteLinkVideo: this.verbeteLinkVideo,
                 profileId: this.profileId,
                 date: timestamp,
               });
@@ -209,7 +223,7 @@ export default {
 
         this.error = true;
         this.errorMsg =
-          'Por favor verifique se foi selecionado um background para o artigo.';
+          'Por favor verifique se foi selecionado uma imagem de fundo para o verbete.';
         setTimeout(() => {
           this.error = false;
         }, 5000);
@@ -217,7 +231,7 @@ export default {
 
       this.error = true;
       this.errorMsg =
-        'Por favor verifique se o título e o conteúdo do arquivo estão preenchidos.';
+        'Por favor verifique se os campos foram preenchidos corretamente.';
       setTimeout(() => {
         this.error = false;
       }, 5000);
@@ -225,11 +239,27 @@ export default {
 
     disableKeysTextArea() {
       $('#rl-text-area-criar-verbete-definicao').keydown((e) => {
-        // Enter pressed
         if (e.keyCode === 13) {
           e.preventDefault();
         }
       });
+    },
+
+    isVerbeteVideoValido() {
+      const urlRegex = /(((https?:\/\/)|(www\.))((youtube\.com\/watch)|(youtube\.com\/embed)+))/g;
+      const resultado = this.verbeteLinkVideo.match(urlRegex);
+      const tamanhoLink = this.verbeteLinkVideo.length;
+      const pattern = 'https://youtube.com/embed/';
+
+      if (resultado.length > 0) {
+        if (resultado[0] === 'www.youtube.com/watch') {
+          this.verbeteLinkVideo = pattern + this.verbeteLinkVideo.substring(tamanhoLink, 32);
+        }
+
+        return true;
+      }
+
+      return false;
     },
   },
   computed: {
@@ -237,26 +267,8 @@ export default {
       return this.$store.state.profileId;
     },
 
-    verbeteImagemNome() {
-      return this.$store.state.verbeteImagemNome;
-    },
-
-    verbeteNome: {
-      get() {
-        return this.$store.state.verbeteNome;
-      },
-      set(payload) {
-        this.$store.commit('updateBlogTitle', payload);
-      },
-    },
-
-    verbeteDefinicao: {
-      get() {
-        return this.$store.state.verbeteDefinicao;
-      },
-      set(payload) {
-        this.$store.commit('newVerbete', payload);
-      },
+    verbetesCategorias() {
+      return this.$store.getters.verbetesCategorias;
     },
   },
   mounted() {
@@ -276,7 +288,7 @@ export default {
     text-decoration: none;
     color: #fff;
   }
-  label,
+  .label-verbete-photo,
   button,
   .router-button {
     transition: 0.5s ease-in-out all;
@@ -306,8 +318,8 @@ export default {
     padding: 12px;
     border-radius: 8px;
     color: #fff;
-    margin-bottom: 10px;
-    background-color: #303030;
+    margin-bottom: 20px;
+    background-color: #c83349;
     opacity: 1;
     transition: 0.5s ease all;
     p {
@@ -352,26 +364,23 @@ export default {
       }
     }
   }
-  .editor {
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    .quillWrapper {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-    .ql-container {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow: scroll;
-    }
-    .ql-editor {
-      padding: 20px 16px 30px;
+
+  .verbete-video {
+    border: 1px solid #303030;
+    border-radius: 5px;
+    outline: none !important;
+    width: 30%;
+    height: 30px;
+    padding: 0 4px;
+    margin-left: 5px;
+    color: #175959;
+
+    &:focus, &:hover {
+      border-color: #000000;
+      border-width: 2px;
     }
   }
+
   .verbete-actions {
     margin-top: 32px;
     button {
@@ -388,7 +397,25 @@ export default {
       width: 100%;
       height: 100%;
       padding: 10px;
+      outline: none !important;
       resize: none;
+    }
+  }
+
+  .rl-criar-verbete-categorias {
+    margin-bottom: 20px;
+
+    &__categoria {
+      margin-bottom: 15px;
+    }
+
+    select {
+      height: 30px;
+      padding: 5px;
+      background-color: #fafafa;
+      border: none;
+      border: 1px solid #bdbdbd;
+      border-radius: 5px;
     }
   }
 }

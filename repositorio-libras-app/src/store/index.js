@@ -11,6 +11,8 @@ export default new Vuex.Store({
     verbetes: [],
     postLoaded: null,
     verbeteDefinicao: '',
+    verbeteLinkVideo: '',
+    verbeteCurtidas: null,
     verbeteNome: '',
     verbeteImagemNome: '',
     verbeteImagemFileURL: null,
@@ -27,20 +29,43 @@ export default new Vuex.Store({
     verbeteVideoNome: '',
     verbeteVideoFileURL: null,
     verbeteVideoPreview: null,
+    verbeteCategoria: '',
+    verbeteSubcategoria: '',
+    verbetesCategorias: [],
   },
   getters: {
     verbetesFeed(state) {
-      // eslint-disable-next-line array-callback-return,max-len
-      return state.verbetes.sort((a, b) => b.verbeteCurtidas - a.verbeteCurtidas);
+      if (state.verbetes.length < 9) {
+        // eslint-disable-next-line max-len
+        return state.verbetes.sort((a, b) => b.verbeteCurtidas - a.verbeteCurtidas).slice(0, state.verbetes.length - 1);
+      }
+
+      return state.verbetes.sort((a, b) => b.verbeteCurtidas - a.verbeteCurtidas).slice(0, 9);
     },
+
+    verbetesCategorias(state) {
+      return state.verbetesCategorias;
+    }
   },
   mutations: {
-    newVerbete(state, payload) {
+    updateVerbeteDefinicao(state, payload) {
       state.verbeteDefinicao = payload;
     },
 
-    updateBlogTitle(state, payload) {
+    updateVerbeteNome(state, payload) {
       state.verbeteNome = payload;
+    },
+
+    updateVerbeteVideo(state, payload) {
+      state.verbeteLinkVideo = payload;
+    },
+
+    updateVerbeteCategoria(state, payload) {
+      state.verbeteCategoria = payload;
+    },
+
+    updateVerbeteSubCategoria(state, payload) {
+      state.verbeteSubcategoria = payload;
     },
 
     fileNameChange(state, payload) {
@@ -81,10 +106,13 @@ export default new Vuex.Store({
         state.profileLastName.match(/(\b\S)?/g).join('');
     },
 
-    setBlogState(state, payload) {
+    setVerbeteState(state, payload) {
       state.verbeteNome = payload.verbeteNome;
       state.verbeteDefinicao = payload.verbeteDefinicao;
       state.verbeteImagem = payload.verbeteImagem;
+      state.verbeteCategoria = payload.verbeteCategoria;
+      state.verbeteSubcategoria = payload.verbeteSubcategoria;
+      state.verbeteLinkVideo = payload.verbeteLinkVideo;
       state.verbeteImagemNome = payload.verbeteImagemNome;
     },
 
@@ -100,7 +128,7 @@ export default new Vuex.Store({
       state.profileUsername = payload;
     },
 
-    filterBlogPost(state, payload) {
+    filterVerbetes(state, payload) {
       state.verbetes = state.verbetes.filter(
         (verbete) => verbete.verbeteId !== payload
       );
@@ -155,6 +183,8 @@ export default new Vuex.Store({
             verbeteBackground: doc.data().verbeteImagemNome,
             verbeteLinkVideo: doc.data().verbeteLinkVideo,
             verbeteCurtidas: doc.data().verbeteCurtidas,
+            verbeteCategoria: doc.data().verbeteCategoria,
+            verbeteSubcategoria: doc.data().verbeteSubcategoria,
           };
 
           state.verbetes.push(data);
@@ -163,8 +193,9 @@ export default new Vuex.Store({
 
       state.postLoaded = true;
     },
+
     async updateVerbete({ commit, dispatch }, payload) {
-      commit('filterBlogPost', payload);
+      commit('filterVerbetes', payload);
       await dispatch('getVerbetes');
     },
 
@@ -173,7 +204,24 @@ export default new Vuex.Store({
       await getVerbetes.delete();
 
       // Remove o post deletado do front
-      commit('filterBlogPost', payload);
+      commit('filterVerbetes', payload);
+    },
+
+    async getCategoriasVerbetes({ state }) {
+      const categorias = await db.collection('categorias').orderBy('categoriaNome', 'desc');
+      const resultado = await categorias.get();
+
+      resultado.forEach((categoria) => {
+        // eslint-disable-next-line max-len
+        if (!state.verbetesCategorias.some((cat) => cat.categoriaNome === categoria.categoriaNome)) {
+          const data = {
+            categoriaNome: categoria.data().categoriaNome,
+            categoriaSubcategorias: categoria.data().categoriaSubcategorias,
+          };
+
+          state.verbetesCategorias.push(data);
+        }
+      });
     },
   },
   modules: {},

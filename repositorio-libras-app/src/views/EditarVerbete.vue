@@ -13,57 +13,70 @@
           v-model="verbeteNome"
         />
         <div class="upload-file">
-          <label for="verbete-photo">Upload Background</label>
+          <label class="label-verbete-photo" for="verbete-photo">Selecione a Imagem</label>
           <input
-            type="file"
-            ref="verbetePhoto"
-            id="verbete-photo"
-            @change="fileChange"
-            accept=".png, .jpg, ,jpeg"
+              type="file"
+              ref="verbetePhoto"
+              id="verbete-photo"
+              @change="fileChange"
+              accept=".png, .jpg, ,jpeg"
           />
           <!-- TODO 6 - Sugestão: tentar melhorar a preview substituindo por um modal  -->
           <button
-            @click="openPreview"
-            class="preview"
-            :class="{ 'button-inactive': !this.$store.state.verbeteImagemFileURL }"
+              @click="openPreview"
+              class="preview"
+              :class="{
+              'button-inactive': !this.$store.state.verbeteImagemFileURL,
+            }"
           >
             Pré-visualizar
           </button>
           <span>Arquivo: {{ this.$store.state.verbeteImagemNome }}</span>
         </div>
       </div>
-      <div class="editor">
-        <vue-editor
-          :editorOptions="editorSettings"
-          v-model="verbeteDefinicao"
-          useCustomImageHandler
-          @image-added="imageHandler"
+
+      <div class="rl-criar-verbete-categorias">
+        <div class="rl-criar-verbete-categorias__categoria">
+          <p>Categoria: <strong>{{this.$store.state.verbeteCategoria}}</strong></p>
+        </div>
+
+        <div class="rl-criar-verbete-categorias__subcategoria">
+          <p>Subcategoria: <strong>{{this.$store.state.verbeteSubcategoria}}</strong></p>
+        </div>
+      </div>
+
+      <div class="rl-criar-verbete-definicao">
+        <textarea
+            placeholder="Escrever definição..."
+            id="rl-text-area-criar-verbete-definicao"
+            v-model="verbeteDefinicao"
         />
       </div>
+
+      <div class="rl-inserir-verbete-video">
+        <label for="verbete-video">Inserir o Link do Vídeo: </label>
+        <input class="verbete-video" type="url" name="url" id="url"
+               placeholder="https://www.youtube.com/embed/mtXAeIDA6vI"
+               title="Insira o link do vídeo que será anexado com o verbete."
+               pattern="https://youtube.com/embed/*" size="250"
+               v-model="verbeteLinkVideo">
+      </div>
+
       <div class="verbete-actions">
-        <button @click="updateVerbete">Salvar Alterações</button>
-        <router-link class="router-button" :to="{ name: 'VerbetePreview' }"
-          >Pré-visualizar Alterações</router-link
-        >
+        <button @click="updateVerbete">Salvar</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Quill from 'quill';
+import $ from 'jquery';
 import firebase from 'firebase/app';
 import 'firebase/storage';
 import db from '../firebase/firebaseInit';
 
 import VerbeteCoverPreview from '../components/VerbeteCoverPreview.vue';
 import LoadingAnimation from '../components/LoadingAnimation.vue';
-
-window.Quill = Quill;
-
-const ImageResize = require('quill-image-resize-module').default;
-
-Quill.register('modules/imageResize', ImageResize);
 
 export default {
   name: 'CriarVerbete',
@@ -87,18 +100,24 @@ export default {
     LoadingAnimation,
   },
   async mounted() {
+    $('#rl-text-area-criar-verbete-definicao').keydown((e) => {
+      if (e.keyCode === 13) {
+        e.preventDefault();
+      }
+    });
+
     this.routeID = this.$route.params.verbeteId;
     this.currentVerbete = await this.$store.state.verbetes.filter(
       (verbete) => verbete.verbeteId === this.routeID
     );
 
-    this.$store.commit('setBlogState', this.currentVerbete[0]);
+    this.$store.commit('setVerbeteState', this.currentVerbete[0]);
   },
   methods: {
     // eslint-disable-next-line max-len
     //  TODO 5 - [AJUSTE] verificar bug nesse método que faz o arquivo perder informação após o preview do verbete
     fileChange() {
-      const firstFile = this.$refs.blogPhoto.files[0];
+      const firstFile = this.$refs.verbetePhoto.files[0];
       this.file = firstFile;
 
       const fileName = this.file.name;
@@ -111,33 +130,16 @@ export default {
       this.$store.commit('openPhotoPreview');
     },
 
-    imageHandler(file, Editor, cursorLocation, resetUploader) {
-      const storageRef = firebase.storage().ref();
-      const docRef = storageRef.child(`documents/blogPostPhotos/${file.name}`);
-
-      docRef.put(file).on(
-        'state_changed',
-        (snapshot) => {
-          // TODO 1 - [AJUSTE] Responder mostrando uma mensagem de sucesso
-          console.log(snapshot);
-        },
-        (err) => {
-          // TODO 2 - [AJUSTE] Responder mostrando uma mensagem de erro acessível
-          console.log(err);
-        },
-        async () => {
-          const downloadURL = await docRef.getDownloadURL();
-          Editor.insertEmbed(cursorLocation, 'image', downloadURL);
-          resetUploader();
-        }
-      );
-    },
-
     async updateVerbete() {
       const dataBase = db.collection('verbetes').doc(this.routeID);
 
       if (this.verbeteNome.length > 0 && this.verbeteDefinicao.length > 0) {
+        if (!this.isVerbeteVideoValido()) {
+          return;
+        }
+
         if (this.file) {
+          console.log('4');
           this.loading = true;
 
           const storageRef = firebase.storage().ref();
@@ -162,7 +164,6 @@ export default {
                 verbeteDefinicao: this.verbeteDefinicao,
                 verbeteImagem: downloadURL,
                 verbeteImagemNome: this.verbeteImagemNome,
-                verbeteNome: this.verbeteNome,
               });
 
               await this.$store.dispatch('updateVerbete', this.routeID);
@@ -183,6 +184,7 @@ export default {
         await dataBase.update({
           verbeteDefinicao: this.verbeteDefinicao,
           verbeteNome: this.verbeteNome,
+          verbeteLinkVideo: this.verbeteLinkVideo,
         });
 
         await this.$store.dispatch('updateVerbete', this.routeID);
@@ -198,10 +200,27 @@ export default {
 
       this.error = true;
       this.errorMsg =
-        'Por favor verifique se o título e o conteúdo do arquivo estão preenchidos.';
+        'Por favor verifique se o título, a definição e o link para o vídeo estão preenchidos corretamente.';
       setTimeout(() => {
         this.error = false;
       }, 5000);
+    },
+
+    isVerbeteVideoValido() {
+      const urlRegex = /(((https?:\/\/)|(www\.))((youtube\.com\/watch)|(youtube\.com\/embed)+))/g;
+      const resultado = this.verbeteLinkVideo.match(urlRegex);
+      const tamanhoLink = this.verbeteLinkVideo.length;
+      const pattern = 'https://youtube.com/embed/';
+
+      if (resultado.length > 0) {
+        if (resultado[0] === 'www.youtube.com/watch') {
+          this.verbeteLinkVideo = pattern + this.verbeteLinkVideo.substring(tamanhoLink, 32);
+        }
+
+        return true;
+      }
+
+      return false;
     },
   },
   computed: {
@@ -218,7 +237,7 @@ export default {
         return this.$store.state.verbeteNome;
       },
       set(payload) {
-        this.$store.commit('updateBlogTitle', payload);
+        this.$store.commit('updateVerbeteNome', payload);
       },
     },
 
@@ -227,8 +246,39 @@ export default {
         return this.$store.state.verbeteDefinicao;
       },
       set(payload) {
-        this.$store.commit('newVerbete', payload);
+        this.$store.commit('updateVerbeteDefinicao', payload);
       },
+    },
+
+    verbeteLinkVideo: {
+      get() {
+        return this.$store.state.verbeteLinkVideo;
+      },
+      set(payload) {
+        this.$store.commit('updateVerbeteVideo', payload);
+      },
+    },
+
+    verbeteCategoria: {
+      get() {
+        return this.$store.state.verbeteCategoria;
+      },
+      set(payload) {
+        this.$store.commit('updateVerbeteCategoria', payload);
+      },
+    },
+
+    verbeteSubcategoria: {
+      get() {
+        return this.$store.state.verbeteSubcategoria;
+      },
+      set(payload) {
+        this.$store.commit('updateVerbeteSubCategoria', payload);
+      },
+    },
+
+    verbetesCategorias() {
+      return this.$store.getters.verbetesCategorias;
     },
   },
 };
@@ -245,7 +295,7 @@ export default {
     text-decoration: none;
     color: #fff;
   }
-  label,
+  .label-verbete-photo,
   button,
   .router-button {
     transition: 0.5s ease-in-out all;
@@ -275,8 +325,8 @@ export default {
     padding: 12px;
     border-radius: 8px;
     color: #fff;
-    margin-bottom: 10px;
-    background-color: #303030;
+    margin-bottom: 20px;
+    background-color: #c83349;
     opacity: 1;
     transition: 0.5s ease all;
     p {
@@ -321,26 +371,24 @@ export default {
       }
     }
   }
-  .editor {
-    height: 60vh;
-    display: flex;
-    flex-direction: column;
-    .quillWrapper {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
+
+  .rl-criar-verbete-categorias {
+    margin-bottom: 20px;
+
+    &__categoria {
+      margin-bottom: 15px;
     }
-    .ql-container {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      overflow: scroll;
-    }
-    .ql-editor {
-      padding: 20px 16px 30px;
+
+    select {
+      height: 30px;
+      padding: 5px;
+      background-color: #fafafa;
+      border: none;
+      border: 1px solid #bdbdbd;
+      border-radius: 5px;
     }
   }
+
   .verbete-actions {
     margin-top: 32px;
     button {

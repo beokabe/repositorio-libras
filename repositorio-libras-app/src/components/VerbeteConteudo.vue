@@ -8,6 +8,9 @@
       </div>
       <div class="verbete-content">
         <h2>{{ verbete.verbeteNome }}</h2>
+
+        <h3 class="content-categoria-preview">Categoria: {{verbete.verbeteCategoria}}</h3>
+
         <p class="content-preview" v-html="verbete.verbeteDefinicao"></p>
         <router-link
           class="link link-light"
@@ -96,6 +99,10 @@ export default {
         font-size: 15px;
         font-weight: 300;
         line-height: 1.7;
+      }
+
+      .content-categoria-preview {
+        margin: 15px 0;
       }
 
       .content-preview {

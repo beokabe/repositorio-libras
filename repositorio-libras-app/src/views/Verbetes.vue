@@ -26,6 +26,9 @@ export default {
     verbetes() {
       return this.$store.state.verbetes;
     },
+    user() {
+      return this.$store.state.user;
+    },
     editVerbete: {
       // Retorna o estado atual do valor de editVerbete
       get() {

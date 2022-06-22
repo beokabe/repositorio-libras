@@ -166,7 +166,7 @@ export default {
     .angle {
       display: none;
       position: absolute;
-      background-color: #fff;
+      background-color: #fafafa;
       transform: rotateZ(3deg);
       width: 60px;
       right: -30px;

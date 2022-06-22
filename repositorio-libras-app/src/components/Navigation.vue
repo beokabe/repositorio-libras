@@ -13,7 +13,7 @@
               ><home-icon class="svg-icon"
             /></router-link>
           </li>
-          <li title="Ver Todos os Verbetes">
+          <li title="Ver Todos os Verbetes" v-if="user">
             <router-link class="link" :to="{ name: 'Verbetes' }"
               ><archives-icon class="svg-icon"
             /></router-link>
