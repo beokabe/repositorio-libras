@@ -23,7 +23,7 @@
         class="link"
         :to="{ name: 'VerVerbete', params: { verbeteId: this.verbete.verbeteId } }"
       >
-        Acessar <arrow-icon class="arrow" />
+        Ir para conteúdo <arrow-icon class="arrow" />
       </router-link>
     </div>
   </div>

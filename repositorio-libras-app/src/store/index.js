@@ -24,6 +24,7 @@ export default new Vuex.Store({
     profileFirstName: null,
     profileLastName: null,
     profileUsername: null,
+    profileFullName: null,
     profileId: null,
     profileInitials: null,
     verbeteVideoNome: '',
@@ -113,6 +114,8 @@ export default new Vuex.Store({
       state.verbeteCategoria = payload.verbeteCategoria;
       state.verbeteSubcategoria = payload.verbeteSubcategoria;
       state.verbeteLinkVideo = payload.verbeteLinkVideo;
+      state.profileFullName = payload.profileFullName;
+      state.profileId = payload.profileId;
       state.verbeteImagemNome = payload.verbeteImagemNome;
     },
 
@@ -185,6 +188,7 @@ export default new Vuex.Store({
             verbeteCurtidas: doc.data().verbeteCurtidas,
             verbeteCategoria: doc.data().verbeteCategoria,
             verbeteSubcategoria: doc.data().verbeteSubcategoria,
+            profileFullName: doc.data().profileFullName,
           };
 
           state.verbetes.push(data);

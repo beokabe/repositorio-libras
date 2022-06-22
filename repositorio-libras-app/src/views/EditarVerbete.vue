@@ -41,7 +41,10 @@
         </div>
 
         <div class="rl-criar-verbete-categorias__subcategoria">
-          <p>Subcategoria: <strong>{{this.$store.state.verbeteSubcategoria}}</strong></p>
+          <p>Subcategoria:
+            <strong>{{this.$store.state.verbeteSubcategoria ?
+                this.$store.state.verbeteSubcategoria : "Não possui subcategoria."}}</strong>
+          </p>
         </div>
       </div>
 
