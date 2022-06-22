@@ -11,7 +11,8 @@
 
         <h3 class="content-categoria-preview">Categoria: {{verbete.verbeteCategoria}}</h3>
 
-        <p class="content-preview">{{verbete.verbeteDefinicao}}</p>
+        <p class="content-preview" :title="verbete.verbeteDefinicao">
+          {{verbete.verbeteDefinicao}}</p>
         <router-link
           class="link"
           v-if="!user"

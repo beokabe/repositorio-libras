@@ -13,12 +13,13 @@
       <h4>{{verbete.verbeteNome }}</h4>
 
       <h6>
-        Posted on:
+        Postado em:
         {{
           new Date(verbete.verbeteDate).toLocaleString('pt-br', { dateStyle: 'long' })
         }}
       </h6>
 
+      <h6>Criado por: {{verbete.profileFullName}}</h6>
       <router-link
         class="link"
         :to="{ name: 'VerVerbete', params: { verbeteId: this.verbete.verbeteId } }"

@@ -217,7 +217,7 @@ export default new Vuex.Store({
 
       resultado.forEach((categoria) => {
         // eslint-disable-next-line max-len
-        if (!state.verbetesCategorias.some((cat) => cat.categoriaNome === categoria.categoriaNome)) {
+        if (!state.verbetesCategorias.some((cat) => cat.categoriaNome === categoria.data().categoriaNome)) {
           const data = {
             categoriaNome: categoria.data().categoriaNome,
             categoriaSubcategorias: categoria.data().categoriaSubcategorias,
