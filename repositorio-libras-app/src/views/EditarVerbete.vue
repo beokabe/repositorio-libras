@@ -1,5 +1,9 @@
 <template>
   <div class="criar-verbete">
+    <div class="rl-verbetes-titulo">
+      <h1>Editar Verbete</h1>
+    </div>
+
     <VerbeteCoverPreview v-show="this.$store.state.verbeteImagemPreview" />
     <LoadingAnimation v-show="loading" />
     <div class="container">
@@ -291,6 +295,12 @@ export default {
 .criar-verbete {
   position: relative;
   height: 100%;
+
+  .rl-verbetes-titulo {
+    padding: 0 60px;
+    margin-top: 30px;
+  }
+
   button {
     margin-top: 0;
   }
