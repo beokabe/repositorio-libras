@@ -20,12 +20,9 @@ Para rodar o projeto, você deve ter instalado:
  
   - CoreJS
   - Firebase
-  - Quill
-  - QuillImageResizeModule
   - Vue
   - VueRouter
   - VueSvgLoader
-  - Vue2Editor  
   - Vuex
  
 
@@ -37,12 +34,9 @@ As versões dos frameworks utilizados, estão listadas abaixo na tabela:
 | --- | --- |
 | CoreJS | 3.6.5 |
 | Firebase | 8.7.1 |
-| Quill | 1.3.7 |
-| QuillImageResizeModule| 3.0.0 |
 | Vue | 2.6.11 |
 | VueRouter| 3.2.0 |
 | VueSvgLoader | 0.16.0 |
-| Vue2Editor  | 2.10.2 |
 | Vuex | 3.4.0 |
 
 ### Variáveis de Ambiente
