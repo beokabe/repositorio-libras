@@ -1,66 +1,69 @@
 <template>
-  <div class="blog-card">
-    <div v-show="editPost" class="icons">
-      <div @click="editBlog" v class="icon">
+  <div class="verbete-card">
+    <div v-show="editVerbete" class="icons">
+      <div @click="editarVerbete" v class="icon">
         <edit-icon class="edit" />
       </div>
-      <div @click="deletePost" class="icon">
+      <div @click="deleteVerbete" class="icon">
         <delete-icon class="delete" />
       </div>
     </div>
-    <img :src="post.blogCoverPhoto" alt="" />
+    <img :src="verbete.verbeteImagem" alt="" />
     <div class="info">
-      <h4>{{ post.blogTitle }}</h4>
+      <h4>{{verbete.verbeteNome }}</h4>
+      <h5>{{verbete.verbeteCategoria }}</h5>
+      <h6>{{verbete.verbeteSubcategoria }}</h6>
 
       <h6>
-        Posted on:
+        Postado em:
         {{
-          new Date(post.blogDate).toLocaleString('pt-br', { dateStyle: 'long' })
+          new Date(verbete.verbeteDate).toLocaleString('pt-br', { dateStyle: 'long' })
         }}
       </h6>
 
+      <h6>Criado por: {{verbete.profileFullName}}</h6>
       <router-link
         class="link"
-        :to="{ name: 'ViewBlog', params: { blogid: this.post.blogID } }"
+        :to="{ name: 'VerVerbete', params: { verbeteId: this.verbete.verbeteId } }"
       >
-        View The Post <arrow-icon class="arrow" />
+        Ir para conteúdo <arrow-icon class="arrow" />
       </router-link>
     </div>
   </div>
 </template>
 
 <script>
-import arrowIcon from '../assets/Icons/arrow-right-light.svg';
-import editIcon from '../assets/Icons/edit-regular.svg';
-import deleteIcon from '../assets/Icons/trash-regular.svg';
+import arrowIcon from '../assets/icons/arrow-right-light.svg';
+import editIcon from '../assets/icons/edit-regular.svg';
+import deleteIcon from '../assets/icons/trash-svgrepo-com.svg';
 
 export default {
-  name: 'BlogCard',
-  props: ['post'],
+  name: 'VerbeteCard',
+  props: ['verbete'],
   components: {
     arrowIcon,
     editIcon,
     deleteIcon,
   },
   methods: {
-    deletePost() {
-      this.$store.dispatch('deletePost', this.post.blogID);
+    deleteVerbete() {
+      this.$store.dispatch('deleteVerbete', this.verbete.verbeteId);
     },
 
-    editBlog() {
-      this.$router.push({ name: 'EditBlog', params: { blogid: this.post.blogID } });
+    editarVerbete() {
+      this.$router.push({ name: 'EditarVerbete', params: { verbeteId: this.verbete.verbeteId } });
     },
   },
   computed: {
-    editPost() {
-      return this.$store.state.editPost;
+    editVerbete() {
+      return this.$store.state.editVerbete;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.blog-card {
+.verbete-card {
   position: relative;
   cursor: pointer;
   display: flex;
@@ -94,7 +97,7 @@ export default {
       transition: 0.5s ease all;
 
       &:hover {
-        background-color: #303030;
+        background-color: #004d40;
 
         .edit,
         .delete {

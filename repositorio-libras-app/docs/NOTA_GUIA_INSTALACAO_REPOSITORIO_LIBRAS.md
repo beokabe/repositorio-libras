@@ -35,22 +35,14 @@ firebase deploy --only functions
 Observação: antes de fazer o deploy, confira se as propriedades e serviços do Firebase estão incluídas no seu projeto Firebase, caso não estiver, inclua e confira se tudo está inserido corretamente utilizando a [nota técnica](./NOTA_TECNICA_REPOSITORIO_LIBRAS.md).
 
 #### 9. Vá no seu projeto Firebase, Storage e depois em Rules.
-```JSON
-1
+```TEXT
 rules_version = '2';
-2
 service firebase.storage {
-3
   match /b/{bucket}/o {
-4
     match /{allPaths=**} {
-5
       allow read, write: if false;
-6
     }
-7
   }
-8
 }
 ```
 

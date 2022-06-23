@@ -2,13 +2,13 @@
   <div class="modal" ref="modal">
     <div class="modal-content">
       <close @click="closePreview" class="icon" />
-      <img :src="this.blogCoverPhoto" alt="" />
+      <img :src="this.verbeteImagem" alt="" />
     </div>
   </div>
 </template>
 
 <script>
-import close from '../assets/Icons/times-circle-light.svg';
+import close from '../assets/icons/times-circle-light.svg';
 
 export default {
   components: {
@@ -20,8 +20,8 @@ export default {
     },
   },
   computed: {
-    blogCoverPhoto() {
-      return this.$store.state.blogPhotoFileURL;
+    verbeteImagem() {
+      return this.$store.state.verbeteImagemFileURL;
     },
   },
 };
@@ -65,7 +65,7 @@ export default {
     img {
       margin-top: 16px;
       display: block;
-      width: auto;
+      width: 100%;
       height: 100%;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
         0 2px 4px -1px rgba(0, 0, 0, 0.06);

@@ -1,44 +1,52 @@
 <template>
-  <div class="blog-wrapper" :class="{ 'no-user': !user }">
-    <div class="blog-content">
-      <div>
-        <h2 v-if="post.welcomeScreen">{{ post.title }}</h2>
-        <h2 v-else>{{ post.blogTitle }}</h2>
-        <p v-if="post.welcomeScreen">{{ post.blogPost }}</p>
-        <p class="content-preview" v-else v-html="post.blogHTML"></p>
-        <router-link class="link link-light" v-if="post.welcomeScreen" :to="{ name: 'Register' }">
-          Login/Register<arrow class="arrow arrow-light" />
+  <div class="rl-verbete-wrapper">
+    <div class="rl-verbete-wrapper__titulo">
+    </div>
+    <div class="verbete-content">
+      <div class="verbete-photo">
+        <img :src="verbete.verbeteImagem" alt="" />
+      </div>
+      <div class="verbete-content">
+        <h2>{{ verbete.verbeteNome }}</h2>
+
+        <h3 class="content-categoria-preview">{{verbete.verbeteCategoria}}</h3>
+        <p class="content-subcategoria-preview"
+            v-show="verbete.verbeteSubcategoria">{{verbete.verbeteSubcategoria}}</p>
+
+        <p class="content-preview" :title="verbete.verbeteDefinicao">
+          {{verbete.verbeteDefinicao}}</p>
+        <router-link
+          class="link"
+          v-if="!user"
+          :to="{ name: 'Registrar' }"
+        >
+          Login/Registrar<arrow class="arrow arrow-light" />
         </router-link>
         <router-link
           class="link"
           v-else
-          :to="{ name: 'ViewBlog', params: {blogid: this.post.blogID} }"
+          :to="{
+            name: 'VerVerbete',
+            params: { verbeteId: this.verbete.verbeteId },
+          }"
         >
-          View The Post<arrow class="arrow" />
+          Ir para o conteúdo<arrow class="arrow" />
         </router-link>
+
+        <p class="contador-curtidas">
+          <strong>{{this.verbete.verbeteCurtidas}} curtiram</strong>
+          </p>
       </div>
-    </div>
-    <div class="blog-photo">
-      <img
-        v-if="post.welcomeScreen"
-        :src="require(`../assets/blogPhotos/${post.photo}.jpg`)"
-        alt=""
-      />
-      <img
-        v-else
-        :src="post.blogCoverPhoto"
-        alt=""
-      />
     </div>
   </div>
 </template>
 
 <script>
-import arrow from '../assets/Icons/arrow-right-light.svg';
+import arrow from '../assets/icons/arrow-right-light.svg';
 
 export default {
-  name: 'BlogPost',
-  props: ['post'],
+  name: 'VerbeteConteudo',
+  props: ['verbete'],
   components: {
     arrow,
   },
@@ -51,25 +59,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.blog-wrapper {
-  display: flex;
-  flex-direction: column;
+.rl-verbete-wrapper {
+  background-color: #fff;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
   @media (min-width: 700px) {
-    min-height: 650px;
+    min-height: 500px;
     max-height: 650px;
-    flex-direction: row;
   }
 
-  .blog-content {
-    display: flex;
-    flex-direction: column;
+  .verbete-content {
     justify-content: center;
     align-items: center;
-    flex: 4;
-    order: 2;
 
     @media (min-width: 700px) {
       order: 1;
@@ -81,10 +83,9 @@ export default {
 
     div {
       max-width: 375px;
-      padding: 72px 24px;
 
       @media (min-width: 700px) {
-        padding: 0 24px;
+        padding: 10px 24px;
       }
 
       h2 {
@@ -103,10 +104,17 @@ export default {
         line-height: 1.7;
       }
 
+      .content-categoria-preview {
+        margin: 15px 0;
+      }
+
+      .content-subcategoria-preview {
+        margin-bottom: 15px;
+      }
+
       .content-preview {
-        font-size: 13px;
+        font-size: 16px;
         max-height: 24px;
-        width: 250px;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -129,14 +137,17 @@ export default {
           border-bottom-color: #ffff;
         }
       }
+
+      .contador-curtidas {
+        text-align: end;
+        margin-top: 50px;
+      }
     }
   }
 
-  .blog-photo {
+  .verbete-photo {
     order: 1;
     flex: 3;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
     @media (min-width: 700px) {
       order: 2;
@@ -155,19 +166,12 @@ export default {
   }
 
   &:nth-child(even) {
-    .blog-content {
+    .verbete-content {
       order: 2;
     }
-    .blog-photo {
+    .verbete-photo {
       order: 1;
     }
-  }
-}
-
-.no-user:first-child {
-  .blog-content {
-    background-color: #303030;
-    color: #fff;
   }
 }
 </style>

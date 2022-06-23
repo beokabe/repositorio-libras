@@ -21,20 +21,6 @@
             </li>
           </ul>
         </div>
-        <div class="col-2">
-          <ul>
-            <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
-            <router-link class="link" :to="{ name: 'Blogs' }"
-              >Blogs</router-link
-            >
-            <router-link class="link" :to="{ name: 'CreatePost' }"
-              >Create Post</router-link
-            >
-            <router-link v-if="!user" class="link" :to="{ name: 'Login' }"
-              >Login In / Register</router-link
-            >
-          </ul>
-        </div>
       </div>
       <div class="right">
         <p>Copyright 2022 All Rights Reserved</p>
@@ -44,10 +30,10 @@
 </template>
 
 <script>
-import youtube from '../assets/Icons/youtube-brands.svg';
-import twitter from '../assets/Icons/twitter-brands.svg';
-import instagram from '../assets/Icons/instagram-brands.svg';
-import linkedin from '../assets/Icons/linkedin-brands.svg';
+import youtube from '../assets/icons/youtube-brands.svg';
+import twitter from '../assets/icons/twitter-brands.svg';
+import instagram from '../assets/icons/instagram-brands.svg';
+import linkedin from '../assets/icons/linkedin-brands.svg';
 
 export default {
   name: 'FooterVue',
@@ -69,7 +55,7 @@ export default {
 footer {
   margin-top: auto;
   padding: 100px 25px;
-  background-color: #303030;
+  background-color: #005744;
 
   .container {
     display: flex;

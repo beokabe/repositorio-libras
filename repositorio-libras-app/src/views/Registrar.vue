@@ -4,8 +4,8 @@
       <p class="login-register">
         Já possui uma conta?
 
-        <router-link class="router-link" :to="{ name: 'login' }"
-          >Logar</router-link
+        <router-link class="router-link" :to="{ name: 'Login' }"
+          >Entrar em uma conta existente</router-link
         >
       </p>
 
@@ -37,7 +37,7 @@
         </div>
 
         <div class="input">
-          <input type="text" placeholder="Password" v-model="password" />
+          <input type="text" placeholder="Senha" v-model="password" />
           <password-icon class="icon" />
         </div>
 
@@ -57,12 +57,12 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import db from '../firebase/firebaseInit';
-import emailIcon from '../assets/Icons/envelope-regular.svg';
-import passwordIcon from '../assets/Icons/lock-alt-solid.svg';
-import userIcon from '../assets/Icons/user-alt-light.svg';
+import emailIcon from '../assets/icons/envelope-regular.svg';
+import passwordIcon from '../assets/icons/lock-alt-solid.svg';
+import userIcon from '../assets/icons/user-alt-light.svg';
 
 export default {
-  name: 'Register',
+  name: 'Registrar',
   components: {
     emailIcon,
     passwordIcon,
@@ -102,6 +102,8 @@ export default {
           lastName: this.lastName,
           username: this.username,
           email: this.email,
+          institution: '',
+          education: ''
         });
 
         this.$router.push({ name: 'home' });

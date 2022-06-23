@@ -2,16 +2,15 @@ import vue from 'vue';
 import VueRouter from 'vue-router';
 import firebase from 'firebase/app';
 import Home from '../views/Home.vue';
-import Blogs from '../views/Blogs.vue';
+import Verbetes from '../views/Verbetes.vue';
 import Login from '../views/Login.vue';
-import Register from '../views/Register.vue';
+import Registrar from '../views/Registrar.vue';
 import ForgotPassword from '../views/ForgotPassword.vue';
-import Profile from '../views/Profile.vue';
-import Admin from '../views/Admin.vue';
-import CreatePost from '../views/CreatePost.vue';
-import BlogPreview from '../views/BlogPreview.vue';
-import ViewBlog from '../views/ViewBlog.vue';
-import EditBlog from '../views/EditBlog.vue';
+import Perfil from '../views/Perfil.vue';
+import PerfilAdministrador from '../views/PerfilAdministrador.vue';
+import CriarVerbete from '../views/CriarVerbete.vue';
+import VerVerbete from '../views/VerVerbete.vue';
+import EditarVerbete from '../views/EditarVerbete.vue';
 import 'firebase/auth';
 
 vue.use(VueRouter);
@@ -27,12 +26,12 @@ const routes = [
     },
   },
   {
-    path: '/blogs',
-    name: 'Blogs',
-    component: Blogs,
+    path: '/verbetes',
+    name: 'Verbetes',
+    component: Verbetes,
     meta: {
-      title: 'Blogs',
-      requiresAuth: false,
+      title: 'Verbetes',
+      requiresAuth: true,
     },
   },
   {
@@ -45,9 +44,9 @@ const routes = [
     },
   },
   {
-    path: '/register',
-    name: 'Register',
-    component: Register,
+    path: '/registrar',
+    name: 'Registrar',
+    component: Registrar,
     meta: {
       title: 'Registre-se',
       requiresAuth: false,
@@ -63,18 +62,18 @@ const routes = [
     },
   },
   {
-    path: '/profile',
-    name: 'Profile',
-    component: Profile,
+    path: '/perfil',
+    name: 'Perfil',
+    component: Perfil,
     meta: {
       title: 'Perfil',
       requiresAuth: true,
     },
   },
   {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin,
+    path: '/perfil-administrador',
+    name: 'PerfilAdministrador',
+    component: PerfilAdministrador,
     meta: {
       title: 'Adicionar Administrador',
       requiresAuth: true,
@@ -82,9 +81,9 @@ const routes = [
     },
   },
   {
-    path: '/create-post',
-    name: 'CreatePost',
-    component: CreatePost,
+    path: '/criar-verbete',
+    name: 'CriarVerbete',
+    component: CriarVerbete,
     meta: {
       title: 'Criar um Post',
       requiresAuth: true,
@@ -92,28 +91,18 @@ const routes = [
     },
   },
   {
-    path: '/post-preview',
-    name: 'BlogPreview',
-    component: BlogPreview,
-    meta: {
-      title: 'Pré-visualização do Artigo',
-      requiresAuth: true,
-      requiresAdmin: false,
-    },
-  },
-  {
-    path: '/view-blog/:blogid',
-    name: 'ViewBlog',
-    component: ViewBlog,
+    path: '/ver-verbete/:verbeteId',
+    name: 'VerVerbete',
+    component: VerVerbete,
     meta: {
       title: 'Ver Artigo',
       requiresAuth: false,
     },
   },
   {
-    path: '/edit-blog/:blogid',
-    name: 'EditBlog',
-    component: EditBlog,
+    path: '/editar-verbete/:verbeteId',
+    name: 'EditarVerbete',
+    component: EditarVerbete,
     meta: {
       title: 'Editar Artigo',
       requiresAuth: true,

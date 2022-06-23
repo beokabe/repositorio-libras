@@ -8,54 +8,151 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    blogPosts: [],
+    verbetes: [],
     postLoaded: null,
-    blogHTML: 'Write your blog title here...',
-    blogTitle: '',
-    blogPhotoName: '',
-    blogPhotoFileURL: null,
-    blogPhotoPreview: null,
-    editPost: null,
+    verbeteDefinicao: '',
+    verbeteLinkVideo: '',
+    verbeteCurtidas: null,
+    verbeteNome: '',
+    verbeteImagemNome: '',
+    verbeteImagemFileURL: null,
+    verbeteImagemPreview: null,
+    editVerbete: null,
     user: null,
     profileAdmin: null,
     profileEmail: null,
     profileFirstName: null,
     profileLastName: null,
     profileUsername: null,
-    profileId: null,
+    profileFullName: null,
     profileInitials: null,
+    profileInstitution: null,
+    profileEducation: {
+      key: null,
+      value: null,
+    },
+    verbeteVideoNome: '',
+    verbeteVideoFileURL: null,
+    verbeteVideoPreview: null,
+    verbeteCategoria: '',
+    verbeteSubcategoria: '',
+    verbetesCategorias: [],
+    usuario: null,
+    PERFIL_FORMACOES_ACADEMICAS: [
+      {
+        key: 'ENSINO_FUNDAMENTAL_INCOMPLETO',
+        value: 'Ensino Fundamental Completo',
+      },
+      {
+        key: 'ENSINO_FUNDAMENTAL_COMPLETO',
+        value: 'Ensino Fundamental Completo',
+      },
+      {
+        key: 'ENSINO_MEDIO_INCOMPLETO',
+        value: 'Ensino Médio Incompleto',
+      },
+      {
+        key: 'ENSINO_MEDIO_COMPLETO',
+        value: 'Ensino Médio Completo',
+      },
+      {
+        key: 'BACHAREL',
+        value: 'Bacharel'
+      },
+      {
+        key: 'BACHARELANDO',
+        value: 'Bacharelando'
+      },
+      {
+        key: 'POS-GRADUACAO',
+        value: 'Pós-Graduação'
+      },
+      {
+        key: 'POS-GRADUACAO',
+        value: 'Pós-Graduando'
+      },
+      {
+        key: 'LICENCIATURA_INCOMPLETO',
+        value: 'Licenciatura Incompleta',
+      },
+      {
+        key: 'LICENCIATURA_COMPLETO',
+        value: 'Licenciatura Completa',
+      },
+      {
+        key: 'TECNOLOGO_INCOMPLETO',
+        value: 'Técnólogo Incompleto',
+      },
+      {
+        key: 'TECNOLOGO_COMPLETO',
+        value: 'Técnólogo Completo',
+      },
+      {
+        key: 'MESTRADO',
+        value: 'Mestrado',
+      },
+      {
+        key: 'MESTRANDO',
+        value: 'Mestrando',
+      },
+      {
+        key: 'DOUTORADO',
+        value: 'Doutorado',
+      },
+      {
+        key: 'DOUTORANDO',
+        value: 'Doutorando',
+      }],
   },
   getters: {
-    blogPostsFeed(state) {
-      return state.blogPosts.slice(0, 2);
+    verbetesFeed(state) {
+      if (state.verbetes.length < 9) {
+        // eslint-disable-next-line max-len
+        return state.verbetes.sort((a, b) => b.verbeteCurtidas - a.verbeteCurtidas).slice(0, state.verbetes.length - 1);
+      }
+
+      return state.verbetes.sort((a, b) => b.verbeteCurtidas - a.verbeteCurtidas).slice(0, 9);
     },
-    blogPostsCards(state) {
-      return state.blogPosts.slice(2, 6);
+
+    verbetesCategorias(state) {
+      return state.verbetesCategorias;
     },
   },
   mutations: {
-    newBlogPost(state, payload) {
-      state.blogHTML = payload;
+    updateVerbeteDefinicao(state, payload) {
+      state.verbeteDefinicao = payload;
     },
 
-    updateBlogTitle(state, payload) {
-      state.blogTitle = payload;
+    updateVerbeteNome(state, payload) {
+      state.verbeteNome = payload;
+    },
+
+    updateVerbeteVideo(state, payload) {
+      state.verbeteLinkVideo = payload;
+    },
+
+    updateVerbeteCategoria(state, payload) {
+      state.verbeteCategoria = payload;
+    },
+
+    updateVerbeteSubCategoria(state, payload) {
+      state.verbeteSubcategoria = payload;
     },
 
     fileNameChange(state, payload) {
-      state.blogPhotoName = payload;
+      state.verbeteImagemNome = payload;
     },
 
     createFileURL(state, payload) {
-      state.blogPhotoFileURL = payload;
+      state.verbeteImagemFileURL = payload;
     },
 
     openPhotoPreview(state) {
-      state.blogPhotoPreview = !state.blogPhotoPreview;
+      state.verbeteImagemPreview = !state.verbeteImagemPreview;
     },
 
-    toggleEditPost(state, payload) {
-      state.editPost = payload;
+    toggleEditVerbete(state, payload) {
+      state.editVerbete = payload;
     },
 
     updateUser(state, payload) {
@@ -72,6 +169,8 @@ export default new Vuex.Store({
       state.profileFirstName = doc.data().firstName;
       state.profileLastName = doc.data().lastName;
       state.profileUsername = doc.data().username;
+      state.profileInstitution = doc.data().institution;
+      state.profileEducation = doc.data().education;
     },
 
     setProfileInitials(state) {
@@ -80,11 +179,16 @@ export default new Vuex.Store({
         state.profileLastName.match(/(\b\S)?/g).join('');
     },
 
-    setBlogState(state, payload) {
-      state.blogTitle = payload.blogTitle;
-      state.blogHTML = payload.blogHTML;
-      state.blogPhotoFileURL = payload.blogCoverPhoto;
-      state.blogCoverPhotoName = payload.blogCoverPhotoName;
+    setVerbeteState(state, payload) {
+      state.verbeteNome = payload.verbeteNome;
+      state.verbeteDefinicao = payload.verbeteDefinicao;
+      state.verbeteImagem = payload.verbeteImagem;
+      state.verbeteCategoria = payload.verbeteCategoria;
+      state.verbeteSubcategoria = payload.verbeteSubcategoria;
+      state.verbeteLinkVideo = payload.verbeteLinkVideo;
+      state.profileFullName = payload.profileFullName;
+      state.profileId = payload.profileId;
+      state.verbeteImagemNome = payload.verbeteImagemNome;
     },
 
     changeFirstName(state, payload) {
@@ -99,9 +203,17 @@ export default new Vuex.Store({
       state.profileUsername = payload;
     },
 
-    filterBlogPost(state, payload) {
-      state.blogPosts = state.blogPosts.filter(
-        (post) => post.blogID !== payload
+    changeInstitution(state, payload) {
+      state.profileInstitution = payload;
+    },
+
+    changeEducation(state, payload) {
+      state.profileEducation = payload;
+    },
+
+    filterVerbetes(state, payload) {
+      state.verbetes = state.verbetes.filter(
+        (verbete) => verbete.verbeteId !== payload
       );
     },
   },
@@ -131,48 +243,90 @@ export default new Vuex.Store({
         firstName: state.profileFirstName,
         lastName: state.profileLastName,
         username: state.profileUsername,
+        institution: state.profileInstitution,
+        education: state.profileEducation,
       });
 
       commit('setProfileInitials');
     },
 
-    async getPost({ state }) {
-      // Get em todos os artigos publicados por data desc
-      const dataBase = await db.collection('blogPosts').orderBy('date', 'desc');
+    async getVerbetes({ state }) {
+      // Get em todos os verbetes publicados por data desc
+      const dataBase = await db.collection('verbetes').orderBy('date', 'desc');
       const dbResults = await dataBase.get();
 
       // TODO 7 - sugestão: trocar essa verificação por um listener
-      // Filtro que verifica se os posts não estão duplicados dentro da variavel do state blogPosts
+      // Filtro que verifica se os verbetes não estão duplicados dentro da variavel do state
       dbResults.forEach((doc) => {
-        if (!state.blogPosts.some((post) => post.blogID === doc.id)) {
+        if (!state.verbetes.some((verbete) => verbete.verbeteId === doc.id)) {
           const data = {
-            blogID: doc.data().blogID,
-            blogHTML: doc.data().blogHTML,
-            blogCoverPhoto: doc.data().blogCoverPhoto,
-            blogTitle: doc.data().blogTitle,
-            blogDate: doc.data().date,
-            blogCoverPhotoName: doc.data().blogCoverPhotoName,
+            verbeteId: doc.data().verbeteId,
+            verbeteDefinicao: doc.data().verbeteDefinicao,
+            verbeteImagem: doc.data().verbeteImagem,
+            verbeteNome: doc.data().verbeteNome,
+            verbeteDate: doc.data().date,
+            verbeteBackground: doc.data().verbeteImagemNome,
+            verbeteLinkVideo: doc.data().verbeteLinkVideo,
+            verbeteCurtidas: doc.data().verbeteCurtidas,
+            verbeteCategoria: doc.data().verbeteCategoria,
+            verbeteSubcategoria: doc.data().verbeteSubcategoria,
+            profileId: doc.data().profileId,
+            profileFullName: doc.data().profileFullName,
           };
 
-          state.blogPosts.push(data);
+          state.verbetes.push(data);
         }
       });
 
-      console.log(state.blogPosts);
       state.postLoaded = true;
     },
 
-    async updatePost({ commit, dispatch }, payload) {
-      commit('filterBlogPost', payload);
-      await dispatch('getPost');
+    async updateVerbete({ commit, dispatch }, payload) {
+      commit('filterVerbetes', payload);
+      await dispatch('getVerbetes');
     },
 
-    async deletePost({ commit }, payload) {
-      const getPost = await db.collection('blogPosts').doc(payload);
-      await getPost.delete();
+    async deleteVerbete({ commit }, payload) {
+      const getVerbetes = await db.collection('verbetes').doc(payload);
+      await getVerbetes.delete();
 
       // Remove o post deletado do front
-      commit('filterBlogPost', payload);
+      commit('filterVerbetes', payload);
+    },
+
+    async getCategoriasVerbetes({ state }) {
+      const categorias = await db.collection('categorias').orderBy('categoriaNome', 'desc');
+      const resultado = await categorias.get();
+
+      resultado.forEach((categoria) => {
+        // eslint-disable-next-line max-len
+        if (!state.verbetesCategorias.some((cat) => cat.categoriaNome === categoria.data().categoriaNome)) {
+          const data = {
+            categoriaNome: categoria.data().categoriaNome,
+            categoriaSubcategorias: categoria.data().categoriaSubcategorias,
+          };
+
+          state.verbetesCategorias.push(data);
+        }
+      });
+    },
+
+    async getUsuario({ state }) {
+      const usuarios = await db.collection('users').get();
+      if (!state.user) {
+        return;
+      }
+
+      usuarios.forEach((usuario) => {
+        // eslint-disable-next-line max-len
+        if (state.user.email === usuario.data().email) {
+          state.usuario = {
+            profileId: usuario.id,
+            firstName: usuario.data().firstName,
+            lastName: usuario.data().lastName,
+          };
+        }
+      });
     },
   },
   modules: {},

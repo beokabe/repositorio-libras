@@ -1,29 +1,56 @@
 <template>
   <div class="home">
-    <BlogPost v-if="!user" :post="welcomeScreen" />
+    <div class="rl-faixa-boas-vindas">
+      <h1>Repositório de Libras</h1>
+      <p>Conteúdos Exclusivos em um único lugar</p>
+    </div>
 
-    <BlogPost :post="post" v-for="(post, index) in blogPostsFeed" :key="index" />
+    <div class="rl-welcome-screen">
+      <div class="rl-welcome-screen__conteudo">
+        <h1 v-if="!user">
+          Seja bem-vindo! Novo por aqui?
+          Confira um breve tutorial sobre como utilizar a nossa plataforma!
+        </h1>
 
-    <div class="blog-card-wrap">
+        <h1 v-if="user">Seja bem-vindo novamente,
+          {{usuario.firstName}}.</h1>
+
+        <img
+            :src="
+            require(`../assets/verbetesCoverPhotos/${postApresentacao.photo}.png`)
+          "
+            alt=""
+        />
+
+        <p v-if="!user" >Quer se tornar um membro do Repositório de Libras? Registre-se clicando
+          <router-link class="link" :to="{ name: 'Registrar' }"
+          >aqui.</router-link
+          >
+
+        <p v-if="user">Você já é um membro.
+        Agora pode realizar leituras no repositório, aproveite!</p>
+      </div>
+    </div>
+
+    <div id="verbetesMaisCurtidos" class="rl-verbete-card-wrap">
+      <h2>Verbetes Mais Curtidos</h2>
+
       <div class="container">
-        <h3>View More Recent Blogs</h3>
-
-        <div class="blog-cards">
-          <BlogCard
-            :post="post"
-            v-for="(post, index) in blogPostsCards"
+        <VerbeteConteudo
+            :verbete="verbete"
+            v-for="(verbete, index) in verbetesFeed"
             :key="index"
-          />
-        </div>
+        />
       </div>
     </div>
 
     <div v-if="!user" class="updates">
       <div class="container">
-        <h2>Never miss a post. Register for your free account today!</h2>
+        <h2>Participe da nossa comunidade. Registre-se de graça!</h2>
 
-        <router-link class="router-button" :to="{ name: 'Register' }">
-          Register for RepositorioLibras <arrowIcon class="arrow arrow-light" />
+        <router-link class="router-button" :to="{ name: 'Registrar' }">
+          Registrar para RepositorioLibras
+          <arrowIcon class="arrow arrow-light"/>
         </router-link>
       </div>
     </div>
@@ -31,44 +58,102 @@
 </template>
 
 <script>
-import BlogPost from '../components/BlogPost.vue';
-import BlogCard from '../components/BlogCard.vue';
-import arrowIcon from '../assets/Icons/arrow-right-light.svg';
+import VerbeteConteudo from '../components/VerbeteConteudo.vue';
+import arrowIcon from '../assets/icons/arrow-right-light.svg';
 
 export default {
   name: 'Home',
   components: {
-    BlogPost,
-    BlogCard,
+    VerbeteConteudo,
     arrowIcon,
   },
   data() {
     return {
-      welcomeScreen: {
-        title: 'Welcome!',
-        blogPost:
-          'Weekly blog articles all things programming including HTML, CSS, JS and More. Register today to never miss a post',
-        welcomeScreen: true,
-        photo: 'coding',
+      postApresentacao: {
+        titulo: '',
+
+        photo: 'stock-4',
       },
     };
   },
   computed: {
-    blogPostsFeed() {
-      return this.$store.getters.blogPostsFeed;
-    },
-    blogPostsCards() {
-      return this.$store.getters.blogPostsCards;
+    verbetesFeed() {
+      return this.$store.getters.verbetesFeed;
     },
     user() {
       return this.$store.state.user;
     },
+    usuario() {
+      return this.$store.state.usuario;
+    },
   },
+  watch: {
+    userComputed() {
+      this.userComputed = this.user;
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-.blog-card-wrap {
+.rl-faixa-boas-vindas {
+  box-sizing: border-box;
+  font-size: 20px;
+  font-family: 'Quicksand', sans-serif;
+  text-align: center;
+  padding: 30px;
+  line-height: 50px;
+  color: #fff;
+  background-color: #004d40;
+}
+
+.rl-welcome-screen {
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Quicksand', sans-serif;
+  margin: 30px 60px;
+  text-align: center;
+  line-height: 60px;
+
+  &__conteudo {
+    background-color: #fff;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+    p {
+      font-size: 18px;
+    }
+  }
+
+  @media (min-width: 700px) {
+    h1 {
+      font-size: 20px;
+    }
+  }
+
+  @media (min-width: 500px) {
+    h1 {
+      font-size: 18px;
+    }
+  }
+
+}
+
+.rl-verbete-card-wrap {
+  h2 {
+    text-align: center;
+  }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .container > div {
+    margin: 20px 50px;
+  }
+}
+
+.verbete-card-wrap {
   h3 {
     font-weight: 300;
     font-size: 28px;
@@ -88,17 +173,7 @@ export default {
       flex-direction: row;
     }
 
-    .router-button {
-      display: flex;
-      font-size: 14px;
-      text-decoration: none;
-
-      @media (min-width: 800px) {
-        margin-left: auto;
-      }
-    }
-
-    h2 {
+    h1 {
       font-weight: 300;
       font-size: 32px;
       max-width: 425px;
@@ -109,6 +184,16 @@ export default {
       @media (min-width: 800px) {
         font-align: initial;
         font-size: 40px;
+      }
+    }
+
+    .router-button {
+      display: flex;
+      font-size: 14px;
+      text-decoration: none;
+
+      @media (min-width: 800px) {
+        margin-left: auto;
       }
     }
   }
