@@ -48,7 +48,7 @@
       <div class="container">
         <h2>Participe da nossa comunidade. Registre-se de graça!</h2>
 
-        <router-link class="router-button cl-bg-green" :to="{ name: 'Registrar' }">
+        <router-link class="router-button" :to="{ name: 'Registrar' }">
           Registrar para RepositorioLibras
           <arrowIcon class="arrow arrow-light"/>
         </router-link>

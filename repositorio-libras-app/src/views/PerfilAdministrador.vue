@@ -3,8 +3,7 @@
     <div class="container">
       <h2>Adicionar como Administrador</h2>
       <div class="admin-info">
-        <h2>Inserir o email</h2>
-        <div class="input">
+        <div class="input" title="Insira um email válido para adicionar um administrador">
           <input
             placeholder="Insira o email para adicionar o perfil de Administrador"
             type="text"

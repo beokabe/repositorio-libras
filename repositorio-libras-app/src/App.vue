@@ -124,40 +124,17 @@ button,
   cursor: pointer;
   margin-top: 24px;
   padding: 12px 24px;
-  background-color: #303030;
+  background-color: #004d40;
   color: #fff;
-  border-radius: 20px;
+  border-radius: 5px;
   border: none;
   text-transform: uppercase;
   &:focus {
     outline: none;
   }
   &:hover {
-    background-color: rgba(48, 48, 48, 0.7);
+    filter: opacity(0.7);
   }
-}
-
-button,
-.router-button {
-  transition: 500ms ease all;
-  cursor: pointer;
-  margin-top: 24px;
-  padding: 12px 24px;
-  background-color: #303030;
-  color: #fff;
-  border-radius: 20px;
-  border: none;
-  text-transform: uppercase;
-  &:focus {
-    outline: none;
-  }
-  &:hover {
-    background-color: rgba(48, 48, 48, 0.7);
-  }
-}
-
-.cl-bg-green {
-  background-color: #087f23;
 }
 
 .button-ghost {

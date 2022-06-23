@@ -1,7 +1,7 @@
 <template>
-  <div class="blog-card">
+  <div class="verbete-card">
     <div v-show="editVerbete" class="icons">
-      <div @click="editBlog" v class="icon">
+      <div @click="editarVerbete" v class="icon">
         <edit-icon class="edit" />
       </div>
       <div @click="deleteVerbete" class="icon">
@@ -50,7 +50,7 @@ export default {
       this.$store.dispatch('deleteVerbete', this.verbete.verbeteId);
     },
 
-    editBlog() {
+    editarVerbete() {
       this.$router.push({ name: 'EditarVerbete', params: { verbeteId: this.verbete.verbeteId } });
     },
   },
@@ -63,7 +63,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.blog-card {
+.verbete-card {
   position: relative;
   cursor: pointer;
   display: flex;
@@ -97,7 +97,7 @@ export default {
       transition: 0.5s ease all;
 
       &:hover {
-        background-color: #303030;
+        background-color: #004d40;
 
         .edit,
         .delete {

@@ -37,7 +37,7 @@
         </div>
 
         <div class="input">
-          <input type="text" placeholder="Password" v-model="password" />
+          <input type="text" placeholder="Senha" v-model="password" />
           <password-icon class="icon" />
         </div>
 
@@ -102,7 +102,8 @@ export default {
           lastName: this.lastName,
           username: this.username,
           email: this.email,
-          displayName: `${this.firstName} ${this.lastName}`,
+          institution: '',
+          education: ''
         });
 
         this.$router.push({ name: 'home' });

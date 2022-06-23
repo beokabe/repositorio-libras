@@ -25,15 +25,84 @@ export default new Vuex.Store({
     profileLastName: null,
     profileUsername: null,
     profileFullName: null,
-    profileId: null,
     profileInitials: null,
+    profileInstitution: null,
+    profileEducation: {
+      key: null,
+      value: null,
+    },
     verbeteVideoNome: '',
     verbeteVideoFileURL: null,
     verbeteVideoPreview: null,
     verbeteCategoria: '',
     verbeteSubcategoria: '',
     verbetesCategorias: [],
-    usuario: null
+    usuario: null,
+    PERFIL_FORMACOES_ACADEMICAS: [
+      {
+        key: 'ENSINO_FUNDAMENTAL_INCOMPLETO',
+        value: 'Ensino Fundamental Completo',
+      },
+      {
+        key: 'ENSINO_FUNDAMENTAL_COMPLETO',
+        value: 'Ensino Fundamental Completo',
+      },
+      {
+        key: 'ENSINO_MEDIO_INCOMPLETO',
+        value: 'Ensino Médio Incompleto',
+      },
+      {
+        key: 'ENSINO_MEDIO_COMPLETO',
+        value: 'Ensino Médio Completo',
+      },
+      {
+        key: 'BACHAREL',
+        value: 'Bacharel'
+      },
+      {
+        key: 'BACHARELANDO',
+        value: 'Bacharelando'
+      },
+      {
+        key: 'POS-GRADUACAO',
+        value: 'Pós-Graduação'
+      },
+      {
+        key: 'POS-GRADUACAO',
+        value: 'Pós-Graduando'
+      },
+      {
+        key: 'LICENCIATURA_INCOMPLETO',
+        value: 'Licenciatura Incompleta',
+      },
+      {
+        key: 'LICENCIATURA_COMPLETO',
+        value: 'Licenciatura Completa',
+      },
+      {
+        key: 'TECNOLOGO_INCOMPLETO',
+        value: 'Técnólogo Incompleto',
+      },
+      {
+        key: 'TECNOLOGO_COMPLETO',
+        value: 'Técnólogo Completo',
+      },
+      {
+        key: 'MESTRADO',
+        value: 'Mestrado',
+      },
+      {
+        key: 'MESTRANDO',
+        value: 'Mestrando',
+      },
+      {
+        key: 'DOUTORADO',
+        value: 'Doutorado',
+      },
+      {
+        key: 'DOUTORANDO',
+        value: 'Doutorando',
+      }],
   },
   getters: {
     verbetesFeed(state) {
@@ -47,7 +116,7 @@ export default new Vuex.Store({
 
     verbetesCategorias(state) {
       return state.verbetesCategorias;
-    }
+    },
   },
   mutations: {
     updateVerbeteDefinicao(state, payload) {
@@ -100,6 +169,8 @@ export default new Vuex.Store({
       state.profileFirstName = doc.data().firstName;
       state.profileLastName = doc.data().lastName;
       state.profileUsername = doc.data().username;
+      state.profileInstitution = doc.data().institution;
+      state.profileEducation = doc.data().education;
     },
 
     setProfileInitials(state) {
@@ -130,6 +201,14 @@ export default new Vuex.Store({
 
     changeUsername(state, payload) {
       state.profileUsername = payload;
+    },
+
+    changeInstitution(state, payload) {
+      state.profileInstitution = payload;
+    },
+
+    changeEducation(state, payload) {
+      state.profileEducation = payload;
     },
 
     filterVerbetes(state, payload) {
@@ -164,6 +243,8 @@ export default new Vuex.Store({
         firstName: state.profileFirstName,
         lastName: state.profileLastName,
         username: state.profileUsername,
+        institution: state.profileInstitution,
+        education: state.profileEducation,
       });
 
       commit('setProfileInitials');

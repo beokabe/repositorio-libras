@@ -293,10 +293,10 @@ export default {
     border-radius: 20px;
     padding: 12px 24px;
     color: #fff;
-    background-color: #303030;
+    background-color: #004d40;
     text-decoration: none;
     &:hover {
-      background-color: rgba(48, 48, 48, 0.7);
+      filter: opacity(0.7);
     }
   }
   .container {

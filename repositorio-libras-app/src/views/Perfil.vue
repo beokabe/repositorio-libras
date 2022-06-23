@@ -35,6 +35,26 @@
           <input disabled type="text" id="email" v-model="email" />
         </div>
 
+        <div class="input">
+          <label for="text">Instituição Acadêmica</label>
+          <input type="text" id="institution"
+                 placeholder="Ex.: Universidade Federal do Mato Grosso do Sul"
+                 v-model="institution" />
+        </div>
+
+        <div class="rl-perfil-education">
+          <label>Gradução Acadêmica</label>
+          <div>
+            <select v-model="education" id="academic"
+                    :disabled="!institution || institution.length <= 30">
+              <option :value="educationFiltroVazio">Prefiro não informar</option>
+              <option v-for="(nivel, index) in PERFIL_FORMACOES_ACADEMICAS"
+                      :key="index" :value="nivel">
+                {{nivel.value}}</option>
+            </select>
+          </div>
+        </div>
+
         <button @click="updateProfile">Salvar</button>
       </div>
     </div>
@@ -55,6 +75,10 @@ export default {
     return {
       modalMessage: 'O perfil foi atualizado!',
       modalActive: null,
+      educationFiltroVazio: {
+        key: '',
+        value: ''
+      },
     };
   },
   methods: {
@@ -95,12 +119,34 @@ export default {
       },
     },
 
+    institution: {
+      get() {
+        return this.$store.state.profileInstitution;
+      },
+      set(payload) {
+        this.$store.commit('changeInstitution', payload);
+      },
+    },
+
+    education: {
+      get() {
+        return this.$store.state.profileEducation;
+      },
+      set(payload) {
+        this.$store.commit('changeEducation', payload);
+      },
+    },
+
     email() {
       return this.$store.state.profileEmail;
     },
 
     isAdmin() {
       return this.$store.state.profileAdmin;
+    },
+
+    PERFIL_FORMACOES_ACADEMICAS() {
+      return this.$store.state.PERFIL_FORMACOES_ACADEMICAS;
     },
   },
 };
@@ -151,7 +197,7 @@ export default {
         font-size: 14px;
         padding: 8px 24px;
         border-radius: 8px;
-        background-color: #303030;
+        background-color: #00987a;
         margin: 16px 0;
         text-align: center;
         text-transform: capitalize;
@@ -160,6 +206,10 @@ export default {
           width: 14px;
           height: auto;
           margin-right: 8px;
+        }
+
+        span {
+          background-color: #00987a;
         }
       }
 
@@ -188,7 +238,20 @@ export default {
       }
 
       button {
-        align-self: center;
+        align-self: end;
+        font-weight: 400;
+      }
+    }
+
+    .rl-perfil-education {
+      font-size: 14px;
+
+      > div {
+        margin-top: 10px;
+
+        select {
+          height: 30px;
+        }
       }
     }
   }

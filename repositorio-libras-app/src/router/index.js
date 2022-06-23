@@ -31,7 +31,7 @@ const routes = [
     component: Verbetes,
     meta: {
       title: 'Verbetes',
-      requiresAuth: false,
+      requiresAuth: true,
     },
   },
   {

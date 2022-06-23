@@ -46,7 +46,7 @@
       </div>
     </div>
     <div id="rl-verbetes-todos" class="verbete-cards container" v-if="isTodosVerbetes">
-      <div class="toggle-edit">
+      <div class="toggle-edit" v-if="isAdmin">
         <span>Modo Edição</span>
         <input type="checkbox" v-model="editVerbete" />
       </div>
@@ -59,7 +59,7 @@
     </div>
 
     <div id="rl-verbetes-meus" class="verbete-cards container" v-if="!isTodosVerbetes">
-      <div class="toggle-edit">
+      <div class="toggle-edit" v-if="isAdmin">
         <span>Modo Edição</span>
         <input type="checkbox" v-model="editVerbete" />
       </div>
@@ -139,6 +139,9 @@ export default {
     },
     usuario() {
       return this.$store.state.usuario;
+    },
+    isAdmin() {
+      return this.$store.state.profileAdmin;
     },
     meusVerbetes() {
       return this.verbetes.filter((verbete) => {
