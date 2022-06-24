@@ -81,6 +81,10 @@ export default {
   font-family: 'Quicksand', sans-serif;
 }
 
+h1 {
+  font-size: 40px;
+}
+
 .app {
   display: flex;
   flex-direction: column;
@@ -196,5 +200,11 @@ button,
       grid-template-columns: repeat(4, 1fr);
     }
   }
+}
+
+.rl-obrigatorio {
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
 }
 </style>

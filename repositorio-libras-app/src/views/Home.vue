@@ -149,7 +149,13 @@ export default {
   }
 
   .container > div {
-    margin: 20px 50px;
+    @media (min-width: 600px) {
+      margin: 15px 10px;
+    }
+
+    @media (min-width: 900px) {
+      margin: 20px 30px;
+    }
   }
 }
 

@@ -1,12 +1,12 @@
 <template>
   <div class="verbete-view">
-    <div class="container" v-if="currentVerbete">
+    <div class="container rl-ver-verbete-container" v-if="currentVerbete">
       <h1>{{ this.currentVerbete[0].verbeteNome }}</h1>
       <h2> {{this.currentVerbete[0].verbeteCategoria}} </h2>
       <h3> {{this.currentVerbete[0].verbeteSubcategoria}}</h3>
 
       <div class="rl-ver-verbete-video">
-      <iframe width="720" height="400" :src="this.currentVerbete[0].verbeteLinkVideo"
+      <iframe class="rl-ver-verbete-iframe" :src="this.currentVerbete[0].verbeteLinkVideo"
               title="Assista o vídeo pelo YouTube Player"
               frameborder="1" allow="accelerometer; autoplay;
               clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -65,7 +65,7 @@ export default {
 
 <style lang="scss">
 .verbete-view {
-  padding: 100px 0;
+  padding: 50px 0;
   width: 100%;
 
   h1 {
@@ -88,6 +88,16 @@ export default {
     margin-top: 20px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+    @media (min-width: 500px) {
+      width: 440px;
+      height: 220px;
+    }
+
+    @media (min-width: 700px) {
+      width: 720px;
+      height: 400px;
+    }
   }
 
   .rl-autor-card {
@@ -120,7 +130,16 @@ export default {
   .rl-data-criacao {
     margin-top: 30px;
     text-align: end;
+  };
+
+  .rl-ver-verbete-container {
+    @media (min-width: 400px) {
+      padding: 0 15px;
+    }
+
+    @media (min-width: 600px) {
+      padding: 0 60px;
+    }
   }
-;
 }
 </style>
