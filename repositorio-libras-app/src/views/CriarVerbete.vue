@@ -196,8 +196,8 @@ export default {
                 verbeteCurtidas: 0,
                 verbeteLinkVideo: this.verbeteLinkVideo,
                 // eslint-disable-next-line max-len
-                profileFullName: `${this.$store.state.profileFirstName} ${this.$store.state.profileLastName}`,
-                profileId: this.profileId,
+                profileFullName: `${this.usuario.firstName} ${this.usuario.lastName}`,
+                profileId: this.usuario.profileId,
                 date: timestamp,
               });
               await this.$store.dispatch('getVerbetes');
@@ -254,8 +254,8 @@ export default {
     },
   },
   computed: {
-    profileId() {
-      return this.$store.state.profileId;
+    usuario() {
+      return this.$store.state.usuario;
     },
 
     verbetesCategorias() {
