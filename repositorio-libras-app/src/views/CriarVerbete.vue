@@ -10,6 +10,8 @@
       <div :class="{ invisible: !error }" class="err-message">
         <p><span>Erro: </span>{{ this.errorMsg }}</p>
       </div>
+      <label>Verbete</label><span class="rl-obrigatorio"
+            title="Campo obrigatório">* </span>
       <div class="verbete-info">
         <input
           type="text"
@@ -18,13 +20,15 @@
         />
 
         <div class="upload-file">
-          <label class="label-verbete-photo" for="verbete-photo">Selecione a Imagem</label>
+          <p style="padding: 10px 0">Imagem</p>
+          <div class="rl-obrigatorio" style="margin-right: 15px; padding: 7px 0">* </div>
+          <label class="label-verbete-photo" for="verbete-photo">Selecionar</label>
           <input
             type="file"
             ref="verbetePhoto"
             id="verbete-photo"
             @change="fileChange"
-            accept=".png, .jpg, ,jpeg"
+            accept=".png, .jpg, .jpeg, .webp"
           />
           <!-- TODO 6 - Sugestão: tentar melhorar a preview substituindo por um modal  -->
           <button
@@ -42,7 +46,8 @@
 
       <div class="rl-criar-verbete-categorias">
         <div class="rl-criar-verbete-categorias__categoria">
-          <label>Categoria: </label>
+          <label>Categoria</label><span class="rl-obrigatorio"
+                                        title="Campo obrigatório">* </span>
           <select v-model="verbeteCategoria">
             <option disabled value="">Selecione uma categoria</option>
             <option v-for="(categoria, index) in verbetesCategorias"
@@ -52,7 +57,7 @@
         </div>
 
         <div class="rl-criar-verbete-categorias__subcategoria">
-          <label>Subcategoria (opcional): </label>
+          <label>Subcategoria </label>
           <select v-model="verbeteSubcategoria"
                   :disabled="verbeteCategoria &&
                   verbeteCategoria.categoriaSubcategorias.length === 0">
@@ -66,6 +71,7 @@
       </div>
 
       <div class="rl-criar-verbete-definicao">
+        Definição<span class="rl-obrigatorio">*</span>
         <textarea
           placeholder="Escrever definição..."
           id="rl-text-area-criar-verbete-definicao"
@@ -74,7 +80,8 @@
       </div>
 
       <div class="rl-inserir-verbete-video">
-        <label for="verbete-video">Inserir o Link do Vídeo: </label>
+        <label for="verbete-video">Vídeo</label><span class="rl-obrigatorio"
+                                                        title="Campo obrigatório">*</span>
         <input class="verbete-video" type="url" name="url" id="url"
                placeholder="https://www.youtube.com/embed/mtXAeIDA6vI"
                title="Insira o link do vídeo que será anexado com o verbete."
@@ -189,7 +196,7 @@ export default {
                 verbeteCurtidas: 0,
                 verbeteLinkVideo: this.verbeteLinkVideo,
                 // eslint-disable-next-line max-len
-                profileFullName: this.$store.state.profileFirstName + this.$store.state.profileLastName,
+                profileFullName: `${this.$store.state.profileFirstName} ${this.$store.state.profileLastName}`,
                 profileId: this.profileId,
                 date: timestamp,
               });
@@ -301,8 +308,14 @@ export default {
   }
   .container {
     position: relative;
-    height: 100%;
+    width: 90%;
     padding: 10px 25px 60px;
+    margin-bottom: 100px;
+    margin-top: 30px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
   // error styling
   .invisible {
