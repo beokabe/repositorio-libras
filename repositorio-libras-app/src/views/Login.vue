@@ -1,3 +1,4 @@
+/* eslint-disable max-len */ /* eslint-disable max-len */
 <template>
   <div class="form-wrap">
     <form class="login">
@@ -9,7 +10,7 @@
         >
       </p>
 
-      <h2>Logar em RepositorioLibras</h2>
+      <h2>Logar no Repositório de Libras</h2>
 
       <div class="inputs">
         <div class="input">
@@ -28,10 +29,8 @@
         >Esqueci a senha</router-link
       >
       <button @click.prevent="signIn">Entrar</button>
-
-      <div class="angle"></div>
     </form>
-    <div class="background"></div>
+    <background class="background"></background>
   </div>
 </template>
 
@@ -40,12 +39,14 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import emailIcon from '../assets/icons/envelope-regular.svg';
 import passwordIcon from '../assets/icons/lock-alt-solid.svg';
+import background from '../assets/repositorioLibras/tela-login-repositorio-libras.svg';
 
 export default {
   name: 'Login',
   components: {
     emailIcon,
     passwordIcon,
+    background,
   },
   data() {
     return {
@@ -133,6 +134,7 @@ export default {
           width: 100%;
           border: none;
           background-color: #f2f7f6;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
           padding: 4px 4px 4px 30px;
           height: 50px;
 
@@ -179,16 +181,162 @@ export default {
   }
 
   .background {
+    margin-top: 20px;
     display: none;
     flex: 2;
     background-size: cover;
-    background-image: url('../assets/background.png');
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 80%;
+    margin: auto;
 
     @media (min-width: 900px) {
       display: initial;
     }
+  }
+
+  .cls-1 {
+    fill: #e6e4f4;
+  }
+  .cls-2 {
+    fill: #f5c8c8;
+  }
+  .cls-3 {
+    fill: #f2d070;
+  }
+  .cls-11,
+  .cls-24,
+  .cls-30,
+  .cls-4,
+  .cls-5,
+  .cls-6,
+  .cls-7 {
+    fill: none;
+    stroke-miterlimit: 10;
+  }
+  .cls-4 {
+    stroke: #c1beed;
+  }
+  .cls-4,
+  .cls-5,
+  .cls-6,
+  .cls-7 {
+    stroke-width: 5px;
+  }
+  .cls-5 {
+    stroke: #edddb0;
+  }
+  .cls-6 {
+    stroke: #eda9a9;
+  }
+  .cls-7 {
+    stroke: #88e2b7;
+  }
+  .cls-8 {
+    fill: #121a35;
+  }
+  .cls-9 {
+    fill: #3a2f26;
+  }
+  .cls-10 {
+    fill: #191817;
+  }
+  .cls-11 {
+    stroke: #261f18;
+  }
+  .cls-11,
+  .cls-24,
+  .cls-30 {
+    stroke-width: 2px;
+  }
+  .cls-12 {
+    fill: #7f340e;
+  }
+  .cls-13 {
+    fill: #4cbb89;
+  }
+  .cls-14 {
+    fill: #2b84f4;
+  }
+  .cls-15 {
+    fill: #46a3fd;
+  }
+  .cls-16 {
+    fill: #131338;
+  }
+  .cls-17 {
+    fill: #e0bd9b;
+  }
+  .cls-18 {
+    fill: #1c1713;
+  }
+  .cls-19 {
+    fill: #472bb0;
+  }
+  .cls-20 {
+    fill: #4e33b5;
+  }
+  .cls-21 {
+    fill: #4357e5;
+  }
+  .cls-22 {
+    fill: #4b60ed;
+  }
+  .cls-23 {
+    fill: #633411;
+  }
+  .cls-24 {
+    stroke: #b77844;
+  }
+  .cls-25 {
+    fill: #298436;
+  }
+  .cls-26 {
+    fill: #d37f5e;
+  }
+  .cls-27 {
+    fill: #594129;
+  }
+  .cls-28 {
+    fill: #23201e;
+  }
+  .cls-29 {
+    fill: #6b5134;
+  }
+  .cls-30 {
+    stroke: #3a230c;
+  }
+  .cls-31 {
+    fill: #3a230c;
+  }
+  .cls-32 {
+    fill: #7f320b;
+  }
+  .cls-33 {
+    fill: #1c1918;
+  }
+  .cls-34 {
+    fill: #8c1e0c;
+  }
+  .cls-35 {
+    fill: #21212d;
+  }
+  .cls-36 {
+    fill: #b3b3b3;
+  }
+  .cls-37 {
+    fill: #cbcbcb;
+  }
+  .cls-38 {
+    fill: #b21d24;
+  }
+  .cls-39 {
+    fill: #5f6270;
+  }
+  .cls-40 {
+    fill: #747884;
+  }
+  .cls-41 {
+    fill: #c4494f;
   }
 }
 </style>

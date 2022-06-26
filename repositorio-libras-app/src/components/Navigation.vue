@@ -340,7 +340,7 @@ header {
     flex-direction: column;
     position: fixed;
     height: 100%;
-    background-color: #303030;
+    background-color: #005744;
     top: 0;
     left: 0;
     .link {

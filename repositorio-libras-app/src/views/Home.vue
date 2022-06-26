@@ -1,8 +1,6 @@
 <template>
   <div class="home">
     <div class="rl-faixa-boas-vindas">
-      <h1>Repositório de Libras</h1>
-      <p>Conteúdos Exclusivos em um único lugar</p>
     </div>
 
     <div class="rl-welcome-screen">
@@ -101,10 +99,20 @@ export default {
   font-size: 20px;
   font-family: 'Quicksand', sans-serif;
   text-align: center;
-  padding: 30px;
-  line-height: 50px;
+  padding: 80px;
   color: #fff;
   background-color: #004d40;
+  background-image: url('../assets/repositorioLibras/tela-home-banner-repositorio-libras.png');
+  background-position-x: center;
+
+  @media (min-width: 500px) {
+    display: none;
+  }
+
+  @media (min-width: 700px) {
+    display: block;
+  }
+
 }
 
 .rl-welcome-screen {

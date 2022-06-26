@@ -9,7 +9,7 @@
         >
       </p>
 
-      <h2>Criar uma conta em RepositorioLibras</h2>
+      <h2>Criar uma conta no Repositório de Libras</h2>
 
       <div class="inputs">
         <div class="input">
@@ -48,7 +48,7 @@
 
       <div class="angle"></div>
     </form>
-    <div class="background"></div>
+    <background class="background"></background>
   </div>
 </template>
 
@@ -60,6 +60,7 @@ import db from '../firebase/firebaseInit';
 import emailIcon from '../assets/icons/envelope-regular.svg';
 import passwordIcon from '../assets/icons/lock-alt-solid.svg';
 import userIcon from '../assets/icons/user-alt-light.svg';
+import background from '../assets/repositorioLibras/tela-login-repositorio-libras.svg';
 
 export default {
   name: 'Registrar',
@@ -67,6 +68,7 @@ export default {
     emailIcon,
     passwordIcon,
     userIcon,
+    background,
   },
   data() {
     return {
